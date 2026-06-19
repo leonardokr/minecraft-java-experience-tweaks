@@ -9,7 +9,7 @@ public class Config {
 
     public static final ModConfigSpec.ConfigValue<List<? extends String>> BLACKLISTED_PLAYERS = BUILDER
             .comment("List of player names who do NOT want keep their experience after death.")
-            .defineList("blacklistedPlayers", Collections.emptyList(), obj -> obj instanceof String);
+            .defineList("blacklistedPlayers", Collections.emptyList(), () -> "", obj -> obj instanceof String);
 
     public static final ModConfigSpec.BooleanValue DIRECT_EXPERIENCE = BUILDER
             .comment("If true, experience points will be inserted directly into the player instead of dropping as orbs.")
@@ -17,15 +17,15 @@ public class Config {
 
     public static final ModConfigSpec.ConfigValue<String> ENCHANTMENT_COST_ITEM = BUILDER
             .comment("Item consumed instead of experience when enchanting. Use registry name like 'minecraft:diamond'. If empty or invalid, lapis lazuli is used.")
-            .define("enchantmentCostItem", "");
+            .define("enchantmentCostItem", "minecraft:emerald");
 
     public static final ModConfigSpec.DoubleValue ENCHANTMENT_COST_MULTIPLIER = BUILDER
             .comment("Multiplier for the item cost based on the required enchantment level. (e.g., 30 levels * 0.1 = 3 items)")
-            .defineInRange("enchantmentCostMultiplier", 0.1, 0.0, 100.0);
+            .defineInRange("enchantmentCostMultiplier", 1.5, 0.0, 100.0);
 
     public static final ModConfigSpec.ConfigValue<List<? extends Integer>> ENCHANTMENT_BASE_REQUIRED_LEVELS = BUILDER
             .comment("Initial player experience levels required for enchantment table buttons 1, 2 and 3. Player progression is stored separately per player.")
-            .defineList("enchantmentBaseRequiredLevels", List.of(10, 15, 20), obj -> obj instanceof Integer integer && integer >= 0);
+            .defineList("enchantmentBaseRequiredLevels", List.of(10, 15, 20), () -> 0, obj -> obj instanceof Integer integer && integer >= 0);
 
     public static final ModConfigSpec.DoubleValue ENCHANTMENT_REQUIRED_LEVEL_BIAS = BUILDER
             .comment(
@@ -43,7 +43,7 @@ public class Config {
                 "  Level 500: bias 0.1=+1,  bias 0.5=+3,  bias 1.0=+7",
                 "  Level 1000: bias 0.1=+1, bias 0.5=+3,  bias 1.0=+5"
             )
-            .defineInRange("enchantmentRequiredLevelBias", 0.5, 0.0, 1.0);
+            .defineInRange("enchantmentRequiredLevelBias", 0.25, 0.0, 1.0);
 
     static final ModConfigSpec SPEC = BUILDER.build();
 }
