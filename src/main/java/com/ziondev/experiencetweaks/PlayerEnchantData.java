@@ -86,10 +86,6 @@ public class PlayerEnchantData extends SavedData {
         if (levels == null) {
             int[] configMins = new int[BUTTON_COUNT];
             for (int b = 0; b < BUTTON_COUNT; b++) configMins[b] = ModConfig.getEnchantmentBaseRequiredLevel(b);
-
-            if (ModConfig.getEnchantmentCooldownType().equalsIgnoreCase("last_level")) {
-                return configMins[buttonId];
-            }
             return EnchantCooldownCalculator.computeFirstUseLevels(currentLevel, configMins)[buttonId];
         }
         return levels[buttonId];
@@ -123,28 +119,15 @@ public class PlayerEnchantData extends SavedData {
      * @param playerId  player UUID
      * @param level     player's level or last level at the time of enchanting
      */
-    public void recordEnchant(UUID playerId, int buttonId, int currentPlayerLevel) {
-        int[] levels = playerRequiredLevels.computeIfAbsent(playerId, _ -> buildDefaultLevels(currentPlayerLevel));
+    public void recordEnchant(UUID playerId, int level) {
+        int[] levels = playerRequiredLevels.computeIfAbsent(playerId, _ -> buildDefaultLevels(level));
 
         double bias = ModConfig.getEnchantmentRequiredLevelBias();
-        String cooldownType = ModConfig.getEnchantmentCooldownType();
+        int[] next = EnchantCooldownCalculator.computeNextLevels(level, bias);
 
-        if (cooldownType.equalsIgnoreCase("last_level")) {
-            int prevLevel = levels[buttonId];
-            int[] next = EnchantCooldownCalculator.computeNextLevels(prevLevel, bias);
-            levels[buttonId] = Math.max(levels[buttonId], next[buttonId]);
-
-            for (int b = 1; b < BUTTON_COUNT; b++) {
-                if (levels[b] < levels[b - 1] + 1) {
-                    levels[b] = levels[b - 1] + 1;
-                }
-            }
-        } else {
-            int[] next = EnchantCooldownCalculator.computeNextLevels(currentPlayerLevel, bias);
-            for (int b = 0; b < BUTTON_COUNT; b++) {
-                if (next[b] > levels[b]) {
-                    levels[b] = next[b];
-                }
+        for (int b = 0; b < BUTTON_COUNT; b++) {
+            if (next[b] > levels[b]) {
+                levels[b] = next[b];
             }
         }
 
@@ -154,10 +137,6 @@ public class PlayerEnchantData extends SavedData {
     private static int[] buildDefaultLevels(int currentPlayerLevel) {
         int[] configMins = new int[BUTTON_COUNT];
         for (int b = 0; b < BUTTON_COUNT; b++) configMins[b] = ModConfig.getEnchantmentBaseRequiredLevel(b);
-
-        if (ModConfig.getEnchantmentCooldownType().equalsIgnoreCase("last_level")) {
-            return configMins;
-        }
         return EnchantCooldownCalculator.computeFirstUseLevels(currentPlayerLevel, configMins);
     }
 }
