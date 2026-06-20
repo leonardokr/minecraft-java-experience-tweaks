@@ -21,7 +21,7 @@ public class DirectExperienceHandler {
 
     @SubscribeEvent
     public static void onExperienceDrop(LivingExperienceDropEvent event) {
-        if (!Config.DIRECT_EXPERIENCE.get()) {
+        if (!ModConfig.isDirectExperience()) {
             return;
         }
 

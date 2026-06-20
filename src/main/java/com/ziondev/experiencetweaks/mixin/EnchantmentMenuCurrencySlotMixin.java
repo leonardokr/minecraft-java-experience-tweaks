@@ -1,6 +1,6 @@
 package com.ziondev.experiencetweaks.mixin;
 
-import com.ziondev.experiencetweaks.EnchantmentConfigHandler;
+import com.ziondev.experiencetweaks.ModConfig;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -32,6 +32,6 @@ public abstract class EnchantmentMenuCurrencySlotMixin {
 
     @Unique
     private static Item experienceTweaks$getCostItem() {
-        return EnchantmentConfigHandler.getConfiguredItem();
+        return ModConfig.getEnchantmentCostItem();
     }
 }

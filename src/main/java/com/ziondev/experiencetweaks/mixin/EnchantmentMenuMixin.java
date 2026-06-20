@@ -1,8 +1,7 @@
 package com.ziondev.experiencetweaks.mixin;
 
-import com.ziondev.experiencetweaks.Config;
-import com.ziondev.experiencetweaks.EnchantmentConfigHandler;
 import com.ziondev.experiencetweaks.ExperienceTweaksMod;
+import com.ziondev.experiencetweaks.ModConfig;
 import com.ziondev.experiencetweaks.PlayerEnchantData;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.RegistryAccess;
@@ -169,7 +168,7 @@ public abstract class EnchantmentMenuMixin extends AbstractContainerMenu {
                 if (!player.hasInfiniteMaterials()) {
                     PlayerEnchantData enchantData = ExperienceTweaksMod.getEnchantData();
                     if (enchantData != null) {
-                        String cooldownType = EnchantmentConfigHandler.getCooldownType();
+                        String cooldownType = ModConfig.getEnchantmentCooldownType();
                         if (cooldownType.equalsIgnoreCase("current_level")) {
                             enchantData.recordEnchant(player.getUUID(), levelBeforeEnchant);
                         } else if (cooldownType.equalsIgnoreCase("last_level")) {
@@ -203,11 +202,7 @@ public abstract class EnchantmentMenuMixin extends AbstractContainerMenu {
             return enchantData.getRequiredLevel(player.getUUID(), buttonId, player.experienceLevel);
         }
         // Fallback to base level from config when SavedData is not available
-        java.util.List<? extends Integer> baseLevels = Config.ENCHANTMENT_BASE_REQUIRED_LEVELS.get();
-        if (buttonId < baseLevels.size()) {
-            return baseLevels.get(buttonId);
-        }
-        return (buttonId + 1) * 10;
+        return ModConfig.getEnchantmentBaseRequiredLevel(buttonId);
     }
 
     @Inject(
@@ -274,12 +269,12 @@ public abstract class EnchantmentMenuMixin extends AbstractContainerMenu {
 
     @Unique
     private static Item experienceTweaks$getCostItem() {
-        return EnchantmentConfigHandler.getConfiguredItem();
+        return ModConfig.getEnchantmentCostItem();
     }
 
     @Unique
     private static int experienceTweaks$getItemCost(int buttonId) {
-        double multiplier = Config.ENCHANTMENT_COST_MULTIPLIER.get();
+        double multiplier = ModConfig.getEnchantmentCostMultiplier();
         if (multiplier <= 0.0D) {
             return 0;
         }

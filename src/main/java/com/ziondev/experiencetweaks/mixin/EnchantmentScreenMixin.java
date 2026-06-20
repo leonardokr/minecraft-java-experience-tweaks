@@ -2,8 +2,7 @@ package com.ziondev.experiencetweaks.mixin;
 
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.platform.cursor.CursorTypes;
-import com.ziondev.experiencetweaks.Config;
-import com.ziondev.experiencetweaks.EnchantmentConfigHandler;
+import com.ziondev.experiencetweaks.ModConfig;
 import com.ziondev.experiencetweaks.network.ClientEnchantLevelCache;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
@@ -203,7 +202,7 @@ public abstract class EnchantmentScreenMixin extends AbstractContainerScreen<Enc
 
     @Unique
     private static Item experienceTweaks$getCostItem() {
-        return EnchantmentConfigHandler.getConfiguredItem();
+        return ModConfig.getEnchantmentCostItem();
     }
 
     /**
@@ -212,7 +211,7 @@ public abstract class EnchantmentScreenMixin extends AbstractContainerScreen<Enc
      */
     @Unique
     private static int experienceTweaks$getItemCost(int buttonId) {
-        double multiplier = Config.ENCHANTMENT_COST_MULTIPLIER.get();
+        double multiplier = ModConfig.getEnchantmentCostMultiplier();
         if (multiplier <= 0.0D) {
             return 0;
         }

@@ -21,7 +21,7 @@ public class KeepExperienceHandler {
         }
 
         Player oldPlayer = event.getOriginal();
-        if (Config.DONT_KEEP_EXPERIENCE.get().contains(oldPlayer.getName().getString())) {
+        if (ModConfig.isDontKeepExperience(oldPlayer.getName().getString())) {
             return;
         }
 

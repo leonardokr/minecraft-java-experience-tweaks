@@ -21,10 +21,6 @@ import java.util.UUID;
  */
 public class PlayerEnchantData extends SavedData {
 
-    // -------------------------------------------------------------------------
-    // Codec / SavedDataType
-    // -------------------------------------------------------------------------
-
     /** Codec for a single player entry: { "uuid": [...], "levels": [n, n, n] } */
     private static final Codec<Map.Entry<UUID, int[]>> ENTRY_CODEC = RecordCodecBuilder.create(inst -> inst.group(
             UUIDUtil.CODEC.fieldOf("uuid").forGetter(Map.Entry::getKey),
@@ -59,10 +55,6 @@ public class PlayerEnchantData extends SavedData {
             CODEC
     );
 
-    // -------------------------------------------------------------------------
-    // State
-    // -------------------------------------------------------------------------
-
     private static final int BUTTON_COUNT = 3;
 
     /**
@@ -73,10 +65,6 @@ public class PlayerEnchantData extends SavedData {
 
     /** No-arg constructor used by the SavedDataType factory. */
     public PlayerEnchantData() {}
-
-    // -------------------------------------------------------------------------
-    // Public API
-    // -------------------------------------------------------------------------
 
     /**
      * Returns the minimum player level required to use enchantment button {@code buttonId}
@@ -97,7 +85,7 @@ public class PlayerEnchantData extends SavedData {
         int[] levels = playerRequiredLevels.get(playerId);
         if (levels == null) {
             int[] configMins = new int[BUTTON_COUNT];
-            for (int b = 0; b < BUTTON_COUNT; b++) configMins[b] = getBaseLevel(b);
+            for (int b = 0; b < BUTTON_COUNT; b++) configMins[b] = ModConfig.getEnchantmentBaseRequiredLevel(b);
             return EnchantCooldownCalculator.computeFirstUseLevels(currentLevel, configMins)[buttonId];
         }
         return levels[buttonId];
@@ -134,7 +122,7 @@ public class PlayerEnchantData extends SavedData {
     public void recordEnchant(UUID playerId, int level) {
         int[] levels = playerRequiredLevels.computeIfAbsent(playerId, _ -> buildDefaultLevels(level));
 
-        double bias = Config.ENCHANTMENT_REQUIRED_LEVEL_BIAS.get();
+        double bias = ModConfig.getEnchantmentRequiredLevelBias();
         int[] next = EnchantCooldownCalculator.computeNextLevels(level, bias);
 
         for (int b = 0; b < BUTTON_COUNT; b++) {
@@ -146,21 +134,9 @@ public class PlayerEnchantData extends SavedData {
         setDirty();
     }
 
-    // -------------------------------------------------------------------------
-    // Helpers
-    // -------------------------------------------------------------------------
-
-    private static int getBaseLevel(int buttonId) {
-        List<? extends Integer> baseLevels = Config.ENCHANTMENT_BASE_REQUIRED_LEVELS.get();
-        if (buttonId < baseLevels.size()) {
-            return baseLevels.get(buttonId);
-        }
-        return (buttonId + 1) * 10;
-    }
-
     private static int[] buildDefaultLevels(int currentPlayerLevel) {
         int[] configMins = new int[BUTTON_COUNT];
-        for (int b = 0; b < BUTTON_COUNT; b++) configMins[b] = getBaseLevel(b);
+        for (int b = 0; b < BUTTON_COUNT; b++) configMins[b] = ModConfig.getEnchantmentBaseRequiredLevel(b);
         return EnchantCooldownCalculator.computeFirstUseLevels(currentPlayerLevel, configMins);
     }
 }
