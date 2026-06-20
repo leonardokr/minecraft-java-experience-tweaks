@@ -6,5 +6,13 @@
   "experiencetweaks.command.reset.success": "Reset enchantment cooldown for %s.",
   "experiencetweaks.command.reset.no_data": "%s had no cooldown data to reset.",
   "experiencetweaks.enchant.tooltip.min_level": "Minimum level: %s",
-  "experiencetweaks.enchant.tooltip.no_consumption": "Your level will not be consumed in enchanting."
+  "experiencetweaks.enchant.tooltip.no_consumption": "Your level will not be consumed in enchanting.",
+  "experiencetweaks.config.error.et_0x001": "Invalid consumable item configured. Lapis Lazuli will be used as fallback. Check 'enchantmentCostItem' and reload the config.",
+  "experiencetweaks.config.error.et_0x002": "Configured consumable item was not found in the registry. Lapis Lazuli will be used as fallback. Check 'enchantmentCostItem' for typos.",
+  "experiencetweaks.config.error.et_0x003": "Could not read the 'directExperience' setting. Experience will drop directly to players (default). Check and reload the config.",
+  "experiencetweaks.config.error.et_0x004": "Could not read the 'dontKeepExperience' list. All players will keep experience on death (default). Check and reload the config.",
+  "experiencetweaks.config.error.et_0x005": "Could not read the item cost multiplier for enchanting. Using 1.5x as fallback. Check 'enchantmentCostMultiplier' and reload the config.",
+  "experiencetweaks.config.error.et_0x006": "Could not read the enchantment cooldown mode. Using 'current_level' as fallback. Check 'enchantmentCooldownType' and reload the config.",
+  "experiencetweaks.config.error.et_0x007": "Could not read enchantment button base levels. Default thresholds will be used. Check 'enchantmentBaseRequiredLevels' and reload the config.",
+  "experiencetweaks.config.error.et_0x008": "Could not read the enchantment difficulty bias. Using 0.25 (balanced default). Check 'enchantmentRequiredLevelBias' and reload the config."
 }

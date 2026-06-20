@@ -6,5 +6,13 @@
   "experiencetweaks.command.reset.success": "Cooldown de encantamento redefinido para %s.",
   "experiencetweaks.command.reset.no_data": "%s não tinha dados de cooldown para redefinir.",
   "experiencetweaks.enchant.tooltip.min_level": "Nível mínimo: %s",
-  "experiencetweaks.enchant.tooltip.no_consumption": "Seu nível não será consumido no encantamento."
+  "experiencetweaks.enchant.tooltip.no_consumption": "Seu nível não será consumido no encantamento.",
+  "experiencetweaks.config.error.et_0x001": "Item consumível inválido configurado. Lapis Lazuli será usada como padrão. Verifique 'enchantmentCostItem' e recarregue a configuração.",
+  "experiencetweaks.config.error.et_0x002": "O item consumível configurado não foi encontrado no registro. Lapis Lazuli será usada como padrão. Verifique se há erros de digitação em 'enchantmentCostItem'.",
+  "experiencetweaks.config.error.et_0x003": "Não foi possível ler a configuração 'directExperience'. A experiência será entregue diretamente aos jogadores (padrão). Verifique e recarregue a configuração.",
+  "experiencetweaks.config.error.et_0x004": "Não foi possível ler a lista 'dontKeepExperience'. Todos os jogadores manterão a experiência ao morrer (padrão). Verifique e recarregue a configuração.",
+  "experiencetweaks.config.error.et_0x005": "Não foi possível ler o multiplicador de custo de itens para encantamento. Usando 1.5x como padrão. Verifique 'enchantmentCostMultiplier' e recarregue a configuração.",
+  "experiencetweaks.config.error.et_0x006": "Não foi possível ler o modo de cooldown de encantamento. Usando 'current_level' como padrão. Verifique 'enchantmentCooldownType' e recarregue a configuração.",
+  "experiencetweaks.config.error.et_0x007": "Não foi possível ler os níveis base dos botões de encantamento. Limites padrão serão usados. Verifique 'enchantmentBaseRequiredLevels' e recarregue a configuração.",
+  "experiencetweaks.config.error.et_0x008": "Não foi possível ler a inclinação de dificuldade de encantamento. Usando 0.25 (padrão equilibrado). Verifique 'enchantmentRequiredLevelBias' e recarregue a configuração."
 }
