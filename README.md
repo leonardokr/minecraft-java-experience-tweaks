@@ -20,15 +20,15 @@ A NeoForge mod for Minecraft Java 26.1.2 with a suite of experience-related twea
 
 The mod generates a configuration file at `config/experiencetweaks-common.toml` after the first run.
 
-| Key | Default | Description |
-|-----|---------|-------------|
-| `dontKeepExperience` | `[]` | List of player names who do NOT want to keep their experience after death (they will lose XP normally). |
-| `directExperience` | `true` | If `true`, experience from killed mobs is inserted directly into the player instead of dropping as orbs on the ground. |
-| `enchantmentCostItem` | `"minecraft:emerald"` | Item consumed instead of experience when enchanting (registry name, e.g. `minecraft:diamond`). If empty or invalid, lapis lazuli is used. |
-| `enchantmentCostMultiplier` | `1.5` | Multiplier for the item cost based on the button index. Formula: `Math.max(1, ceil((buttonId + 1) * multiplier))`. |
-| `enchantmentCooldownType` | `"current_level"` | Type of cooldown progression for enchantment buttons. Options: `"current_level"` or `"last_level"`. |
-| `enchantmentBaseRequiredLevels` | `[10, 15, 20]` | Initial player experience levels required for enchantment table buttons 1, 2, and 3. |
-| `enchantmentRequiredLevelBias` | `0.25` | Difficulty weight for the enchantment cooldown curve. Range: `0.0` (minimum) to `1.0` (maximum). |
+| Key                             | Default               | Description                                                                                                                               |
+|---------------------------------|-----------------------|-------------------------------------------------------------------------------------------------------------------------------------------|
+| `dontKeepExperience`            | `[]`                  | List of player names who do NOT want to keep their experience after death (they will lose XP normally).                                   |
+| `directExperience`              | `true`                | If `true`, experience from killed mobs is inserted directly into the player instead of dropping as orbs on the ground.                    |
+| `enchantmentCostItem`           | `"minecraft:emerald"` | Item consumed instead of experience when enchanting (registry name, e.g. `minecraft:diamond`). If empty or invalid, lapis lazuli is used. |
+| `enchantmentCostMultiplier`     | `1.5`                 | Multiplier for the item cost based on the button index. Formula: `Math.max(1, ceil((buttonId + 1) * multiplier))`.                        |
+| `enchantmentCooldownType`       | `"current_level"`     | Type of cooldown progression for enchantment buttons. Options: `"current_level"` or `"last_level"`.                                       |
+| `enchantmentBaseRequiredLevels` | `[10, 15, 20]`        | Initial player experience levels required for enchantment table buttons 1, 2, and 3.                                                      |
+| `enchantmentRequiredLevelBias`  | `0.25`                | Difficulty weight for the enchantment cooldown curve. Range: `0.0` (minimum) to `1.0` (maximum).                                          |
 
 ---
 
@@ -86,14 +86,14 @@ After a successful enchantment, the required levels are recalculated and updated
 
 `enchantmentRequiredLevelBias` is a `0.0–1.0` weight. The table below shows the increment added for **button 3** (hardest) depending on the baseline level used in the calculation. Buttons 1 and 2 receive proportionally smaller increments.
 
-| Baseline Level | bias 0.1 | bias 0.5 | bias 1.0 |
-|----------------|---------|----------|---------|
-| 10             | +5      | +24      | +48     |
-| 50             | +2      | +11      | +21     |
-| 100            | +2 (+1 gap) | +8    | +15     |
-| 200            | +1 (gap) | +6       | +11     |
-| 500            | +1 (gap) | +4       | +7      |
-| 1000           | +1 (gap) | +3       | +5      |
+| Baseline Level | bias 0.1    | bias 0.5 | bias 1.0 |
+|----------------|-------------|----------|----------|
+| 10             | +5          | +24      | +48      |
+| 50             | +2          | +11      | +21      |
+| 100            | +2 (+1 gap) | +8       | +15      |
+| 200            | +1 (gap)    | +6       | +11      |
+| 500            | +1 (gap)    | +4       | +7       |
+| 1000           | +1 (gap)    | +3       | +5       |
 
 > `(gap)` means the natural increment was 1 and the gap rule between buttons applies.
 > With `bias=0.1` the system is essentially always at minimum spacing. The config default is `0.25`.
@@ -165,11 +165,11 @@ The client caches these values in `ClientEnchantLevelCache` and uses them to ren
 
 ### Mixins
 
-| Mixin | Purpose |
-|-------|---------|
-| `EnchantmentMenuMixin` | Intercepts button clicks to validate per-player level requirements and item costs; updates cooldown data after a successful enchant. |
-| `EnchantmentScreenMixin` | Overrides button rendering to display the per-player required level (instead of the vanilla level) and adjusts affordability highlighting. |
-| `EnchantmentMenuCurrencySlotMixin` | Allows the configured item (not just lapis) to be placed in the enchantment table's currency slot. |
+| Mixin                              | Purpose                                                                                                                                    |
+|------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------|
+| `EnchantmentMenuMixin`             | Intercepts button clicks to validate per-player level requirements and item costs; updates cooldown data after a successful enchant.       |
+| `EnchantmentScreenMixin`           | Overrides button rendering to display the per-player required level (instead of the vanilla level) and adjusts affordability highlighting. |
+| `EnchantmentMenuCurrencySlotMixin` | Allows the configured item (not just lapis) to be placed in the enchantment table's currency slot.                                         |
 
 ### Opt-Out list
 
@@ -181,8 +181,7 @@ Players listed in `dontKeepExperience` do NOT keep their experience after death 
 
 ## Credits
 
-- **Author:** Leonardo K
-- **Version:** 1.0.0
+- **Author:** Leonardo K.
 - **Loader:** NeoForge 26.1.2
 
 ## License
