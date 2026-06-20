@@ -24,4 +24,14 @@ public final class EnchantmentConfigHandler {
 
         return Items.LAPIS_LAZULI;
     }
+
+    public static String getCooldownType() {
+        try {
+            return Config.ENCHANTMENT_COOLDOWN_TYPE.get();
+        } catch (Exception exception) {
+            ExperienceTweaksMod.LOGGER.warn("Invalid cooldown type configuration! '{}', falling back to 'current_level'", Config.ENCHANTMENT_COOLDOWN_TYPE.get());
+        }
+
+        return "current_level";
+    }
 }

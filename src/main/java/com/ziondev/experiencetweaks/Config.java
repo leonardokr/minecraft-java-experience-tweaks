@@ -23,6 +23,10 @@ public class Config {
             .comment("Multiplier for the item cost based on the required enchantment level. (e.g., 30 levels * 0.1 = 3 items)")
             .defineInRange("enchantmentCostMultiplier", 1.5, 0.0, 100.0);
 
+    public static final ModConfigSpec.ConfigValue<String> ENCHANTMENT_COOLDOWN_TYPE = BUILDER
+            .comment("Type of cooldown for enchantment buttons. Options: 'current_level' (default), 'last_level'.")
+            .define("enchantmentCooldownType", "current_level");
+
     public static final ModConfigSpec.ConfigValue<List<? extends Integer>> ENCHANTMENT_BASE_REQUIRED_LEVELS = BUILDER
             .comment("Initial player experience levels required for enchantment table buttons 1, 2 and 3. Player progression is stored separately per player.")
             .defineList("enchantmentBaseRequiredLevels", List.of(10, 15, 20), () -> 0, obj -> obj instanceof Integer integer && integer >= 0);

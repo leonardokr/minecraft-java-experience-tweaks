@@ -120,7 +120,7 @@ public class PlayerEnchantData extends SavedData {
 
     /**
      * Called after a successful enchantment. Updates the next minimum required level
-     * for ALL three buttons based on the player's current level.
+     * for ALL three buttons.
      *
      * <p>Every button receives its own independent cooldown calculation, then a minimum
      * gap of 1 level is enforced between consecutive buttons (button 2 ≥ button 1 + 1,
@@ -128,14 +128,14 @@ public class PlayerEnchantData extends SavedData {
      *
      * <p>This call only ever raises a button's required level, never lowered.
      *
-     * @param playerId     player UUID
-     * @param currentLevel player's experience level at the time of enchanting
+     * @param playerId  player UUID
+     * @param level     player's level or last level at the time of enchanting
      */
-    public void recordEnchant(UUID playerId, int currentLevel) {
-        int[] levels = playerRequiredLevels.computeIfAbsent(playerId, _ -> buildDefaultLevels(currentLevel));
+    public void recordEnchant(UUID playerId, int level) {
+        int[] levels = playerRequiredLevels.computeIfAbsent(playerId, _ -> buildDefaultLevels(level));
 
         double bias = Config.ENCHANTMENT_REQUIRED_LEVEL_BIAS.get();
-        int[] next = EnchantCooldownCalculator.computeNextLevels(currentLevel, bias);
+        int[] next = EnchantCooldownCalculator.computeNextLevels(level, bias);
 
         for (int b = 0; b < BUTTON_COUNT; b++) {
             if (next[b] > levels[b]) {

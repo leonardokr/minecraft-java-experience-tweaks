@@ -7,7 +7,6 @@ package com.ziondev.experiencetweaks;
  */
 public final class EnchantCooldownCalculator {
 
-    // TODO: Config to switch between a cooldown based on current level and based on the last cooldown level
 
     public static final int BUTTON_COUNT = 3;
 
@@ -45,24 +44,24 @@ public final class EnchantCooldownCalculator {
      *   <li>If the natural gap is already &gt; 1, it is preserved.</li>
      * </ul>
      *
-     * @param currentLevel player's experience level at enchanted time
+     * @param level player's experience level at enchanted time
      * @param bias         0.0–1.0 difficulty weight from config
      * @return int[3] — next required levels for buttons 0, 1, 2 (0-indexed)
      */
-    public static int[] computeNextLevels(int currentLevel, double bias) {
+    public static int[] computeNextLevels(int level, double bias) {
         int[] next = new int[BUTTON_COUNT];
 
         for (int b = 0; b < BUTTON_COUNT; b++) {
             int buttonLevel = b + 1; // 1-based: 1, 2, 3
             int increment;
-            if (currentLevel <= 0) {
+            if (level <= 0) {
                 increment = 1;
             } else {
-                double sqrtLevel = Math.sqrt(currentLevel);
+                double sqrtLevel = Math.sqrt(level);
                 increment = (int) Math.ceil((buttonLevel * bias * SCALE_CONSTANT) / sqrtLevel);
             }
             increment = Math.max(1, increment);
-            next[b] = currentLevel + increment;
+            next[b] = level + increment;
         }
         for (int b = 1; b < BUTTON_COUNT; b++) {
             if (next[b] < next[b - 1] + 1) {
@@ -83,15 +82,16 @@ public final class EnchantCooldownCalculator {
      * <p>After computing each independently, the minimum-gap rule is also applied
      * so that button ordering is always consistent.
      *
-     * @param currentLevel   player's current experience level
+     * @param level   player's current experience level
      * @param configMinLevels int[3] — configured base minimums for each button
      * @return int[3] — first-use required levels for buttons 0, 1, 2
      */
-    public static int[] computeFirstUseLevels(int currentLevel, int[] configMinLevels) {
+    public static int[] computeFirstUseLevels(int level, int[] configMinLevels) {
         int[] levels = new int[BUTTON_COUNT];
+
         for (int b = 0; b < BUTTON_COUNT; b++) {
             int configMin = configMinLevels[b];
-            int playerBased = (int) Math.ceil((double) currentLevel * (b + 1) / BUTTON_COUNT);
+            int playerBased = (int) Math.ceil((double) level * (b + 1) / BUTTON_COUNT);
             levels[b] = Math.max(configMin, playerBased);
         }
         for (int b = 1; b < BUTTON_COUNT; b++) {

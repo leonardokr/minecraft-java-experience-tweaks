@@ -169,7 +169,12 @@ public abstract class EnchantmentMenuMixin extends AbstractContainerMenu {
                 if (!player.hasInfiniteMaterials()) {
                     PlayerEnchantData enchantData = ExperienceTweaksMod.getEnchantData();
                     if (enchantData != null) {
-                        enchantData.recordEnchant(player.getUUID(), levelBeforeEnchant);
+                        String cooldownType = EnchantmentConfigHandler.getCooldownType();
+                        if (cooldownType.equalsIgnoreCase("current_level")) {
+                            enchantData.recordEnchant(player.getUUID(), levelBeforeEnchant);
+                        } else if (cooldownType.equalsIgnoreCase("last_level")) {
+                            enchantData.recordEnchant(player.getUUID(), requiredLevel);
+                        }
                     }
                     if (player instanceof ServerPlayer serverPlayer) {
                         ExperienceTweaksMod.syncEnchantLevels(serverPlayer);
