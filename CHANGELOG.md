@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0](https://github.com/leonardokr/minecraft-java-experience-tweaks/compare/v1.2.0...v1.3.0) (2026-06-20)
+
+
+### Features
+
+* add daily experience survival reward system ([91aa725](https://github.com/leonardokr/minecraft-java-experience-tweaks/commit/91aa725756965a96fb7202612370a63090f56bfd))
+
 ## [1.2.0](https://github.com/leonardokr/minecraft-java-experience-tweaks/compare/v1.1.0...v1.2.0) (2026-06-20)
 
 
