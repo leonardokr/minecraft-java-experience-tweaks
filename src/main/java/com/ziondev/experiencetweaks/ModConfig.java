@@ -16,35 +16,10 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
 
-/**
- * Single access point for all Experience Tweaks configuration values.
- * <p>
- * Every getter in this class:
- * <ul>
- *   <li>reads the underlying {@link Config} spec value,</li>
- *   <li>validates/parses where needed.</li>
- *   <li>calls {@link #broadcastConfigError} on bad input — which logs a warning
- *       <em>and</em> sends a red alert to all online server operators, and</li>
- *   <li>returns a safe fallback so callers never receive a broken value.</li>
- * </ul>
- *
- * <p>No other class in the mod should access {@link Config} fields directly,
- * except {@link ExperienceTweaksMod} which registers the spec itself.
- */
 public final class ModConfig {
 
     private ModConfig() {}
 
-    /**
-     * Enumeration of all configuration error codes for Experience Tweaks.
-     * <p>
-     * Each entry carries:
-     * <ul>
-     *   <li><b>code</b> — short identifier shown in both the log and the in-game alert
-     *       (e.g. {@code ET-0x001})</li>
-     *   <li><b>playerMessage</b> — human-readable alert sent to server operators</li>
-     * </ul>
-     */
     public enum ConfigError {
 
         INVALID_COST_ITEM("ET-0x001"),
@@ -57,7 +32,14 @@ public final class ModConfig {
         ENCHANTMENT_REQUIRED_LEVEL_BIAS("ET-0x008"),
         GIVE_EXPERIENCE_EVERY_DAY("ET-0x009"),
         GIVE_EXPERIENCE_EVERY_DAY_BASE("ET-0x00a"),
-        GIVE_EXPERIENCE_EVERY_DAY_GROWTH("ET-0x00b");
+        GIVE_EXPERIENCE_EVERY_DAY_GROWTH("ET-0x00b"),
+        AUTO_FISHING("ET-0x00c"),
+        AUTO_FISHING_RECAST("ET-0x00d"),
+        ANVIL_BYPASS_TOO_EXPENSIVE("ET-0x00e"),
+        ANVIL_USE_ITEM_COST("ET-0x00f"),
+        INVALID_ANVIL_COST_ITEM("ET-0x010"),
+        ANVIL_COST_ITEM_NOT_FOUND("ET-0x011"),
+        ANVIL_ITEM_COST_MULTIPLIER("ET-0x012");
 
         private final String code;
 
@@ -65,42 +47,26 @@ public final class ModConfig {
             this.code = code;
         }
 
-        /** Short error code displayed in both log and in-game alert (e.g. {@code ET-0x001}). */
         public String code()          { return code; }
-        /** Translation key for the human-readable alert sent to online server operators. */
         public String playerMessageKey() {
             return "experiencetweaks.config.error." + code.toLowerCase().replace("-", "_");
         }
     }
 
-    /**
-     * Tracks errors that have already been broadcast during this server session,
-     * so the same alert is never repeated twice in chat (it still appears once in the log).
-     */
     private static final Set<ConfigError> REPORTED = Collections.synchronizedSet(
             EnumSet.noneOf(ConfigError.class));
 
-    /**
-     * Logs a config error and — the first time it is triggered — broadcasts a
-     * red alert to all online server operators.
-     *
-     * <p>The in-game message format is:
-     * <pre>  [ExperienceTweaks] [ET-0x001] Human-readable description.</pre>
-     *
-     * @param error the {@link ConfigError} to report
-     */
     private static void broadcastConfigError(ConfigError error) {
         String localizedLog = net.minecraft.locale.Language.getInstance().getOrDefault(error.playerMessageKey());
         ExperienceTweaksMod.LOGGER.warn("[ModConfig] [{}] {}", error.code(), localizedLog);
 
-        // Only broadcast once per session to avoid spamming operators.
         if (!REPORTED.add(error)) {
             return;
         }
 
         MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
         if (server == null) {
-            return; // Client-only context; skip in-game broadcast.
+            return;
         }
 
         Component alert = Component.empty()
@@ -115,13 +81,6 @@ public final class ModConfig {
         }
     }
 
-    /**
-     * Returns {@code true} if the given player name is on the opt-out list
-     * (i.e., they do NOT keep their experience on death).
-     *
-     * @param playerName the player's display name
-     * @return {@code true} if the player should lose XP on death; {@code false} otherwise
-     */
     public static boolean isDontKeepExperience(String playerName) {
         try {
             List<? extends String> list = Config.DONT_KEEP_EXPERIENCE.get();
@@ -132,11 +91,6 @@ public final class ModConfig {
         }
     }
 
-    /**
-     * Returns {@code true} if XP should be delivered directly to the player
-     * instead of spawning orbs.
-     * <p>Fallback: {@code true}
-     */
     public static boolean isDirectExperience() {
         try {
             return Config.DIRECT_EXPERIENCE.get();
@@ -146,11 +100,6 @@ public final class ModConfig {
         }
     }
 
-    /**
-     * Returns the {@link Item} used as currency when enchanting.
-     * <p>Falls back to {@link Items#LAPIS_LAZULI} if the configured registry name
-     * is blank, invalid, or not found.
-     */
     public static Item getEnchantmentCostItem() {
         try {
             String configuredItem = Config.ENCHANTMENT_COST_ITEM.get();
@@ -168,10 +117,6 @@ public final class ModConfig {
         return Items.LAPIS_LAZULI;
     }
 
-    /**
-     * Returns the item-cost multiplier applied to the enchantment button index.
-     * <p>Fallback: {@code 1.5}
-     */
     public static double getEnchantmentCostMultiplier() {
         try {
             return Config.ENCHANTMENT_COST_MULTIPLIER.get();
@@ -181,11 +126,6 @@ public final class ModConfig {
         }
     }
 
-    /**
-     * Returns the cooldown progression mode for enchantment buttons.
-     * Valid values: {@code "current_level"}, {@code "last_level"}.
-     * <p>Fallback: {@code "current_level"}
-     */
     public static String getEnchantmentCooldownType() {
         try {
             return Config.ENCHANTMENT_COOLDOWN_TYPE.get();
@@ -195,13 +135,6 @@ public final class ModConfig {
         }
     }
 
-    /**
-     * Returns the configured base required level for the given 0-indexed button.
-     * <p>Falls back to {@code (buttonId + 1) * 10} (i.e., 10 / 20 / 30) if the list
-     * is too short or the config cannot be read.
-     *
-     * @param buttonId 0-based enchantment button index (0, 1, 2)
-     */
     public static int getEnchantmentBaseRequiredLevel(int buttonId) {
         try {
             List<? extends Integer> baseLevels = Config.ENCHANTMENT_BASE_REQUIRED_LEVELS.get();
@@ -214,10 +147,6 @@ public final class ModConfig {
         return (buttonId + 1) * 10;
     }
 
-    /**
-     * Returns the difficulty weight (0.0–1.0) used in the cooldown curve formula.
-     * <p>Fallback: {@code 0.25}
-     */
     public static double getEnchantmentRequiredLevelBias() {
         try {
             return Config.ENCHANTMENT_REQUIRED_LEVEL_BIAS.get();
@@ -227,10 +156,6 @@ public final class ModConfig {
         }
     }
 
-    /**
-     * Returns {@code true} if the daily survival experience rewards are enabled.
-     * <p>Fallback: {@code false}
-     */
     public static boolean isGiveExperienceEveryDayEnabled() {
         try {
             return Config.GIVE_EXPERIENCE_EVERY_DAY.get();
@@ -240,10 +165,6 @@ public final class ModConfig {
         }
     }
 
-    /**
-     * Returns the base experience points given to players each day they survive.
-     * <p>Fallback: {@code 5}
-     */
     public static int getGiveExperienceEveryDayBase() {
         try {
             return Config.GIVE_EXPERIENCE_EVERY_DAY_BASE.get();
@@ -253,16 +174,74 @@ public final class ModConfig {
         }
     }
 
-    /**
-     * Returns the growth multiplier for daily survival rewards.
-     * <p>Fallback: {@code 0.1}
-     */
     public static double getGiveExperienceEveryDayGrowth() {
         try {
             return Config.GIVE_EXPERIENCE_EVERY_DAY_GROWTH.get();
         } catch (Exception e) {
             broadcastConfigError(ConfigError.GIVE_EXPERIENCE_EVERY_DAY_GROWTH);
             return 0.1;
+        }
+    }
+
+    public static boolean isAutoFishingEnabled() {
+        try {
+            return Config.AUTO_FISHING.get();
+        } catch (Exception e) {
+            broadcastConfigError(ConfigError.AUTO_FISHING);
+            return false;
+        }
+    }
+
+    public static boolean isAutoFishingRecastEnabled() {
+        try {
+            return Config.AUTO_FISHING_RECAST.get();
+        } catch (Exception e) {
+            broadcastConfigError(ConfigError.AUTO_FISHING_RECAST);
+            return true;
+        }
+    }
+
+    public static boolean isAnvilBypassTooExpensive() {
+        try {
+            return Config.ANVIL_BYPASS_TOO_EXPENSIVE.get();
+        } catch (Exception e) {
+            broadcastConfigError(ConfigError.ANVIL_BYPASS_TOO_EXPENSIVE);
+            return true;
+        }
+    }
+
+    public static boolean isAnvilUseItemCost() {
+        try {
+            return Config.ANVIL_USE_ITEM_COST.get();
+        } catch (Exception e) {
+            broadcastConfigError(ConfigError.ANVIL_USE_ITEM_COST);
+            return false;
+        }
+    }
+
+    public static Item getAnvilCostItem() {
+        try {
+            String configuredItem = Config.ANVIL_COST_ITEM.get();
+            if (!configuredItem.isBlank()) {
+                return BuiltInRegistries.ITEM
+                        .getOptional(Identifier.parse(configuredItem))
+                        .orElseGet(() -> {
+                            broadcastConfigError(ConfigError.ANVIL_COST_ITEM_NOT_FOUND);
+                            return Items.EMERALD;
+                        });
+            }
+        } catch (Exception e) {
+            broadcastConfigError(ConfigError.INVALID_ANVIL_COST_ITEM);
+        }
+        return Items.EMERALD;
+    }
+
+    public static double getAnvilItemCostMultiplier() {
+        try {
+            return Config.ANVIL_ITEM_COST_MULTIPLIER.get();
+        } catch (Exception e) {
+            broadcastConfigError(ConfigError.ANVIL_ITEM_COST_MULTIPLIER);
+            return 0.5;
         }
     }
 }

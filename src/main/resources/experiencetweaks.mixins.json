@@ -6,7 +6,8 @@
   "refmap": "experiencetweaks.refmap.json",
   "mixins": [
     "EnchantmentMenuCurrencySlotMixin",
-    "EnchantmentMenuMixin"
+    "EnchantmentMenuMixin",
+    "FishingHookAccessor"
   ],
   "client": [
     "EnchantmentScreenMixin"
