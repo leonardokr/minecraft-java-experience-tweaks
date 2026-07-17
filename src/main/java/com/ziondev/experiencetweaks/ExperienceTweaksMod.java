@@ -77,6 +77,11 @@ public class ExperienceTweaksMod {
                     .sound(SoundType.GRAVEL)
     );
 
+    public static final DeferredItem<BlockItem> DIRT_SLAB_ITEM = ITEMS.registerSimpleBlockItem("dirt_slab", DIRT_SLAB);
+    public static final DeferredItem<BlockItem> GRASS_SLAB_ITEM = ITEMS.registerSimpleBlockItem("grass_slab", GRASS_SLAB);
+    public static final DeferredItem<BlockItem> DIRT_PATH_SLAB_ITEM = ITEMS.registerSimpleBlockItem("dirt_path_slab", DIRT_PATH_SLAB);
+    public static final DeferredItem<BlockItem> FARMLAND_SLAB_ITEM = ITEMS.registerSimpleBlockItem("farmland_slab", FARMLAND_SLAB);
+
     public ExperienceTweaksMod(IEventBus modEventBus, ModContainer modContainer) {
         BLOCKS.register(modEventBus);
         ITEMS.register(modEventBus);
@@ -89,10 +94,10 @@ public class ExperienceTweaksMod {
 
     private void addCreativeTabContents(BuildCreativeModeTabContentsEvent event) {
         if (event.getTabKey() == CreativeModeTabs.NATURAL_BLOCKS) {
-            event.accept(DIRT_SLAB);
-            event.accept(GRASS_SLAB);
-            event.accept(DIRT_PATH_SLAB);
-            event.accept(FARMLAND_SLAB);
+            event.accept(DIRT_SLAB_ITEM.get());
+            event.accept(GRASS_SLAB_ITEM.get());
+            event.accept(DIRT_PATH_SLAB_ITEM.get());
+            event.accept(FARMLAND_SLAB_ITEM.get());
         }
     }
 

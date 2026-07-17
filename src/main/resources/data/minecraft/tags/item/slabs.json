@@ -1,5 +1,6 @@
 {
   "replace": false,
+  "values": [
     "experiencetweaks:dirt_slab",
     "experiencetweaks:grass_slab",
     "experiencetweaks:dirt_path_slab",
