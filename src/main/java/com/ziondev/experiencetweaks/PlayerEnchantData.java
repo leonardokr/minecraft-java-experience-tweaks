@@ -155,14 +155,12 @@ public class PlayerEnchantData extends SavedData {
             int[] next = EnchantCooldownCalculator.computeNextLevels(prevLevel, bias);
             levels[buttonId] = Math.max(levels[buttonId], next[buttonId]);
 
-            // Enforce minimum gap of 1 level between consecutive buttons
             for (int b = 1; b < BUTTON_COUNT; b++) {
                 if (levels[b] < levels[b - 1] + 1) {
                     levels[b] = levels[b - 1] + 1;
                 }
             }
         } else {
-            // "current_level" (default)
             int[] next = EnchantCooldownCalculator.computeNextLevels(currentPlayerLevel, bias);
             for (int b = 0; b < BUTTON_COUNT; b++) {
                 if (next[b] > levels[b]) {

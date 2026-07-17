@@ -28,7 +28,6 @@ public class AutoFishingHandler {
 
         UUID uuid = player.getUUID();
 
-        // 1. Handle auto fishing hook reel-in
         if (ModConfig.isAutoFishingEnabled() && player.fishing != null) {
             int nibble = ((FishingHookAccessor) player.fishing).getNibble();
             if (nibble > 0) {
@@ -50,7 +49,6 @@ public class AutoFishingHandler {
             }
         }
 
-        // 2. Handle scheduled auto recasts
         RecastData data = PENDING_RECASTS.get(uuid);
         if (data != null) {
             if (data.ticksLeft() <= 1) {
