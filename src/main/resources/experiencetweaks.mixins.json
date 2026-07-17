@@ -7,10 +7,12 @@
   "mixins": [
     "EnchantmentMenuCurrencySlotMixin",
     "EnchantmentMenuMixin",
+    "AnvilMenuMixin",
     "FishingHookAccessor"
   ],
   "client": [
-    "EnchantmentScreenMixin"
+    "EnchantmentScreenMixin",
+    "AnvilScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1

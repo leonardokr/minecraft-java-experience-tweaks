@@ -18,5 +18,14 @@
   "experiencetweaks.config.error.et_0x009": "Could not read 'giveExperienceEveryDay' setting. Daily experience rewards will be disabled by default. Check and reload the config.",
   "experiencetweaks.config.error.et_0x00a": "Could not read 'giveExperienceEveryDayBase' setting. Falling back to 5 experience points. Check and reload the config.",
   "experiencetweaks.config.error.et_0x00b": "Could not read 'giveExperienceEveryDayGrowth' setting. Falling back to 0.1 (10% growth). Check and reload the config.",
-  "experiencetweaks.daily_xp.reward": "You survived another day without dying and earned %s experience points! (Survival streak: %s days)."
+  "experiencetweaks.daily_xp.reward": "You survived another day without dying and earned %s experience points! (Survival streak: %s days).",
+  "experiencetweaks.config.error.et_0x00c": "Could not read the 'autoFishing' setting. Auto-fishing will be disabled by default. Check and reload the config.",
+  "experiencetweaks.config.error.et_0x00d": "Could not read the 'autoFishingRecast' setting. Recasting will be enabled by default. Check and reload the config.",
+  "experiencetweaks.config.error.et_0x00e": "Could not read the 'anvilBypassTooExpensive' setting. The cap will be bypassed by default. Check and reload the config.",
+  "experiencetweaks.config.error.et_0x00f": "Could not read the 'anvilUseItemCost' setting. Anvils will use levels by default. Check and reload the config.",
+  "experiencetweaks.config.error.et_0x010": "Invalid anvil cost item configured. Emerald will be used as fallback. Check 'anvilCostItem' and reload the config.",
+  "experiencetweaks.config.error.et_0x011": "Configured anvil cost item was not found in the registry. Emerald will be used as fallback. Check 'anvilCostItem' for typos.",
+  "experiencetweaks.config.error.et_0x012": "Could not read the item cost multiplier for anvils. Using 0.5x as fallback. Check 'anvilItemCostMultiplier' and reload the config.",
+  "block.experiencetweaks.dirt_slab": "Dirt Slab",
+  "experiencetweaks.anvil.cost_item": "Cost: %s %s"
 }
