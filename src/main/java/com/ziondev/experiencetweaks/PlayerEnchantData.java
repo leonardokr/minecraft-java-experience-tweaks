@@ -17,8 +17,10 @@ import java.util.UUID;
  * Server-side persistent data tracking player-related progression state:
  * - Minimum required level for enchantment table buttons.
  * - Survival streak information for the daily experience rewards.
- * <p></p>
- * Serialized via Codec and stored in world saves under the id defined by {@link #TYPE}.
+ * <p>
+ * </p>
+ * Serialized via Codec and stored in world saves under the id defined by
+ * {@link #TYPE}.
  */
 public class PlayerEnchantData extends SavedData {
 
@@ -55,22 +57,28 @@ public class PlayerEnchantData extends SavedData {
         }
     }
 
-    /** Codec for a single player entry, supporting backwards compatibility with old saves. */
+    /**
+     * Codec for a single player entry, supporting backwards compatibility with old
+     * saves.
+     */
+    @SuppressWarnings("null")
     private static final Codec<Map.Entry<UUID, PlayerState>> ENTRY_CODEC = RecordCodecBuilder.create(inst -> inst.group(
             UUIDUtil.CODEC.fieldOf("uuid").forGetter(Map.Entry::getKey),
             Codec.INT.listOf().fieldOf("levels").forGetter(e -> {
                 int[] arr = e.getValue().getLevels();
                 List<Integer> list = new ArrayList<>(arr.length);
-                for (int v : arr) list.add(v);
+                for (int v : arr)
+                    list.add(v);
                 return list;
             }),
             Codec.LONG.optionalFieldOf("lastRewardDay", -1L).forGetter(e -> e.getValue().getLastRewardDay()),
-            Codec.INT.optionalFieldOf("daysSurvived", 0).forGetter(e -> e.getValue().getDaysSurvived())
-    ).apply(inst, (uuid, list, lastRewardDay, daysSurvived) -> {
-        int[] arr = new int[list.size()];
-        for (int i = 0; i < list.size(); i++) arr[i] = list.get(i);
-        return Map.entry(uuid, new PlayerState(arr, lastRewardDay, daysSurvived));
-    }));
+            Codec.INT.optionalFieldOf("daysSurvived", 0).forGetter(e -> e.getValue().getDaysSurvived()))
+            .apply(inst, (uuid, list, lastRewardDay, daysSurvived) -> {
+                int[] arr = new int[list.size()];
+                for (int i = 0; i < list.size(); i++)
+                    arr[i] = list.get(i);
+                return Map.entry(uuid, new PlayerState(arr, lastRewardDay, daysSurvived));
+            }));
 
     /** Full data codec: list of player entries. */
     private static final Codec<PlayerEnchantData> CODEC = ENTRY_CODEC.listOf()
@@ -82,14 +90,12 @@ public class PlayerEnchantData extends SavedData {
                         }
                         return data;
                     },
-                    data -> new ArrayList<>(data.playerStates.entrySet())
-            );
+                    data -> new ArrayList<>(data.playerStates.entrySet()));
 
     public static final SavedDataType<PlayerEnchantData> TYPE = new SavedDataType<>(
             Identifier.fromNamespaceAndPath(ExperienceTweaksMod.MODID, "enchant_data"),
             PlayerEnchantData::new,
-            CODEC
-    );
+            CODEC);
 
     private static final int BUTTON_COUNT = 3;
 
@@ -97,18 +103,21 @@ public class PlayerEnchantData extends SavedData {
     private final Map<UUID, PlayerState> playerStates = new HashMap<>();
 
     /** No-arg constructor used by the SavedDataType factory. */
-    public PlayerEnchantData() {}
+    public PlayerEnchantData() {
+    }
 
     /**
-     * Returns the minimum player level required to use enchantment button {@code buttonId}
+     * Returns the minimum player level required to use enchantment button
+     * {@code buttonId}
      * for the given player.
      */
     public int getRequiredLevel(UUID playerId, int buttonId, int currentLevel) {
         PlayerState state = playerStates.get(playerId);
         if (state == null) {
             int[] configMins = new int[BUTTON_COUNT];
-            for (int b = 0; b < BUTTON_COUNT; b++) configMins[b] = ModConfig.getEnchantmentBaseRequiredLevel(b);
-            
+            for (int b = 0; b < BUTTON_COUNT; b++)
+                configMins[b] = ModConfig.getEnchantmentBaseRequiredLevel(b);
+
             if (ModConfig.getEnchantmentCooldownType().equalsIgnoreCase("last_level")) {
                 return configMins[buttonId];
             }
@@ -129,11 +138,13 @@ public class PlayerEnchantData extends SavedData {
     }
 
     /**
-     * Called after a successful enchantment. Updates the next minimum required level
+     * Called after a successful enchantment. Updates the next minimum required
+     * level
      * for the buttons.
      */
     public void recordEnchant(UUID playerId, int buttonId, int currentPlayerLevel) {
-        PlayerState state = playerStates.computeIfAbsent(playerId, _ -> new PlayerState(buildDefaultLevels(currentPlayerLevel), -1L, 0));
+        PlayerState state = playerStates.computeIfAbsent(playerId,
+                uuid -> new PlayerState(buildDefaultLevels(currentPlayerLevel), -1L, 0));
         int[] levels = state.getLevels();
 
         double bias = ModConfig.getEnchantmentRequiredLevelBias();
@@ -172,7 +183,10 @@ public class PlayerEnchantData extends SavedData {
         }
     }
 
-    /** Performs tick checks for daily survival rewards. Checked roughly once per second. */
+    /**
+     * Performs tick checks for daily survival rewards. Checked roughly once per
+     * second.
+     */
     public void tickDailyXp(net.minecraft.server.level.ServerPlayer player) {
         if (!ModConfig.isGiveExperienceEveryDayEnabled()) {
             return;
@@ -181,8 +195,9 @@ public class PlayerEnchantData extends SavedData {
         long rawDay = player.level().getOverworldClockTime() / 24000L;
         final long currentDay = rawDay < 0 ? 0L : rawDay;
 
-        PlayerState state = playerStates.computeIfAbsent(player.getUUID(), _ -> new PlayerState(buildDefaultLevels(player.experienceLevel), currentDay, 0));
-        
+        PlayerState state = playerStates.computeIfAbsent(player.getUUID(),
+                uuid -> new PlayerState(buildDefaultLevels(player.experienceLevel), currentDay, 0));
+
         long lastReward = state.getLastRewardDay();
         if (lastReward == -1L) {
             state.setLastRewardDay(currentDay);
@@ -206,20 +221,19 @@ public class PlayerEnchantData extends SavedData {
             if (rewardedPoints > 0) {
                 player.giveExperiencePoints(rewardedPoints);
                 player.sendSystemMessage(
-                    net.minecraft.network.chat.Component.translatable(
-                        "experiencetweaks.daily_xp.reward",
-                        rewardedPoints,
-                        daysSurvived
-                    ).withStyle(net.minecraft.ChatFormatting.GREEN)
-                );
+                        net.minecraft.network.chat.Component.translatable(
+                                "experiencetweaks.daily_xp.reward",
+                                rewardedPoints,
+                                daysSurvived).withStyle(net.minecraft.ChatFormatting.GREEN));
             }
         }
     }
 
     private static int[] buildDefaultLevels(int currentPlayerLevel) {
         int[] configMins = new int[BUTTON_COUNT];
-        for (int b = 0; b < BUTTON_COUNT; b++) configMins[b] = ModConfig.getEnchantmentBaseRequiredLevel(b);
-        
+        for (int b = 0; b < BUTTON_COUNT; b++)
+            configMins[b] = ModConfig.getEnchantmentBaseRequiredLevel(b);
+
         if (ModConfig.getEnchantmentCooldownType().equalsIgnoreCase("last_level")) {
             return configMins;
         }

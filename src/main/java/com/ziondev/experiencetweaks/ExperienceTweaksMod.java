@@ -41,7 +41,7 @@ public class ExperienceTweaksMod {
         registrar.playToClient(
                 SyncEnchantLevelsPacket.TYPE,
                 SyncEnchantLevelsPacket.STREAM_CODEC,
-                (packet, _) -> ClientEnchantLevelCache.update(packet.requiredLevels())
+                (packet, ctx) -> ClientEnchantLevelCache.update(packet.requiredLevels())
         );
     }
 

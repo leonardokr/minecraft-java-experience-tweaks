@@ -20,6 +20,7 @@ public record SyncEnchantLevelsPacket(List<Integer> requiredLevels) implements C
     public static final CustomPacketPayload.Type<SyncEnchantLevelsPacket> TYPE =
             new CustomPacketPayload.Type<>(Identifier.fromNamespaceAndPath(ExperienceTweaksMod.MODID, "sync_enchant_levels"));
 
+    @SuppressWarnings("null")
     public static final StreamCodec<ByteBuf, SyncEnchantLevelsPacket> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.collection(ArrayList::new, ByteBufCodecs.VAR_INT),
             SyncEnchantLevelsPacket::requiredLevels,
