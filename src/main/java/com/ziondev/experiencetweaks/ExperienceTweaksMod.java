@@ -17,7 +17,6 @@ import com.mojang.logging.LogUtils;
 
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
@@ -26,6 +25,11 @@ import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
+
+import com.ziondev.experiencetweaks.block.DirtSlabBlock;
+import com.ziondev.experiencetweaks.block.GrassSlabBlock;
+import com.ziondev.experiencetweaks.block.DirtPathSlabBlock;
+import com.ziondev.experiencetweaks.block.FarmlandSlabBlock;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,8 +42,8 @@ public class ExperienceTweaksMod {
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(MODID);
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(MODID);
 
-    public static final DeferredBlock<SlabBlock> DIRT_SLAB = BLOCKS.registerBlock("dirt_slab",
-            SlabBlock::new,
+    public static final DeferredBlock<DirtSlabBlock> DIRT_SLAB = BLOCKS.registerBlock("dirt_slab",
+            DirtSlabBlock::new,
             () -> BlockBehaviour.Properties.of()
                     .mapColor(MapColor.DIRT)
                     .instrument(NoteBlockInstrument.BASEDRUM)
@@ -47,7 +51,31 @@ public class ExperienceTweaksMod {
                     .sound(SoundType.GRAVEL)
     );
 
-    public static final DeferredItem<BlockItem> DIRT_SLAB_ITEM = ITEMS.registerSimpleBlockItem("dirt_slab", DIRT_SLAB);
+    public static final DeferredBlock<GrassSlabBlock> GRASS_SLAB = BLOCKS.registerBlock("grass_slab",
+            GrassSlabBlock::new,
+            () -> BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.GRASS)
+                    .randomTicks()
+                    .strength(0.6F)
+                    .sound(SoundType.GRASS)
+    );
+
+    public static final DeferredBlock<DirtPathSlabBlock> DIRT_PATH_SLAB = BLOCKS.registerBlock("dirt_path_slab",
+            DirtPathSlabBlock::new,
+            () -> BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.DIRT)
+                    .strength(0.65F)
+                    .sound(SoundType.GRAVEL)
+    );
+
+    public static final DeferredBlock<FarmlandSlabBlock> FARMLAND_SLAB = BLOCKS.registerBlock("farmland_slab",
+            FarmlandSlabBlock::new,
+            () -> BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.DIRT)
+                    .randomTicks()
+                    .strength(0.6F)
+                    .sound(SoundType.GRAVEL)
+    );
 
     public ExperienceTweaksMod(IEventBus modEventBus, ModContainer modContainer) {
         BLOCKS.register(modEventBus);
@@ -61,7 +89,10 @@ public class ExperienceTweaksMod {
 
     private void addCreativeTabContents(BuildCreativeModeTabContentsEvent event) {
         if (event.getTabKey() == CreativeModeTabs.NATURAL_BLOCKS) {
-            event.accept(DIRT_SLAB_ITEM.get());
+            event.accept(DIRT_SLAB);
+            event.accept(GRASS_SLAB);
+            event.accept(DIRT_PATH_SLAB);
+            event.accept(FARMLAND_SLAB);
         }
     }
 

@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "type=bottom,snowy=false": {
+      "model": "experiencetweaks:block/grass_slab"
+    },
+    "type=bottom,snowy=true": {
+      "model": "experiencetweaks:block/grass_slab_side_snowy"
+    },
+    "type=top,snowy=false": {
+      "model": "experiencetweaks:block/grass_slab_top"
+    },
+    "type=top,snowy=true": {
+      "model": "experiencetweaks:block/grass_slab_top_side_snowy"
+    },
+    "type=double,snowy=false": {
+      "model": "minecraft:block/grass_block"
+    },
+    "type=double,snowy=true": {
+      "model": "minecraft:block/grass_block_snowy"
+    }
+  }
+}
