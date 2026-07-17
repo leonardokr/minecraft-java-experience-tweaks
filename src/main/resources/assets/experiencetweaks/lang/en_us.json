@@ -27,6 +27,8 @@
   "experiencetweaks.config.error.et_0x011": "Configured anvil cost item was not found in the registry. Emerald will be used as fallback. Check 'anvilCostItem' for typos.",
   "experiencetweaks.config.error.et_0x012": "Could not read the item cost multiplier for anvils. Using 0.5x as fallback. Check 'anvilItemCostMultiplier' and reload the config.",
   "experiencetweaks.config.error.et_0x013": "Could not read the 'allowMendingWithInfinity' setting. Mending and Infinity will remain incompatible by default. Check and reload the config.",
+  "experiencetweaks.config.error.et_0x014": "Could not read the 'anvilEnchantmentExtraction' setting. Enchantment extraction will be enabled by default. Check and reload the config.",
+  "experiencetweaks.config.error.et_0x015": "Could not read the 'anvilEnchantmentExtractionDestroySource' setting. The source item will be destroyed when emptied by default. Check and reload the config.",
   "block.experiencetweaks.dirt_slab": "Dirt Slab",
   "block.experiencetweaks.grass_slab": "Grass Slab",
   "block.experiencetweaks.dirt_path_slab": "Dirt Path Slab",

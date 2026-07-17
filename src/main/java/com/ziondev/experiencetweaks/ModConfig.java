@@ -40,7 +40,9 @@ public final class ModConfig {
         INVALID_ANVIL_COST_ITEM("ET-0x010"),
         ANVIL_COST_ITEM_NOT_FOUND("ET-0x011"),
         ANVIL_ITEM_COST_MULTIPLIER("ET-0x012"),
-        ALLOW_MENDING_WITH_INFINITY("ET-0x013");
+        ALLOW_MENDING_WITH_INFINITY("ET-0x013"),
+        ANVIL_ENCHANTMENT_EXTRACTION("ET-0x014"),
+        ANVIL_ENCHANTMENT_EXTRACTION_DESTROY_SOURCE("ET-0x015");
 
         private final String code;
 
@@ -252,6 +254,24 @@ public final class ModConfig {
         } catch (Exception e) {
             broadcastConfigError(ConfigError.ALLOW_MENDING_WITH_INFINITY);
             return false;
+        }
+    }
+
+    public static boolean isAnvilEnchantmentExtractionEnabled() {
+        try {
+            return Config.ANVIL_ENCHANTMENT_EXTRACTION.get();
+        } catch (Exception e) {
+            broadcastConfigError(ConfigError.ANVIL_ENCHANTMENT_EXTRACTION);
+            return true;
+        }
+    }
+
+    public static boolean isAnvilEnchantmentExtractionDestroySource() {
+        try {
+            return Config.ANVIL_ENCHANTMENT_EXTRACTION_DESTROY_SOURCE.get();
+        } catch (Exception e) {
+            broadcastConfigError(ConfigError.ANVIL_ENCHANTMENT_EXTRACTION_DESTROY_SOURCE);
+            return true;
         }
     }
 }

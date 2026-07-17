@@ -1,11 +1,17 @@
 package com.ziondev.experiencetweaks.mixin;
 
 import com.ziondev.experiencetweaks.ModConfig;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AnvilMenu;
 import net.minecraft.world.inventory.DataSlot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.ItemEnchantments;
+import net.neoforged.neoforge.event.entity.player.AnvilCraftEvent;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -15,6 +21,7 @@ import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 /**
@@ -33,6 +40,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class AnvilMenuMixin {
 
     @Shadow @Final private DataSlot cost;
+    @Shadow protected Container inputSlots;
 
     /**
      * Removes the 40-level "Too Expensive" cap from the anvil when
@@ -174,5 +182,65 @@ public abstract class AnvilMenuMixin {
         }
         player.getInventory().setChanged();
         player.containerMenu.broadcastChanges();
+    }
+
+    /**
+     * Applies the source-item side effect after the player takes an enchantment
+     * extraction result from the anvil.
+     * <p>
+     * Removes the extracted enchantment from the left input slot. If the source
+     * item ends up with no enchantments and {@code anvilEnchantmentExtractionDestroySource}
+     * is enabled, the slot is cleared; otherwise the stripped item is returned.
+     * <p>
+     * This hook runs before vanilla clears the input slots in {@code onTake},
+     * allowing us to place the modified item back before vanilla would remove it.
+     *
+     * @param event the anvil craft pre-event carrying both inputs and the output
+     * @param ci    callback info (unused)
+     */
+    @Inject(
+            method = "onTake",
+            at = @At(value = "INVOKE", target = "Lnet/neoforged/neoforge/common/CommonHooks;fireAnvilCraftPre(Lnet/minecraft/world/inventory/AnvilMenu;Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/ItemStack;)Lnet/neoforged/neoforge/event/entity/player/AnvilCraftEvent$Pre;",
+                    shift = At.Shift.AFTER)
+    )
+    private void experienceTweaks$applyExtractionSideEffect(Player player, ItemStack carried, CallbackInfo ci) {
+        if (!ModConfig.isAnvilEnchantmentExtractionEnabled()) {
+            return;
+        }
+
+        ItemStack left = this.inputSlots.getItem(0);
+        ItemStack right = this.inputSlots.getItem(1);
+
+        if (!right.is(Items.BOOK) || right.has(DataComponents.STORED_ENCHANTMENTS)) {
+            return;
+        }
+        if (!carried.is(Items.ENCHANTED_BOOK)) {
+            return;
+        }
+
+        ItemEnchantments storedEnchantments = carried.getOrDefault(DataComponents.STORED_ENCHANTMENTS, ItemEnchantments.EMPTY);
+        if (storedEnchantments.isEmpty()) {
+            return;
+        }
+        var extractedHolder = storedEnchantments.entrySet().iterator().next().getKey();
+
+        ItemEnchantments sourceEnchantments = EnchantmentHelper.getEnchantmentsForCrafting(left);
+        if (sourceEnchantments.getLevel(extractedHolder) == 0) {
+            return;
+        }
+
+        ItemStack stripped = left.copy();
+        ItemEnchantments.Mutable remaining = new ItemEnchantments.Mutable(sourceEnchantments);
+        remaining.set(extractedHolder, 0);
+        EnchantmentHelper.setEnchantments(stripped, remaining.toImmutable());
+
+        boolean noEnchantmentsLeft = remaining.toImmutable().isEmpty();
+        boolean destroySource = ModConfig.isAnvilEnchantmentExtractionDestroySource();
+
+        if (noEnchantmentsLeft && destroySource) {
+            this.inputSlots.setItem(0, ItemStack.EMPTY);
+        } else {
+            this.inputSlots.setItem(0, stripped);
+        }
     }
 }

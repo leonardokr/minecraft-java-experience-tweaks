@@ -89,5 +89,13 @@ public class Config {
             .comment("\n If true, Mending and Infinity enchantments can be combined on the same item via the anvil.")
             .define("allowMendingWithInfinity", false);
 
+    public static final ModConfigSpec.BooleanValue ANVIL_ENCHANTMENT_EXTRACTION = BUILDER
+            .comment("\n If true, placing an enchanted item in the left slot and a blank book in the right slot of the anvil extracts the first enchantment into an enchanted book.")
+            .define("anvilEnchantmentExtraction", true);
+
+    public static final ModConfigSpec.BooleanValue ANVIL_ENCHANTMENT_EXTRACTION_DESTROY_SOURCE = BUILDER
+            .comment("\n If true, the source item is destroyed when its last enchantment is extracted. If false, it is returned without enchantments.")
+            .define("anvilEnchantmentExtractionDestroySource", true);
+
     static final ModConfigSpec SPEC = BUILDER.build();
 }
