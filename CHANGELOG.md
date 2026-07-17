@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.4.0](https://github.com/leonardokr/minecraft-java-experience-tweaks/compare/v1.3.0...v1.4.0) (2026-07-17)
+
+
+### Features
+
+* add anvil tweaks (too expensive bypass and item-cost options) ([2714cf7](https://github.com/leonardokr/minecraft-java-experience-tweaks/commit/2714cf7ea6504c40409f7a0bc584bce5e1907606))
+* add auto-fishing quality of life tweak ([445b138](https://github.com/leonardokr/minecraft-java-experience-tweaks/commit/445b1387eeb1e4b49ad1c2eea8684c055a6ffb77))
+* add dirt slab block, models, recipes, tags, and registrations ([bad2bf5](https://github.com/leonardokr/minecraft-java-experience-tweaks/commit/bad2bf5161f2f20f3f9f691a3ab75530ce979d09))
+
+
+### Bug Fixes
+
+* resolve Java 9+ identifier compatibility and compilation errors ([2e7c2fb](https://github.com/leonardokr/minecraft-java-experience-tweaks/commit/2e7c2fbb06ed564c13a76412668b9ad9a773dbef))
+
 ## [1.3.0](https://github.com/leonardokr/minecraft-java-experience-tweaks/compare/v1.2.0...v1.3.0) (2026-06-20)
 
 
