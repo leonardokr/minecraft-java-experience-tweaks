@@ -18,5 +18,14 @@
   "experiencetweaks.config.error.et_0x009": "Não foi possível ler a configuração 'giveExperienceEveryDay'. A recompensa diária de experiência estará desativada por padrão. Verifique e recarregue a configuração.",
   "experiencetweaks.config.error.et_0x00a": "Não foi possível ler a configuração 'giveExperienceEveryDayBase'. Usando 5 pontos de experiência como padrão. Verifique e recarregue a configuração.",
   "experiencetweaks.config.error.et_0x00b": "Não foi possível ler a configuração 'giveExperienceEveryDayGrowth'. Usando 0.1 (10% de crescimento) como padrão. Verifique e recarregue a configuração.",
-  "experiencetweaks.daily_xp.reward": "Você sobreviveu mais um dia sem morrer e ganhou %s pontos de experiência! (Sequência de sobrevivência: %s dias)."
+  "experiencetweaks.daily_xp.reward": "Você sobreviveu mais um dia sem morrer e ganhou %s pontos de experiência! (Sequência de sobrevivência: %s dias).",
+  "experiencetweaks.config.error.et_0x00c": "Não foi possível ler a configuração 'autoFishing'. A pesca automática estará desativada por padrão. Verifique e recarregue a configuração.",
+  "experiencetweaks.config.error.et_0x00d": "Não foi possível ler a configuração 'autoFishingRecast'. O arremesso automático estará ativado por padrão. Verifique e recarregue a configuração.",
+  "experiencetweaks.config.error.et_0x00e": "Não foi possível ler a configuração 'anvilBypassTooExpensive'. O limite da bigorna será desativado por padrão. Verifique e recarregue a configuração.",
+  "experiencetweaks.config.error.et_0x00f": "Não foi possível ler a configuração 'anvilUseItemCost'. A bigorna usará níveis de experiência por padrão. Verifique e recarregue a configuração.",
+  "experiencetweaks.config.error.et_0x010": "Item consumível da bigorna configurado inválido. Esmeralda será usada como padrão. Verifique 'anvilCostItem' e recarregue a configuração.",
+  "experiencetweaks.config.error.et_0x011": "O item consumível da bigorna configurado não foi encontrado no registro. Esmeralda será usada como padrão. Verifique se há erros de digitação em 'anvilCostItem'.",
+  "experiencetweaks.config.error.et_0x012": "Não foi possível ler o multiplicador de custo de itens para a bigorna. Usando 0.5x como padrão. Verifique 'anvilItemCostMultiplier' e recarregue a configuração.",
+  "block.experiencetweaks.dirt_slab": "Laje de Terra",
+  "experiencetweaks.anvil.cost_item": "Custo: %s %s"
 }
