@@ -39,7 +39,8 @@ public final class ModConfig {
         ANVIL_USE_ITEM_COST("ET-0x00f"),
         INVALID_ANVIL_COST_ITEM("ET-0x010"),
         ANVIL_COST_ITEM_NOT_FOUND("ET-0x011"),
-        ANVIL_ITEM_COST_MULTIPLIER("ET-0x012");
+        ANVIL_ITEM_COST_MULTIPLIER("ET-0x012"),
+        ALLOW_MENDING_WITH_INFINITY("ET-0x013");
 
         private final String code;
 
@@ -242,6 +243,15 @@ public final class ModConfig {
         } catch (Exception e) {
             broadcastConfigError(ConfigError.ANVIL_ITEM_COST_MULTIPLIER);
             return 0.5;
+        }
+    }
+
+    public static boolean isAllowMendingWithInfinity() {
+        try {
+            return Config.ALLOW_MENDING_WITH_INFINITY.get();
+        } catch (Exception e) {
+            broadcastConfigError(ConfigError.ALLOW_MENDING_WITH_INFINITY);
+            return false;
         }
     }
 }

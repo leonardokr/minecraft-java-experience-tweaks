@@ -85,5 +85,9 @@ public class Config {
             .comment("\n Multiplier for the item cost based on the vanilla experience level cost. (e.g., 10 levels * 0.5 = 5 items). Minimum cost is always 1 item.")
             .defineInRange("anvilItemCostMultiplier", 0.5, 0.0, 100.0);
 
+    public static final ModConfigSpec.BooleanValue ALLOW_MENDING_WITH_INFINITY = BUILDER
+            .comment("\n If true, Mending and Infinity enchantments can be combined on the same item via the anvil.")
+            .define("allowMendingWithInfinity", false);
+
     static final ModConfigSpec SPEC = BUILDER.build();
 }

@@ -5,6 +5,7 @@
   "compatibilityLevel": "JAVA_21",
   "refmap": "experiencetweaks.refmap.json",
   "mixins": [
+    "EnchantmentCompatibilityMixin",
     "EnchantmentMenuCurrencySlotMixin",
     "EnchantmentMenuMixin",
     "AnvilMenuMixin",
