@@ -61,5 +61,29 @@ public class Config {
             .comment("\n Growth multiplier (percentage) for consecutive days survived. Example: 0.1 = 10% more experience per consecutive day survived.")
             .defineInRange("giveExperienceEveryDayGrowth", 0.1, 0.0, 100.0);
 
+    public static final ModConfigSpec.BooleanValue AUTO_FISHING = BUILDER
+            .comment("\n If true, players will automatically reel in and recast their fishing rod when a fish bites.")
+            .define("autoFishing", false);
+
+    public static final ModConfigSpec.BooleanValue AUTO_FISHING_RECAST = BUILDER
+            .comment("\n If true, players will automatically recast their fishing rod after reeling in a fish (requires autoFishing to be enabled).")
+            .define("autoFishingRecast", true);
+
+    public static final ModConfigSpec.BooleanValue ANVIL_BYPASS_TOO_EXPENSIVE = BUILDER
+            .comment("\n If true, the 'Too Expensive!' level cost cap (40 levels) in the anvil is disabled.")
+            .define("anvilBypassTooExpensive", true);
+
+    public static final ModConfigSpec.BooleanValue ANVIL_USE_ITEM_COST = BUILDER
+            .comment("\n If true, anvil repairs, combinations, and renames will consume items instead of experience levels.")
+            .define("anvilUseItemCost", false);
+
+    public static final ModConfigSpec.ConfigValue<String> ANVIL_COST_ITEM = BUILDER
+            .comment("\n Item consumed instead of experience when using the anvil (if anvilUseItemCost is true). Use registry name like 'minecraft:emerald'. If empty or invalid, emerald is used.")
+            .define("anvilCostItem", "minecraft:emerald");
+
+    public static final ModConfigSpec.DoubleValue ANVIL_ITEM_COST_MULTIPLIER = BUILDER
+            .comment("\n Multiplier for the item cost based on the vanilla experience level cost. (e.g., 10 levels * 0.5 = 5 items). Minimum cost is always 1 item.")
+            .defineInRange("anvilItemCostMultiplier", 0.5, 0.0, 100.0);
+
     static final ModConfigSpec SPEC = BUILDER.build();
 }
