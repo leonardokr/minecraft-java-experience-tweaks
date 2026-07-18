@@ -31,6 +31,7 @@ import com.ziondev.experiencetweaks.block.GrassSlabBlock;
 import com.ziondev.experiencetweaks.block.DirtPathSlabBlock;
 import com.ziondev.experiencetweaks.block.FarmlandSlabBlock;
 import com.ziondev.experiencetweaks.block.FarmlandSlabCropBlock;
+import com.ziondev.experiencetweaks.block.DirtSlabSugarCaneBlock;
 
 import net.minecraft.world.item.Items;
 
@@ -102,6 +103,11 @@ public class ExperienceTweaksMod {
     public static final DeferredBlock<FarmlandSlabCropBlock> BEETROOTS_SLAB_CROP = BLOCKS.registerBlock(
             "beetroots_slab_crop",
             props -> new FarmlandSlabCropBlock(props, Items.BEETROOT_SEEDS),
+            () -> BlockBehaviour.Properties.of().noCollision().randomTicks().instabreak().sound(SoundType.GRASS)
+    );
+    public static final DeferredBlock<DirtSlabSugarCaneBlock> SUGAR_CANE_SLAB = BLOCKS.registerBlock(
+            "sugar_cane_slab",
+            DirtSlabSugarCaneBlock::new,
             () -> BlockBehaviour.Properties.of().noCollision().randomTicks().instabreak().sound(SoundType.GRASS)
     );
 

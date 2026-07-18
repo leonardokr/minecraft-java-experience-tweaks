@@ -1,0 +1,12 @@
+{
+  "multipart": [
+    {
+      "when": { "bottom_offset": "false" },
+      "apply": { "model": "experiencetweaks:block/sugar_cane_slab_normal" }
+    },
+    {
+      "when": { "bottom_offset": "true" },
+      "apply": { "model": "experiencetweaks:block/sugar_cane_slab_offset" }
+    }
+  ]
+}

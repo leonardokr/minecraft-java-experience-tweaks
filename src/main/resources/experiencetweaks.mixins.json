@@ -12,7 +12,8 @@
     "AnvilMenuMixin",
     "FishingHookAccessor",
     "ItemCombinerMenuAccessor",
-    "SpreadingSnowyBlockMixin"
+    "SpreadingSnowyBlockMixin",
+    "SugarCanePlacementMixin"
   ],
   "client": [
     "EnchantmentScreenMixin",
