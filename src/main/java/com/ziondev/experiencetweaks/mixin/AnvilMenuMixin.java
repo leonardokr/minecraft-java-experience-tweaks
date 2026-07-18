@@ -40,6 +40,33 @@ public abstract class AnvilMenuMixin {
 
     @Shadow @Final private DataSlot cost;
 
+    /** Captures the left input item at the start of {@code onTake} so it can be
+     *  used at TAIL after vanilla has already cleared the input slots. */
+    @Unique
+    private ItemStack experienceTweaks$extractionLeftSnapshot = null;
+
+    /**
+     * Captures a snapshot of the left input slot at the very start of
+     * {@code onTake}, before vanilla clears the input slots.
+     * Used by {@code experienceTweaks$applyExtractionSideEffect} at TAIL.
+     */
+    @Inject(method = "onTake", at = @At("HEAD"))
+    private void experienceTweaks$captureLeftSnapshot(Player player, ItemStack carried, CallbackInfo ci) {
+        if (!ModConfig.isAnvilEnchantmentExtractionEnabled()) {
+            experienceTweaks$extractionLeftSnapshot = null;
+            return;
+        }
+        Container slots = ((ItemCombinerMenuAccessor) this).experienceTweaks$getInputSlots();
+        ItemStack right = slots.getItem(1);
+        // Only snapshot when this looks like an extraction (right = blank book, output = enchanted book)
+        if (right.is(Items.BOOK) && !right.has(DataComponents.STORED_ENCHANTMENTS)
+                && carried.is(Items.ENCHANTED_BOOK)) {
+            experienceTweaks$extractionLeftSnapshot = slots.getItem(0).copy();
+        } else {
+            experienceTweaks$extractionLeftSnapshot = null;
+        }
+    }
+
     /**
      * Removes the 40-level "Too Expensive" cap from the anvil when
      * {@code anvilBypassTooExpensive} is enabled, allowing any operation
@@ -198,22 +225,29 @@ public abstract class AnvilMenuMixin {
      */
     @Inject(
             method = "onTake",
-            at = @At(value = "INVOKE", target = "Lnet/neoforged/neoforge/common/CommonHooks;fireAnvilCraftPre(Lnet/minecraft/world/inventory/AnvilMenu;Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/ItemStack;)Lnet/neoforged/neoforge/event/entity/player/AnvilCraftEvent$Pre;",
-                    shift = At.Shift.AFTER)
+            at = @At("TAIL")
     )
     private void experienceTweaks$applyExtractionSideEffect(Player player, ItemStack carried, CallbackInfo ci) {
         if (!ModConfig.isAnvilEnchantmentExtractionEnabled()) {
             return;
         }
 
-        Container inputSlots = ((ItemCombinerMenuAccessor) this).experienceTweaks$getInputSlots();
-        ItemStack left = inputSlots.getItem(0);
-        ItemStack right = inputSlots.getItem(1);
-
-        if (!right.is(Items.BOOK) || right.has(DataComponents.STORED_ENCHANTMENTS)) {
+        // At TAIL, vanilla has already cleared slot 0. We need to know what was
+        // in the left slot before onTake ran. We identify an extraction operation
+        // by checking: output is an enchanted book AND right input was a blank book.
+        // The right slot is cleared by vanilla too, but we can check the carried item.
+        if (!carried.is(Items.ENCHANTED_BOOK)) {
             return;
         }
-        if (!carried.is(Items.ENCHANTED_BOOK)) {
+
+        // Check the right slot — vanilla only clears it if materialCost consumed it.
+        // Since we set materialCost=1 and there's only 1 book, right slot is now empty.
+        // We can't re-check right here. Instead we use a @Unique field to store the
+        // left item snapshot captured at HEAD before vanilla clears it.
+        ItemStack leftSnapshot = experienceTweaks$extractionLeftSnapshot;
+        experienceTweaks$extractionLeftSnapshot = null;
+
+        if (leftSnapshot == null || leftSnapshot.isEmpty()) {
             return;
         }
 
@@ -223,12 +257,12 @@ public abstract class AnvilMenuMixin {
         }
         var extractedHolder = storedEnchantments.entrySet().iterator().next().getKey();
 
-        ItemEnchantments sourceEnchantments = EnchantmentHelper.getEnchantmentsForCrafting(left);
+        ItemEnchantments sourceEnchantments = EnchantmentHelper.getEnchantmentsForCrafting(leftSnapshot);
         if (sourceEnchantments.getLevel(extractedHolder) == 0) {
             return;
         }
 
-        ItemStack stripped = left.copy();
+        ItemStack stripped = leftSnapshot.copy();
         ItemEnchantments.Mutable remaining = new ItemEnchantments.Mutable(sourceEnchantments);
         remaining.set(extractedHolder, 0);
         EnchantmentHelper.setEnchantments(stripped, remaining.toImmutable());
@@ -236,10 +270,10 @@ public abstract class AnvilMenuMixin {
         boolean noEnchantmentsLeft = remaining.toImmutable().isEmpty();
         boolean destroySource = ModConfig.isAnvilEnchantmentExtractionDestroySource();
 
-        if (noEnchantmentsLeft && destroySource) {
-            inputSlots.setItem(0, ItemStack.EMPTY);
-        } else {
+        if (!noEnchantmentsLeft || !destroySource) {
+            Container inputSlots = ((ItemCombinerMenuAccessor) this).experienceTweaks$getInputSlots();
             inputSlots.setItem(0, stripped);
         }
+        // if noEnchantmentsLeft && destroySource: slot 0 stays empty (vanilla already cleared it)
     }
 }
