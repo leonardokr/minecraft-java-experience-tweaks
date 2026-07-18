@@ -18,30 +18,34 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 /**
  * Applies two configurable tweaks to the anvil:
  * <ul>
- *   <li><b>Bypass "Too Expensive"</b> — removes the 40-level cost cap that
- *       normally blocks operations when an item has been repaired or combined
- *       too many times. Controlled by {@code anvilBypassTooExpensive}.</li>
- *   <li><b>Item cost</b> — replaces the experience level cost with a
- *       configurable item (e.g. emeralds). The amount consumed is derived from
- *       the vanilla level cost multiplied by {@code anvilItemCostMultiplier}.
- *       Controlled by {@code anvilUseItemCost}.</li>
+ * <li><b>Bypass "Too Expensive"</b> — removes the 40-level cost cap that
+ * normally blocks operations when an item has been repaired or combined
+ * too many times. Controlled by {@code anvilBypassTooExpensive}.</li>
+ * <li><b>Item cost</b> — replaces the experience level cost with a
+ * configurable item (e.g. emeralds). The amount consumed is derived from
+ * the vanilla level cost multiplied by {@code anvilItemCostMultiplier}.
+ * Controlled by {@code anvilUseItemCost}.</li>
  * </ul>
  */
 @Mixin(AnvilMenu.class)
 public abstract class AnvilMenuMixin {
 
-    @Shadow @Final private DataSlot cost;
+    @Shadow
+    @Final
+    private DataSlot cost;
 
-    /** Captures the left input item at the start of {@code onTake} so it can be
-     *  used at TAIL after vanilla has already cleared the input slots. */
+    /**
+     * Captures the left input item at the start of {@code onTake} so it can be
+     * used at TAIL after vanilla has already cleared the input slots.
+     */
     @Unique
     private ItemStack experienceTweaks$extractionLeftSnapshot = null;
 
@@ -58,7 +62,8 @@ public abstract class AnvilMenuMixin {
         }
         Container slots = ((ItemCombinerMenuAccessor) this).experienceTweaks$getInputSlots();
         ItemStack right = slots.getItem(1);
-        // Only snapshot when this looks like an extraction (right = blank book, output = enchanted book)
+        // Only snapshot when this looks like an extraction (right = blank book, output
+        // = enchanted book)
         if (right.is(Items.BOOK) && !right.has(DataComponents.STORED_ENCHANTMENTS)
                 && carried.is(Items.ENCHANTED_BOOK)) {
             experienceTweaks$extractionLeftSnapshot = slots.getItem(0).copy();
@@ -111,31 +116,50 @@ public abstract class AnvilMenuMixin {
     }
 
     /**
-     * Consumes the configured cost item from the player's inventory when they
-     * take the result from the anvil, replacing the vanilla experience level
-     * deduction when {@code anvilUseItemCost} is enabled.
+     * Zeroes the XP argument passed to {@code giveExperienceLevels} inside
+     * {@code onTake} when item cost mode is active, suppressing the vanilla XP
+     * deduction without replacing the call entirely.
      * <p>
-     * Players in creative mode are never charged. Has no effect when item cost
-     * mode is disabled, in which case experience levels are deducted normally.
+     * Using {@link ModifyArg} instead of {@code @Redirect} ensures compatibility
+     * with other mods that also inject into {@code AnvilMenu.onTake}.
      *
-     * @param player the player taking the result
-     * @param levels the level delta that vanilla would have applied (negative)
+     * @param levels the vanilla XP delta (negative, representing cost)
+     * @return {@code 0} when item cost is active, otherwise the original value
      */
-    @Redirect(
-            method = "onTake",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;giveExperienceLevels(I)V")
-    )
-    private void experienceTweaks$redirectGiveExperienceLevels(Player player, int levels) {
-        if (ModConfig.isAnvilUseItemCost()) {
-            int levelCost = -levels; // levels is negative when the player takes the result
-            int itemCost = experienceTweaks$getAnvilItemCost(levelCost);
-            if (itemCost > 0 && !player.getAbilities().instabuild) {
-                experienceTweaks$consumeItems(player, ModConfig.getAnvilCostItem(), itemCost);
-                player.getInventory().setChanged();
-                player.containerMenu.broadcastChanges();
-            }
-        } else {
-            player.giveExperienceLevels(levels);
+    @ModifyArg(method = "onTake", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;giveExperienceLevels(I)V"), index = 0)
+    private int experienceTweaks$zeroOutXpCost(int levels) {
+        if (ModConfig.isAnvilUseItemCost() && levels < 0) {
+            return 0;
+        }
+        return levels;
+    }
+
+    /**
+     * Consumes the configured cost items from the player's inventory after the
+     * anvil result has been taken, when item cost mode is active.
+     * <p>
+     * Runs at {@code TAIL} so it executes after vanilla has already cleared the
+     * input slots, and after the XP arg has been zeroed by
+     * {@link #experienceTweaks$zeroOutXpCost}.
+     *
+     * @param player  the player taking the result
+     * @param carried the item that was taken
+     * @param ci      callback info (unused)
+     */
+    @Inject(method = "onTake", at = @At("TAIL"))
+    private void experienceTweaks$consumeItemsOnTake(Player player, ItemStack carried, CallbackInfo ci) {
+        if (!ModConfig.isAnvilUseItemCost() || player.getAbilities().instabuild) {
+            return;
+        }
+        int levelCost = this.cost.get();
+        if (levelCost <= 0) {
+            return;
+        }
+        int itemCost = experienceTweaks$getAnvilItemCost(levelCost);
+        if (itemCost > 0) {
+            experienceTweaks$consumeItems(player, ModConfig.getAnvilCostItem(), itemCost);
+            player.getInventory().setChanged();
+            player.containerMenu.broadcastChanges();
         }
     }
 
@@ -214,7 +238,8 @@ public abstract class AnvilMenuMixin {
      * extraction result from the anvil.
      * <p>
      * Removes the extracted enchantment from the left input slot. If the source
-     * item ends up with no enchantments and {@code anvilEnchantmentExtractionDestroySource}
+     * item ends up with no enchantments and
+     * {@code anvilEnchantmentExtractionDestroySource}
      * is enabled, the slot is cleared; otherwise the stripped item is returned.
      * <p>
      * This hook runs before vanilla clears the input slots in {@code onTake},
@@ -223,10 +248,7 @@ public abstract class AnvilMenuMixin {
      * @param event the anvil craft pre-event carrying both inputs and the output
      * @param ci    callback info (unused)
      */
-    @Inject(
-            method = "onTake",
-            at = @At("TAIL")
-    )
+    @Inject(method = "onTake", at = @At("TAIL"))
     private void experienceTweaks$applyExtractionSideEffect(Player player, ItemStack carried, CallbackInfo ci) {
         if (!ModConfig.isAnvilEnchantmentExtractionEnabled()) {
             return;
@@ -251,7 +273,8 @@ public abstract class AnvilMenuMixin {
             return;
         }
 
-        ItemEnchantments storedEnchantments = carried.getOrDefault(DataComponents.STORED_ENCHANTMENTS, ItemEnchantments.EMPTY);
+        ItemEnchantments storedEnchantments = carried.getOrDefault(DataComponents.STORED_ENCHANTMENTS,
+                ItemEnchantments.EMPTY);
         if (storedEnchantments.isEmpty()) {
             return;
         }
@@ -274,6 +297,7 @@ public abstract class AnvilMenuMixin {
             Container inputSlots = ((ItemCombinerMenuAccessor) this).experienceTweaks$getInputSlots();
             inputSlots.setItem(0, stripped);
         }
-        // if noEnchantmentsLeft && destroySource: slot 0 stays empty (vanilla already cleared it)
+        // if noEnchantmentsLeft && destroySource: slot 0 stays empty (vanilla already
+        // cleared it)
     }
 }
