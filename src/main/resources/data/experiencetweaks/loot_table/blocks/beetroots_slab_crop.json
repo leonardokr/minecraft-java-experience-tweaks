@@ -1,0 +1,59 @@
+﻿{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:beetroot",
+          "conditions": [
+            {
+              "condition": "minecraft:block_state_property",
+              "block": "experiencetweaks:beetroots_slab_crop",
+              "properties": { "age": "7" }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:beetroot_seeds",
+          "conditions": [
+            {
+              "condition": "minecraft:inverted",
+              "term": {
+                "condition": "minecraft:block_state_property",
+                "block": "experiencetweaks:beetroots_slab_crop",
+                "properties": { "age": "7" }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "rolls": 1,
+      "conditions": [
+        {
+          "condition": "minecraft:block_state_property",
+          "block": "experiencetweaks:beetroots_slab_crop",
+          "properties": { "age": "7" }
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:beetroot_seeds",
+          "functions": [
+            {
+              "function": "minecraft:apply_bonus",
+              "enchantment": "minecraft:fortune",
+              "formula": "minecraft:binomial_with_bonus_count",
+              "parameters": { "extra": 3, "probability": 0.5714286 }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+﻿{
+"parent": "experiencetweaks:block/crop_offset",
+"textures": {
+"crop": "block/potatoes_stage3"
+}
+}

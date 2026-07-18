@@ -1,0 +1,6 @@
+﻿{
+"parent": "experiencetweaks:block/crop_offset",
+"textures": {
+"crop": "block/beetroots_stage2"
+}
+}

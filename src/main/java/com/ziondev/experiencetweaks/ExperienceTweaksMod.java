@@ -30,6 +30,9 @@ import com.ziondev.experiencetweaks.block.DirtSlabBlock;
 import com.ziondev.experiencetweaks.block.GrassSlabBlock;
 import com.ziondev.experiencetweaks.block.DirtPathSlabBlock;
 import com.ziondev.experiencetweaks.block.FarmlandSlabBlock;
+import com.ziondev.experiencetweaks.block.FarmlandSlabCropBlock;
+
+import net.minecraft.world.item.Items;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,8 +51,7 @@ public class ExperienceTweaksMod {
                     .mapColor(MapColor.DIRT)
                     .instrument(NoteBlockInstrument.BASEDRUM)
                     .strength(0.5F)
-                    .sound(SoundType.GRAVEL)
-    );
+                    .sound(SoundType.GRAVEL));
 
     public static final DeferredBlock<GrassSlabBlock> GRASS_SLAB = BLOCKS.registerBlock("grass_slab",
             GrassSlabBlock::new,
@@ -57,16 +59,14 @@ public class ExperienceTweaksMod {
                     .mapColor(MapColor.GRASS)
                     .randomTicks()
                     .strength(0.6F)
-                    .sound(SoundType.GRASS)
-    );
+                    .sound(SoundType.GRASS));
 
     public static final DeferredBlock<DirtPathSlabBlock> DIRT_PATH_SLAB = BLOCKS.registerBlock("dirt_path_slab",
             DirtPathSlabBlock::new,
             () -> BlockBehaviour.Properties.of()
                     .mapColor(MapColor.DIRT)
                     .strength(0.65F)
-                    .sound(SoundType.GRAVEL)
-    );
+                    .sound(SoundType.GRAVEL));
 
     public static final DeferredBlock<FarmlandSlabBlock> FARMLAND_SLAB = BLOCKS.registerBlock("farmland_slab",
             FarmlandSlabBlock::new,
@@ -74,13 +74,36 @@ public class ExperienceTweaksMod {
                     .mapColor(MapColor.DIRT)
                     .randomTicks()
                     .strength(0.6F)
-                    .sound(SoundType.GRAVEL)
-    );
+                    .sound(SoundType.GRAVEL));
 
     public static final DeferredItem<BlockItem> DIRT_SLAB_ITEM = ITEMS.registerSimpleBlockItem("dirt_slab", DIRT_SLAB);
-    public static final DeferredItem<BlockItem> GRASS_SLAB_ITEM = ITEMS.registerSimpleBlockItem("grass_slab", GRASS_SLAB);
-    public static final DeferredItem<BlockItem> DIRT_PATH_SLAB_ITEM = ITEMS.registerSimpleBlockItem("dirt_path_slab", DIRT_PATH_SLAB);
-    public static final DeferredItem<BlockItem> FARMLAND_SLAB_ITEM = ITEMS.registerSimpleBlockItem("farmland_slab", FARMLAND_SLAB);
+    public static final DeferredItem<BlockItem> GRASS_SLAB_ITEM = ITEMS.registerSimpleBlockItem("grass_slab",
+            GRASS_SLAB);
+    public static final DeferredItem<BlockItem> DIRT_PATH_SLAB_ITEM = ITEMS.registerSimpleBlockItem("dirt_path_slab",
+            DIRT_PATH_SLAB);
+    public static final DeferredItem<BlockItem> FARMLAND_SLAB_ITEM = ITEMS.registerSimpleBlockItem("farmland_slab",
+            FARMLAND_SLAB);
+
+    public static final DeferredBlock<FarmlandSlabCropBlock> WHEAT_SLAB_CROP = BLOCKS.registerBlock(
+            "wheat_slab_crop",
+            props -> new FarmlandSlabCropBlock(props, Items.WHEAT_SEEDS),
+            () -> BlockBehaviour.Properties.of().noCollision().randomTicks().instabreak().sound(SoundType.GRASS)
+    );
+    public static final DeferredBlock<FarmlandSlabCropBlock> CARROTS_SLAB_CROP = BLOCKS.registerBlock(
+            "carrots_slab_crop",
+            props -> new FarmlandSlabCropBlock(props, Items.CARROT),
+            () -> BlockBehaviour.Properties.of().noCollision().randomTicks().instabreak().sound(SoundType.GRASS)
+    );
+    public static final DeferredBlock<FarmlandSlabCropBlock> POTATOES_SLAB_CROP = BLOCKS.registerBlock(
+            "potatoes_slab_crop",
+            props -> new FarmlandSlabCropBlock(props, Items.POTATO),
+            () -> BlockBehaviour.Properties.of().noCollision().randomTicks().instabreak().sound(SoundType.GRASS)
+    );
+    public static final DeferredBlock<FarmlandSlabCropBlock> BEETROOTS_SLAB_CROP = BLOCKS.registerBlock(
+            "beetroots_slab_crop",
+            props -> new FarmlandSlabCropBlock(props, Items.BEETROOT_SEEDS),
+            () -> BlockBehaviour.Properties.of().noCollision().randomTicks().instabreak().sound(SoundType.GRASS)
+    );
 
     public ExperienceTweaksMod(IEventBus modEventBus, ModContainer modContainer) {
         BLOCKS.register(modEventBus);
@@ -112,12 +135,12 @@ public class ExperienceTweaksMod {
         registrar.playToClient(
                 SyncEnchantLevelsPacket.TYPE,
                 SyncEnchantLevelsPacket.STREAM_CODEC,
-                (packet, ctx) -> ClientEnchantLevelCache.update(packet.requiredLevels())
-        );
+                (packet, ctx) -> ClientEnchantLevelCache.update(packet.requiredLevels()));
     }
 
     /**
-     * Returns the persistent {@link PlayerEnchantData} from the overworld saved data store,
+     * Returns the persistent {@link PlayerEnchantData} from the overworld saved
+     * data store,
      * or {@code null} if the server is not running (e.g., on the client side).
      */
     public static PlayerEnchantData getEnchantData() {
@@ -130,7 +153,8 @@ public class ExperienceTweaksMod {
 
     /**
      * Sends the player's current required levels to their client.
-     * Should be called whenever the enchantment menu opens or after a successful enchanting.
+     * Should be called whenever the enchantment menu opens or after a successful
+     * enchanting.
      */
     public static void syncEnchantLevels(ServerPlayer player) {
         PlayerEnchantData data = getEnchantData();
