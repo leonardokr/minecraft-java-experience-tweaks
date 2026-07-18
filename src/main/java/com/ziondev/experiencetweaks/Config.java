@@ -51,7 +51,7 @@ public class Config {
 
     public static final ModConfigSpec.BooleanValue GIVE_EXPERIENCE_EVERY_DAY = BUILDER
             .comment("\n If true, players will receive experience points every in-game day they survive without dying.")
-            .define("giveExperienceEveryDay", false);
+            .define("giveExperienceEveryDay", true);
 
     public static final ModConfigSpec.IntValue GIVE_EXPERIENCE_EVERY_DAY_BASE = BUILDER
             .comment("\n Base experience points awarded to players each day they survive.")
@@ -63,7 +63,7 @@ public class Config {
 
     public static final ModConfigSpec.BooleanValue AUTO_FISHING = BUILDER
             .comment("\n If true, players will automatically reel in and recast their fishing rod when a fish bites.")
-            .define("autoFishing", false);
+            .define("autoFishing", true);
 
     public static final ModConfigSpec.BooleanValue AUTO_FISHING_RECAST = BUILDER
             .comment("\n If true, players will automatically recast their fishing rod after reeling in a fish (requires autoFishing to be enabled).")
@@ -75,7 +75,7 @@ public class Config {
 
     public static final ModConfigSpec.BooleanValue ANVIL_USE_ITEM_COST = BUILDER
             .comment("\n If true, anvil repairs, combinations, and renames will consume items instead of experience levels.")
-            .define("anvilUseItemCost", false);
+            .define("anvilUseItemCost", true);
 
     public static final ModConfigSpec.ConfigValue<String> ANVIL_COST_ITEM = BUILDER
             .comment("\n Item consumed instead of experience when using the anvil (if anvilUseItemCost is true). Use registry name like 'minecraft:emerald'. If empty or invalid, emerald is used.")
