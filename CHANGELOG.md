@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.6.0](https://github.com/leonardokr/minecraft-java-experience-tweaks/compare/v1.5.0...v1.6.0) (2026-07-18)
+
+
+### Features
+
+* add allowMendingWithInfinity config option to combine Mending and Infinity enchantments ([365a88d](https://github.com/leonardokr/minecraft-java-experience-tweaks/commit/365a88d3f9adf36c011fc7e31ba588df0e15aeea))
+* add anvil enchantment extraction to enchanted book via blank book ([a7848c4](https://github.com/leonardokr/minecraft-java-experience-tweaks/commit/a7848c44a7dac09233fc404ea2b24907eb1c1327))
+
+
+### Bug Fixes
+
+* resolve @Shadow inputSlots not found by using @Accessor on ItemCombinerMenu ([2a4b000](https://github.com/leonardokr/minecraft-java-experience-tweaks/commit/2a4b0002f5c82c82c32279ab6294fecefcc6a160))
+* source item incorrectly destroyed when it still had remaining enchantments ([65c4a1c](https://github.com/leonardokr/minecraft-java-experience-tweaks/commit/65c4a1caa7deb6816cb80c7070eec2c0245cfa1e))
+* update ClientColors to NeoForge 26.x API and remove debug file ([b6b0023](https://github.com/leonardokr/minecraft-java-experience-tweaks/commit/b6b0023fe3317c46e60769954309c2a02ad96dc7))
+
 ## [1.5.0](https://github.com/leonardokr/minecraft-java-experience-tweaks/compare/v1.4.0...v1.5.0) (2026-07-17)
 
 
