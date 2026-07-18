@@ -10,6 +10,7 @@
     "EnchantmentMenuMixin",
     "AnvilMenuMixin",
     "FishingHookAccessor",
+    "ItemCombinerMenuAccessor",
     "SpreadingSnowyBlockMixin"
   ],
   "client": [

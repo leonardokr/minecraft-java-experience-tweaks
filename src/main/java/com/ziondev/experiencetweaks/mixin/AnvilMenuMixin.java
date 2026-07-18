@@ -11,7 +11,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
-import net.neoforged.neoforge.event.entity.player.AnvilCraftEvent;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -40,7 +39,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class AnvilMenuMixin {
 
     @Shadow @Final private DataSlot cost;
-    @Shadow protected Container inputSlots;
 
     /**
      * Removes the 40-level "Too Expensive" cap from the anvil when
@@ -208,8 +206,9 @@ public abstract class AnvilMenuMixin {
             return;
         }
 
-        ItemStack left = this.inputSlots.getItem(0);
-        ItemStack right = this.inputSlots.getItem(1);
+        Container inputSlots = ((ItemCombinerMenuAccessor) this).experienceTweaks$getInputSlots();
+        ItemStack left = inputSlots.getItem(0);
+        ItemStack right = inputSlots.getItem(1);
 
         if (!right.is(Items.BOOK) || right.has(DataComponents.STORED_ENCHANTMENTS)) {
             return;
@@ -238,9 +237,9 @@ public abstract class AnvilMenuMixin {
         boolean destroySource = ModConfig.isAnvilEnchantmentExtractionDestroySource();
 
         if (noEnchantmentsLeft && destroySource) {
-            this.inputSlots.setItem(0, ItemStack.EMPTY);
+            inputSlots.setItem(0, ItemStack.EMPTY);
         } else {
-            this.inputSlots.setItem(0, stripped);
+            inputSlots.setItem(0, stripped);
         }
     }
 }
