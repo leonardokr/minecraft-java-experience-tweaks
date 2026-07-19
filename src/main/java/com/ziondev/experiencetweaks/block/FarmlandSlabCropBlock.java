@@ -4,6 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.CropBlock;
@@ -95,6 +96,17 @@ public class FarmlandSlabCropBlock extends CropBlock {
     @Override
     public BlockState getStateForAge(int age) {
         return this.defaultBlockState().setValue(AGE, age);
+    }
+
+    /**
+     * Preserves {@link #BOTTOM_OFFSET} when bone meal is applied. The vanilla
+     * implementation calls {@link #getStateForAge(int)} which resets the
+     * property to its default ({@code false}).
+     */
+    @Override
+    public void growCrops(Level level, BlockPos pos, BlockState state) {
+        int newAge = Math.min(getAge(state) + getBonemealAgeIncrease(level), getMaxAge());
+        level.setBlock(pos, state.setValue(AGE, newAge), 2);
     }
 
     /**
