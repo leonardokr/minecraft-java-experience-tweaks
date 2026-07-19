@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.7.0](https://github.com/leonardokr/minecraft-java-experience-tweaks/compare/v1.6.0...v1.7.0) (2026-07-19)
+
+
+### Features
+
+* add loot tables for dirt, grass, farmland and dirt path slabs ([e74ffcb](https://github.com/leonardokr/minecraft-java-experience-tweaks/commit/e74ffcb2e527619a4d95b4b8f331a488b6207d8d))
+* align crops visually when planted on bottom farmland slabs ([4810957](https://github.com/leonardokr/minecraft-java-experience-tweaks/commit/48109577ffe8ee2f869d36b719a1c092217b0b57))
+* align sugar cane visually when planted on bottom dirt or grass slabs ([5fc73a2](https://github.com/leonardokr/minecraft-java-experience-tweaks/commit/5fc73a285d8bceb451dba4e61548d972baefe8b1))
+
+
+### Bug Fixes
+
+* correct item display rotation for farmland and dirt path slab models ([ba5132e](https://github.com/leonardokr/minecraft-java-experience-tweaks/commit/ba5132e86fbfc7783e8f84512e2c62b91f0b9df3))
+* preserve BOTTOM_OFFSET when bone meal is applied to slab crops ([3d487b7](https://github.com/leonardokr/minecraft-java-experience-tweaks/commit/3d487b7c9abddb3fb62e15b6cb1edf5ad62ed16a))
+* replace @Redirect with @ModifyArg to fix anvil item cost on servers with conflicting mods ([c890aad](https://github.com/leonardokr/minecraft-java-experience-tweaks/commit/c890aad2a85e6bbceaf5e52da12127806a847e05))
+
 ## [1.6.0](https://github.com/leonardokr/minecraft-java-experience-tweaks/compare/v1.5.0...v1.6.0) (2026-07-18)
 
 
