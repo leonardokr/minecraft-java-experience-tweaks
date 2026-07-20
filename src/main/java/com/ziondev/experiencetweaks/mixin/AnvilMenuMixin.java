@@ -50,20 +50,25 @@ public abstract class AnvilMenuMixin {
     private ItemStack experienceTweaks$extractionLeftSnapshot = null;
 
     /**
-     * Captures a snapshot of the left input slot at the very start of
-     * {@code onTake}, before vanilla clears the input slots.
-     * Used by {@code experienceTweaks$applyExtractionSideEffect} at TAIL.
+     * Captures the level cost before vanilla zeroes it during {@code onTake}.
+     */
+    @Unique
+    private int experienceTweaks$takenLevelCost = 0;
+
+    /**
+     * Captures state at the very start of {@code onTake}, before vanilla clears
+     * input slots or zeroes the cost.
      */
     @Inject(method = "onTake", at = @At("HEAD"))
-    private void experienceTweaks$captureLeftSnapshot(Player player, ItemStack carried, CallbackInfo ci) {
+    private void experienceTweaks$captureOnTakeState(Player player, ItemStack carried, CallbackInfo ci) {
+        experienceTweaks$takenLevelCost = this.cost.get();
+
         if (!ModConfig.isAnvilEnchantmentExtractionEnabled()) {
             experienceTweaks$extractionLeftSnapshot = null;
             return;
         }
         Container slots = ((ItemCombinerMenuAccessor) this).experienceTweaks$getInputSlots();
         ItemStack right = slots.getItem(1);
-        // Only snapshot when this looks like an extraction (right = blank book, output
-        // = enchanted book)
         if (right.is(Items.BOOK) && !right.has(DataComponents.STORED_ENCHANTMENTS)
                 && carried.is(Items.ENCHANTED_BOOK)) {
             experienceTweaks$extractionLeftSnapshot = slots.getItem(0).copy();
@@ -148,10 +153,12 @@ public abstract class AnvilMenuMixin {
      */
     @Inject(method = "onTake", at = @At("TAIL"))
     private void experienceTweaks$consumeItemsOnTake(Player player, ItemStack carried, CallbackInfo ci) {
+        int levelCost = this.experienceTweaks$takenLevelCost;
+        this.experienceTweaks$takenLevelCost = 0;
+
         if (!ModConfig.isAnvilUseItemCost() || player.getAbilities().instabuild) {
             return;
         }
-        int levelCost = this.cost.get();
         if (levelCost <= 0) {
             return;
         }
@@ -254,18 +261,10 @@ public abstract class AnvilMenuMixin {
             return;
         }
 
-        // At TAIL, vanilla has already cleared slot 0. We need to know what was
-        // in the left slot before onTake ran. We identify an extraction operation
-        // by checking: output is an enchanted book AND right input was a blank book.
-        // The right slot is cleared by vanilla too, but we can check the carried item.
         if (!carried.is(Items.ENCHANTED_BOOK)) {
             return;
         }
 
-        // Check the right slot — vanilla only clears it if materialCost consumed it.
-        // Since we set materialCost=1 and there's only 1 book, right slot is now empty.
-        // We can't re-check right here. Instead we use a @Unique field to store the
-        // left item snapshot captured at HEAD before vanilla clears it.
         ItemStack leftSnapshot = experienceTweaks$extractionLeftSnapshot;
         experienceTweaks$extractionLeftSnapshot = null;
 
@@ -297,7 +296,5 @@ public abstract class AnvilMenuMixin {
             Container inputSlots = ((ItemCombinerMenuAccessor) this).experienceTweaks$getInputSlots();
             inputSlots.setItem(0, stripped);
         }
-        // if noEnchantmentsLeft && destroySource: slot 0 stays empty (vanilla already
-        // cleared it)
     }
 }
