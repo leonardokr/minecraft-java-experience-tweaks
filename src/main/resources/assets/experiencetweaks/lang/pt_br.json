@@ -66,5 +66,6 @@
   "block.experiencetweaks.grass_slab": "Laje de Grama",
   "block.experiencetweaks.dirt_path_slab": "Laje de Caminho de Terra",
   "block.experiencetweaks.farmland_slab": "Laje de Terra Arada",
+  "block.experiencetweaks.switch_rail": "Trilho Comutador",
   "experiencetweaks.anvil.cost_item": "Custo: %s %s"
 }

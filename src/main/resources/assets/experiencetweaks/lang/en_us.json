@@ -66,5 +66,6 @@
   "block.experiencetweaks.grass_slab": "Grass Slab",
   "block.experiencetweaks.dirt_path_slab": "Dirt Path Slab",
   "block.experiencetweaks.farmland_slab": "Farmland Slab",
+  "block.experiencetweaks.switch_rail": "Switch Rail",
   "experiencetweaks.anvil.cost_item": "Cost: %s %s"
 }
