@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.8.0](https://github.com/leonardokr/minecraft-java-experience-tweaks/compare/v1.7.0...v1.8.0) (2026-07-21)
+
+
+### Features
+
+* add configurable water hydration radius and water below option ([320112c](https://github.com/leonardokr/minecraft-java-experience-tweaks/commit/320112c14c5e115981b287ec1695921df8f65e7a))
+* add in-game config screen with client and server tabs ([10d6483](https://github.com/leonardokr/minecraft-java-experience-tweaks/commit/10d6483d54def90aab03027f1aa685c54a8b2c19))
+* add milk bucket hunger restoration with configurable nutrition ([67d4fe9](https://github.com/leonardokr/minecraft-java-experience-tweaks/commit/67d4fe95a9b62bdfcf805bf518fccff5b547f873))
+* add Switch Rail block with pulse redstone toggling and junction logic ([5939d3c](https://github.com/leonardokr/minecraft-java-experience-tweaks/commit/5939d3ca7549821220b1fadd6acdadcf06477e46))
+
+
+### Bug Fixes
+
+* consume item cost when taking result using anvil ([9e18b9f](https://github.com/leonardokr/minecraft-java-experience-tweaks/commit/9e18b9fa1b0ff9a42fc1776c66f3d197659818e1))
+* fix grass slab side texture and overlay UV mapping ([cc7fa99](https://github.com/leonardokr/minecraft-java-experience-tweaks/commit/cc7fa99c8b1c892c7ae280b64061187d23402c39))
+* fix sugar cane tinting and stacked offset propagation ([2efbb1c](https://github.com/leonardokr/minecraft-java-experience-tweaks/commit/2efbb1cc8509cc938a17016bd18095969d5980c7))
+
 ## [1.7.0](https://github.com/leonardokr/minecraft-java-experience-tweaks/compare/v1.6.0...v1.7.0) (2026-07-19)
 
 
