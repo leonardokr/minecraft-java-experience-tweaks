@@ -1,6 +1,7 @@
 package com.ziondev.experiencetweaks.block;
 
 import com.ziondev.experiencetweaks.ExperienceTweaksMod;
+import com.ziondev.experiencetweaks.ModConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -27,6 +28,9 @@ import net.neoforged.neoforge.common.ItemAbility;
 import net.minecraft.util.TriState;
 import org.jspecify.annotations.Nullable;
 
+/**
+ * A farmland slab block that supports crops and moisture state transitions.
+ */
 public class FarmlandSlabBlock extends SlabBlock {
 
     public static final IntegerProperty MOISTURE = BlockStateProperties.MOISTURE;
@@ -34,6 +38,11 @@ public class FarmlandSlabBlock extends SlabBlock {
     private static final VoxelShape SHAPE_TOP = Block.column(16.0, 8.0, 15.0);
     private static final VoxelShape SHAPE_DOUBLE = Block.column(16.0, 0.0, 15.0);
 
+    /**
+     * Constructs a new farmland slab block.
+     *
+     * @param properties block behaviour properties
+     */
     public FarmlandSlabBlock(BlockBehaviour.Properties properties) {
         super(properties);
         this.registerDefaultState(this.defaultBlockState().setValue(TYPE, SlabType.BOTTOM).setValue(WATERLOGGED, false)
@@ -99,14 +108,32 @@ public class FarmlandSlabBlock extends SlabBlock {
         }
     }
 
+    /**
+     * Converts the farmland slab block state to a regular dirt slab.
+     *
+     * @param state the farmland slab state
+     * @param level the server level
+     * @param pos   the block position
+     */
     private static void turnToDirt(BlockState state, ServerLevel level, BlockPos pos) {
         level.setBlockAndUpdate(pos, ExperienceTweaksMod.DIRT_SLAB.get().defaultBlockState()
                 .setValue(TYPE, state.getValue(TYPE))
                 .setValue(WATERLOGGED, state.getValue(WATERLOGGED)));
     }
 
+    /**
+     * Returns {@code true} if water is nearby to hydrate the farmland slab.
+     * Checks configurable horizontal radius from {@link ModConfig#getWaterHydrationRadius()}
+     * and vertical range of 0 to 1 (or -1 to 1 if {@link ModConfig#isWaterBelowHydratesFarmlandEnabled()} is active).
+     *
+     * @param level the level reader
+     * @param pos   the farmland slab position
+     * @return {@code true} if water is nearby
+     */
     private static boolean isNearWater(LevelReader level, BlockPos pos) {
-        for (BlockPos testPos : BlockPos.betweenClosed(pos.offset(-4, 0, -4), pos.offset(4, 1, 4))) {
+        int radius = ModConfig.getWaterHydrationRadius();
+        int minY = ModConfig.isWaterBelowHydratesFarmlandEnabled() ? -1 : 0;
+        for (BlockPos testPos : BlockPos.betweenClosed(pos.offset(-radius, minY, -radius), pos.offset(radius, 1, radius))) {
             if (level.getFluidState(testPos).is(FluidTags.WATER)) {
                 return true;
             }
@@ -114,6 +141,13 @@ public class FarmlandSlabBlock extends SlabBlock {
         return false;
     }
 
+    /**
+     * Returns {@code true} if the block above maintains farmland (e.g. crops).
+     *
+     * @param level the level reader
+     * @param pos   the farmland slab position
+     * @return {@code true} if farmland should be maintained
+     */
     private static boolean shouldMaintainFarmland(BlockGetter level, BlockPos pos) {
         return level.getBlockState(pos.above()).is(BlockTags.MAINTAINS_FARMLAND);
     }

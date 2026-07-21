@@ -10,6 +10,7 @@
     "EnchantmentMenuCurrencySlotMixin",
     "EnchantmentMenuMixin",
     "AnvilMenuMixin",
+    "FarmlandBlockMixin",
     "FishingHookAccessor",
     "ItemCombinerMenuAccessor",
     "SpreadingSnowyBlockMixin",

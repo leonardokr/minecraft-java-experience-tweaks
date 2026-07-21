@@ -97,5 +97,13 @@ public class Config {
             .comment("\n If true, the source item is destroyed when its last enchantment is extracted. If false, it is returned without enchantments.")
             .define("anvilEnchantmentExtractionDestroySource", true);
 
+    public static final ModConfigSpec.BooleanValue WATER_BELOW_HYDRATES_FARMLAND = BUILDER
+            .comment("\n If true, water located directly underneath a farmland block (or farmland slab) will hydrate it.")
+            .define("waterBelowHydratesFarmland", true);
+
+    public static final ModConfigSpec.IntValue WATER_HYDRATION_RADIUS = BUILDER
+            .comment("\n Horizontal radius (in blocks) to check for water to hydrate farmland blocks and slabs. Vanilla default is 4.")
+            .defineInRange("waterHydrationRadius", 4, 0, 16);
+
     static final ModConfigSpec SPEC = BUILDER.build();
 }

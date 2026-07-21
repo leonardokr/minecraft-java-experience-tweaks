@@ -42,7 +42,9 @@ public final class ModConfig {
         ANVIL_ITEM_COST_MULTIPLIER("ET-0x012"),
         ALLOW_MENDING_WITH_INFINITY("ET-0x013"),
         ANVIL_ENCHANTMENT_EXTRACTION("ET-0x014"),
-        ANVIL_ENCHANTMENT_EXTRACTION_DESTROY_SOURCE("ET-0x015");
+        ANVIL_ENCHANTMENT_EXTRACTION_DESTROY_SOURCE("ET-0x015"),
+        WATER_BELOW_HYDRATES_FARMLAND("ET-0x016"),
+        WATER_HYDRATION_RADIUS("ET-0x017");
 
         private final String code;
 
@@ -272,6 +274,34 @@ public final class ModConfig {
         } catch (Exception e) {
             broadcastConfigError(ConfigError.ANVIL_ENCHANTMENT_EXTRACTION_DESTROY_SOURCE);
             return true;
+        }
+    }
+
+    /**
+     * Returns {@code true} if water located directly underneath a farmland block or slab hydrates it.
+     *
+     * @return {@code true} if water under farmland hydrates it
+     */
+    public static boolean isWaterBelowHydratesFarmlandEnabled() {
+        try {
+            return Config.WATER_BELOW_HYDRATES_FARMLAND.get();
+        } catch (Exception e) {
+            broadcastConfigError(ConfigError.WATER_BELOW_HYDRATES_FARMLAND);
+            return true;
+        }
+    }
+
+    /**
+     * Returns the horizontal block radius to check for water to hydrate farmland.
+     *
+     * @return the horizontal water hydration radius in blocks
+     */
+    public static int getWaterHydrationRadius() {
+        try {
+            return Config.WATER_HYDRATION_RADIUS.get();
+        } catch (Exception e) {
+            broadcastConfigError(ConfigError.WATER_HYDRATION_RADIUS);
+            return 4;
         }
     }
 }
