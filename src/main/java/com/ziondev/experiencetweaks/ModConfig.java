@@ -16,6 +16,10 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Facade class providing safe, error-tolerant accessors for all mod configuration settings
+ * stored in {@link ServerConfig} and {@link ClientConfig}.
+ */
 public final class ModConfig {
 
     private ModConfig() {}
@@ -25,7 +29,7 @@ public final class ModConfig {
         INVALID_COST_ITEM("ET-0x001"),
         COST_ITEM_NOT_FOUND("ET-0x002"),
         DIRECT_EXPERIENCE("ET-0x003"),
-        DONT_KEEP_EXPERIENCE("ET-0x004"),
+        KEEP_EXPERIENCE("ET-0x004"),
         ENCHANTMENT_COST_MULTIPLIER("ET-0x005"),
         ENCHANTMENT_COOLDOWN_TYPE("ET-0x006"),
         ENCHANTMENT_BASE_REQUIRED_LEVELS("ET-0x007"),
@@ -87,28 +91,42 @@ public final class ModConfig {
         }
     }
 
-    public static boolean isDontKeepExperience(String playerName) {
+    /**
+     * Returns whether keeping experience on death is enabled for the player.
+     *
+     * @return {@code true} if experience is kept on death
+     */
+    public static boolean isKeepExperienceEnabled() {
         try {
-            List<? extends String> list = Config.DONT_KEEP_EXPERIENCE.get();
-            return list.contains(playerName);
+            return ClientConfig.KEEP_EXPERIENCE.get();
         } catch (Exception e) {
-            broadcastConfigError(ConfigError.DONT_KEEP_EXPERIENCE);
-            return false;
+            broadcastConfigError(ConfigError.KEEP_EXPERIENCE);
+            return true;
         }
     }
 
+    /**
+     * Returns whether experience points are inserted directly into the player.
+     *
+     * @return {@code true} if direct experience is enabled
+     */
     public static boolean isDirectExperience() {
         try {
-            return Config.DIRECT_EXPERIENCE.get();
+            return ClientConfig.DIRECT_EXPERIENCE.get();
         } catch (Exception e) {
             broadcastConfigError(ConfigError.DIRECT_EXPERIENCE);
             return true;
         }
     }
 
+    /**
+     * Returns the item consumed when enchanting.
+     *
+     * @return the configured enchantment cost item
+     */
     public static Item getEnchantmentCostItem() {
         try {
-            String configuredItem = Config.ENCHANTMENT_COST_ITEM.get();
+            String configuredItem = ServerConfig.ENCHANTMENT_COST_ITEM.get();
             if (!configuredItem.isBlank()) {
                 return BuiltInRegistries.ITEM
                         .getOptional(Identifier.parse(configuredItem))
@@ -123,27 +141,43 @@ public final class ModConfig {
         return Items.LAPIS_LAZULI;
     }
 
+    /**
+     * Returns the item cost multiplier for enchanting.
+     *
+     * @return the enchantment item cost multiplier
+     */
     public static double getEnchantmentCostMultiplier() {
         try {
-            return Config.ENCHANTMENT_COST_MULTIPLIER.get();
+            return ServerConfig.ENCHANTMENT_COST_MULTIPLIER.get();
         } catch (Exception e) {
             broadcastConfigError(ConfigError.ENCHANTMENT_COST_MULTIPLIER);
             return 1.5;
         }
     }
 
+    /**
+     * Returns the enchantment button cooldown type.
+     *
+     * @return the enchantment cooldown type string
+     */
     public static String getEnchantmentCooldownType() {
         try {
-            return Config.ENCHANTMENT_COOLDOWN_TYPE.get();
+            return ServerConfig.ENCHANTMENT_COOLDOWN_TYPE.get();
         } catch (Exception e) {
             broadcastConfigError(ConfigError.ENCHANTMENT_COOLDOWN_TYPE);
             return "current_level";
         }
     }
 
+    /**
+     * Returns the base required level for an enchantment table button index.
+     *
+     * @param buttonId index of the button (0, 1, or 2)
+     * @return the required base level
+     */
     public static int getEnchantmentBaseRequiredLevel(int buttonId) {
         try {
-            List<? extends Integer> baseLevels = Config.ENCHANTMENT_BASE_REQUIRED_LEVELS.get();
+            List<? extends Integer> baseLevels = ServerConfig.ENCHANTMENT_BASE_REQUIRED_LEVELS.get();
             if (buttonId < baseLevels.size()) {
                 return baseLevels.get(buttonId);
             }
@@ -153,81 +187,126 @@ public final class ModConfig {
         return (buttonId + 1) * 10;
     }
 
+    /**
+     * Returns the difficulty bias for the enchantment cooldown curve.
+     *
+     * @return the enchantment required level bias
+     */
     public static double getEnchantmentRequiredLevelBias() {
         try {
-            return Config.ENCHANTMENT_REQUIRED_LEVEL_BIAS.get();
+            return ServerConfig.ENCHANTMENT_REQUIRED_LEVEL_BIAS.get();
         } catch (Exception e) {
             broadcastConfigError(ConfigError.ENCHANTMENT_REQUIRED_LEVEL_BIAS);
             return 0.25;
         }
     }
 
+    /**
+     * Returns whether daily experience rewards are enabled.
+     *
+     * @return {@code true} if daily experience rewards are enabled
+     */
     public static boolean isGiveExperienceEveryDayEnabled() {
         try {
-            return Config.GIVE_EXPERIENCE_EVERY_DAY.get();
+            return ClientConfig.GIVE_EXPERIENCE_EVERY_DAY.get();
         } catch (Exception e) {
             broadcastConfigError(ConfigError.GIVE_EXPERIENCE_EVERY_DAY);
             return false;
         }
     }
 
+    /**
+     * Returns base experience points awarded per day survived.
+     *
+     * @return base daily experience points
+     */
     public static int getGiveExperienceEveryDayBase() {
         try {
-            return Config.GIVE_EXPERIENCE_EVERY_DAY_BASE.get();
+            return ClientConfig.GIVE_EXPERIENCE_EVERY_DAY_BASE.get();
         } catch (Exception e) {
             broadcastConfigError(ConfigError.GIVE_EXPERIENCE_EVERY_DAY_BASE);
             return 5;
         }
     }
 
+    /**
+     * Returns growth percentage per consecutive day survived.
+     *
+     * @return daily experience growth multiplier
+     */
     public static double getGiveExperienceEveryDayGrowth() {
         try {
-            return Config.GIVE_EXPERIENCE_EVERY_DAY_GROWTH.get();
+            return ClientConfig.GIVE_EXPERIENCE_EVERY_DAY_GROWTH.get();
         } catch (Exception e) {
             broadcastConfigError(ConfigError.GIVE_EXPERIENCE_EVERY_DAY_GROWTH);
             return 0.1;
         }
     }
 
+    /**
+     * Returns whether auto-fishing is enabled.
+     *
+     * @return {@code true} if auto-fishing is enabled
+     */
     public static boolean isAutoFishingEnabled() {
         try {
-            return Config.AUTO_FISHING.get();
+            return ClientConfig.AUTO_FISHING.get();
         } catch (Exception e) {
             broadcastConfigError(ConfigError.AUTO_FISHING);
             return false;
         }
     }
 
+    /**
+     * Returns whether auto-recasting fishing rod is enabled.
+     *
+     * @return {@code true} if auto-recasting is enabled
+     */
     public static boolean isAutoFishingRecastEnabled() {
         try {
-            return Config.AUTO_FISHING_RECAST.get();
+            return ClientConfig.AUTO_FISHING_RECAST.get();
         } catch (Exception e) {
             broadcastConfigError(ConfigError.AUTO_FISHING_RECAST);
             return true;
         }
     }
 
+    /**
+     * Returns whether the anvil 40-level cost limit is bypassed.
+     *
+     * @return {@code true} if anvil cost limit is bypassed
+     */
     public static boolean isAnvilBypassTooExpensive() {
         try {
-            return Config.ANVIL_BYPASS_TOO_EXPENSIVE.get();
+            return ServerConfig.ANVIL_BYPASS_TOO_EXPENSIVE.get();
         } catch (Exception e) {
             broadcastConfigError(ConfigError.ANVIL_BYPASS_TOO_EXPENSIVE);
             return true;
         }
     }
 
+    /**
+     * Returns whether anvil operations consume items instead of experience.
+     *
+     * @return {@code true} if anvil uses item cost
+     */
     public static boolean isAnvilUseItemCost() {
         try {
-            return Config.ANVIL_USE_ITEM_COST.get();
+            return ServerConfig.ANVIL_USE_ITEM_COST.get();
         } catch (Exception e) {
             broadcastConfigError(ConfigError.ANVIL_USE_ITEM_COST);
             return false;
         }
     }
 
+    /**
+     * Returns the item type consumed by anvil operations.
+     *
+     * @return the configured anvil cost item
+     */
     public static Item getAnvilCostItem() {
         try {
-            String configuredItem = Config.ANVIL_COST_ITEM.get();
+            String configuredItem = ServerConfig.ANVIL_COST_ITEM.get();
             if (!configuredItem.isBlank()) {
                 return BuiltInRegistries.ITEM
                         .getOptional(Identifier.parse(configuredItem))
@@ -242,36 +321,56 @@ public final class ModConfig {
         return Items.EMERALD;
     }
 
+    /**
+     * Returns the item cost multiplier for anvil operations.
+     *
+     * @return the anvil item cost multiplier
+     */
     public static double getAnvilItemCostMultiplier() {
         try {
-            return Config.ANVIL_ITEM_COST_MULTIPLIER.get();
+            return ServerConfig.ANVIL_ITEM_COST_MULTIPLIER.get();
         } catch (Exception e) {
             broadcastConfigError(ConfigError.ANVIL_ITEM_COST_MULTIPLIER);
             return 0.5;
         }
     }
 
+    /**
+     * Returns whether Mending and Infinity can be combined on the same item.
+     *
+     * @return {@code true} if Mending and Infinity can be combined
+     */
     public static boolean isAllowMendingWithInfinity() {
         try {
-            return Config.ALLOW_MENDING_WITH_INFINITY.get();
+            return ServerConfig.ALLOW_MENDING_WITH_INFINITY.get();
         } catch (Exception e) {
             broadcastConfigError(ConfigError.ALLOW_MENDING_WITH_INFINITY);
             return false;
         }
     }
 
+    /**
+     * Returns whether anvil enchantment extraction is enabled.
+     *
+     * @return {@code true} if enchantment extraction is enabled
+     */
     public static boolean isAnvilEnchantmentExtractionEnabled() {
         try {
-            return Config.ANVIL_ENCHANTMENT_EXTRACTION.get();
+            return ServerConfig.ANVIL_ENCHANTMENT_EXTRACTION.get();
         } catch (Exception e) {
             broadcastConfigError(ConfigError.ANVIL_ENCHANTMENT_EXTRACTION);
             return true;
         }
     }
 
+    /**
+     * Returns whether the source item is destroyed when its last enchantment is extracted.
+     *
+     * @return {@code true} if source item is destroyed
+     */
     public static boolean isAnvilEnchantmentExtractionDestroySource() {
         try {
-            return Config.ANVIL_ENCHANTMENT_EXTRACTION_DESTROY_SOURCE.get();
+            return ServerConfig.ANVIL_ENCHANTMENT_EXTRACTION_DESTROY_SOURCE.get();
         } catch (Exception e) {
             broadcastConfigError(ConfigError.ANVIL_ENCHANTMENT_EXTRACTION_DESTROY_SOURCE);
             return true;
@@ -285,7 +384,7 @@ public final class ModConfig {
      */
     public static boolean isWaterBelowHydratesFarmlandEnabled() {
         try {
-            return Config.WATER_BELOW_HYDRATES_FARMLAND.get();
+            return ServerConfig.WATER_BELOW_HYDRATES_FARMLAND.get();
         } catch (Exception e) {
             broadcastConfigError(ConfigError.WATER_BELOW_HYDRATES_FARMLAND);
             return true;
@@ -299,7 +398,7 @@ public final class ModConfig {
      */
     public static int getWaterHydrationRadius() {
         try {
-            return Config.WATER_HYDRATION_RADIUS.get();
+            return ServerConfig.WATER_HYDRATION_RADIUS.get();
         } catch (Exception e) {
             broadcastConfigError(ConfigError.WATER_HYDRATION_RADIUS);
             return 4;
@@ -313,7 +412,7 @@ public final class ModConfig {
      */
     public static int getMilkBucketNutrition() {
         try {
-            return Config.MILK_BUCKET_NUTRITION.get();
+            return ServerConfig.MILK_BUCKET_NUTRITION.get();
         } catch (Exception e) {
             broadcastConfigError(ConfigError.MILK_BUCKET_NUTRITION);
             return 2;

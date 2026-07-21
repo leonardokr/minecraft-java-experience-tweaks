@@ -114,7 +114,8 @@ public class ExperienceTweaksMod {
     public ExperienceTweaksMod(IEventBus modEventBus, ModContainer modContainer) {
         BLOCKS.register(modEventBus);
         ITEMS.register(modEventBus);
-        modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
+        modContainer.registerConfig(ModConfig.Type.COMMON, ServerConfig.SPEC);
+        modContainer.registerConfig(ModConfig.Type.CLIENT, ClientConfig.SPEC);
         modEventBus.addListener(this::onConfigReload);
         modEventBus.addListener(this::onRegisterPayloads);
         modEventBus.addListener(this::addCreativeTabContents);
@@ -131,9 +132,7 @@ public class ExperienceTweaksMod {
     }
 
     private void onConfigReload(net.neoforged.fml.event.config.ModConfigEvent event) {
-        if (event.getConfig().getType() == ModConfig.Type.COMMON) {
-            LOGGER.info("Experience Tweaks config reloaded!");
-        }
+        LOGGER.info("Experience Tweaks [{}] config reloaded!", event.getConfig().getType());
     }
 
     private void onRegisterPayloads(RegisterPayloadHandlersEvent event) {
