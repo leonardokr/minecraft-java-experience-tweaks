@@ -105,5 +105,9 @@ public class Config {
             .comment("\n Horizontal radius (in blocks) to check for water to hydrate farmland blocks and slabs. Vanilla default is 4.")
             .defineInRange("waterHydrationRadius", 4, 0, 16);
 
+    public static final ModConfigSpec.IntValue MILK_BUCKET_NUTRITION = BUILDER
+            .comment("\n Food points (hunger level) restored when drinking a milk bucket. Default is 2 (1 full hunger shank).")
+            .defineInRange("milkBucketNutrition", 2, 0, 20);
+
     static final ModConfigSpec SPEC = BUILDER.build();
 }

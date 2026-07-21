@@ -31,6 +31,7 @@
   "experiencetweaks.config.error.et_0x015": "Não foi possível ler a configuração 'anvilEnchantmentExtractionDestroySource'. O item de origem será destruído ao ser esvaziado por padrão. Verifique e recarregue a configuração.",
   "experiencetweaks.config.error.et_0x016": "Não foi possível ler a configuração 'waterBelowHydratesFarmland'. Água embaixo da terra arada irá regá-la por padrão. Verifique e recarregue a configuração.",
   "experiencetweaks.config.error.et_0x017": "Não foi possível ler a configuração 'waterHydrationRadius'. Usando raio 4 por padrão. Verifique e recarregue a configuração.",
+  "experiencetweaks.config.error.et_0x018": "Não foi possível ler a configuração 'milkBucketNutrition'. O leite restaurará 2 pontos de fome por padrão. Verifique e recarregue a configuração.",
   "block.experiencetweaks.dirt_slab": "Laje de Terra",
   "block.experiencetweaks.grass_slab": "Laje de Grama",
   "block.experiencetweaks.dirt_path_slab": "Laje de Caminho de Terra",

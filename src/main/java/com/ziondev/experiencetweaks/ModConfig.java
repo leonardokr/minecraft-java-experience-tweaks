@@ -44,7 +44,8 @@ public final class ModConfig {
         ANVIL_ENCHANTMENT_EXTRACTION("ET-0x014"),
         ANVIL_ENCHANTMENT_EXTRACTION_DESTROY_SOURCE("ET-0x015"),
         WATER_BELOW_HYDRATES_FARMLAND("ET-0x016"),
-        WATER_HYDRATION_RADIUS("ET-0x017");
+        WATER_HYDRATION_RADIUS("ET-0x017"),
+        MILK_BUCKET_NUTRITION("ET-0x018");
 
         private final String code;
 
@@ -302,6 +303,20 @@ public final class ModConfig {
         } catch (Exception e) {
             broadcastConfigError(ConfigError.WATER_HYDRATION_RADIUS);
             return 4;
+        }
+    }
+
+    /**
+     * Returns the number of food points (hunger markers) restored when drinking a milk bucket.
+     *
+     * @return food points restored by milk bucket
+     */
+    public static int getMilkBucketNutrition() {
+        try {
+            return Config.MILK_BUCKET_NUTRITION.get();
+        } catch (Exception e) {
+            broadcastConfigError(ConfigError.MILK_BUCKET_NUTRITION);
+            return 2;
         }
     }
 }
