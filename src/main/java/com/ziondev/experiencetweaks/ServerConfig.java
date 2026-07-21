@@ -5,10 +5,20 @@ import java.util.List;
 
 /**
  * Defines server and common configuration specifications for world mechanics, block rules,
- * anvil mechanics, and enchantment table settings.
+ * anvil mechanics, enchantment table settings, and server-side daily experience reward amounts.
  */
 public class ServerConfig {
     private static final ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
+
+    /** Base experience points awarded to players each day they survive. */
+    public static final ModConfigSpec.IntValue GIVE_EXPERIENCE_EVERY_DAY_BASE = BUILDER
+            .comment("\n Base experience points awarded to players each day they survive.")
+            .defineInRange("giveExperienceEveryDayBase", 5, 0, 100000);
+
+    /** Growth multiplier (percentage) for consecutive days survived. */
+    public static final ModConfigSpec.DoubleValue GIVE_EXPERIENCE_EVERY_DAY_GROWTH = BUILDER
+            .comment("\n Growth multiplier (percentage) for consecutive days survived. Example: 0.1 = 10% more experience per consecutive day survived.")
+            .defineInRange("giveExperienceEveryDayGrowth", 0.1, 0.0, 100.0);
 
     /** Item consumed instead of experience when enchanting. */
     public static final ModConfigSpec.ConfigValue<String> ENCHANTMENT_COST_ITEM = BUILDER

@@ -13,6 +13,8 @@ import org.jspecify.annotations.NonNull;
  * Only processed if the sending player has OP permissions.
  */
 public record UpdateServerConfigPacket(
+        int giveExperienceEveryDayBase,
+        double giveExperienceEveryDayGrowth,
         boolean anvilBypassTooExpensive,
         boolean anvilUseItemCost,
         String anvilCostItem,
@@ -35,6 +37,8 @@ public record UpdateServerConfigPacket(
         @Override
         public @NonNull UpdateServerConfigPacket decode(@NonNull ByteBuf buf) {
             return new UpdateServerConfigPacket(
+                    ByteBufCodecs.VAR_INT.decode(buf),
+                    ByteBufCodecs.DOUBLE.decode(buf),
                     ByteBufCodecs.BOOL.decode(buf),
                     ByteBufCodecs.BOOL.decode(buf),
                     ByteBufCodecs.STRING_UTF8.decode(buf),
@@ -53,6 +57,8 @@ public record UpdateServerConfigPacket(
 
         @Override
         public void encode(@NonNull ByteBuf buf, @NonNull UpdateServerConfigPacket value) {
+            ByteBufCodecs.VAR_INT.encode(buf, value.giveExperienceEveryDayBase());
+            ByteBufCodecs.DOUBLE.encode(buf, value.giveExperienceEveryDayGrowth());
             ByteBufCodecs.BOOL.encode(buf, value.anvilBypassTooExpensive());
             ByteBufCodecs.BOOL.encode(buf, value.anvilUseItemCost());
             ByteBufCodecs.STRING_UTF8.encode(buf, value.anvilCostItem());

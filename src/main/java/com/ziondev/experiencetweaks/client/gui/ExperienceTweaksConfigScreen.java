@@ -18,10 +18,8 @@ import org.jspecify.annotations.NonNull;
 import java.util.List;
 
 /**
- * In-game configuration GUI screen providing two tabs: "Client" (personal
- * options for all players)
- * and "Server" (world mechanics options accessible only to OP players or
- * singleplayer hosts).
+ * In-game configuration GUI screen providing two tabs: "Client" (personal options for all players)
+ * and "Server" (world mechanics and reward amounts accessible only to OP players or singleplayer hosts).
  */
 public class ExperienceTweaksConfigScreen extends Screen {
 
@@ -37,11 +35,11 @@ public class ExperienceTweaksConfigScreen extends Screen {
     private boolean clientKeepExperience;
     private boolean clientDirectExperience;
     private boolean clientGiveExperienceEveryDay;
-    private String clientGiveExperienceEveryDayBase;
-    private String clientGiveExperienceEveryDayGrowth;
     private boolean clientAutoFishing;
     private boolean clientAutoFishingRecast;
 
+    private String serverGiveExperienceEveryDayBase;
+    private String serverGiveExperienceEveryDayGrowth;
     private boolean serverAnvilBypassTooExpensive;
     private boolean serverAnvilUseItemCost;
     private String serverAnvilCostItem;
@@ -59,8 +57,7 @@ public class ExperienceTweaksConfigScreen extends Screen {
     /**
      * Constructs a new configuration GUI screen.
      *
-     * @param lastScreen the previous screen to return to when closing, or
-     *                   {@code null}
+     * @param lastScreen the previous screen to return to when closing, or {@code null}
      */
     public ExperienceTweaksConfigScreen(Screen lastScreen) {
         super(Component.translatable("experiencetweaks.gui.config.title"));
@@ -127,11 +124,11 @@ public class ExperienceTweaksConfigScreen extends Screen {
         this.clientKeepExperience = ModConfig.isKeepExperienceEnabled();
         this.clientDirectExperience = ModConfig.isDirectExperience();
         this.clientGiveExperienceEveryDay = ModConfig.isGiveExperienceEveryDayEnabled();
-        this.clientGiveExperienceEveryDayBase = String.valueOf(ModConfig.getGiveExperienceEveryDayBase());
-        this.clientGiveExperienceEveryDayGrowth = String.valueOf(ModConfig.getGiveExperienceEveryDayGrowth());
         this.clientAutoFishing = ModConfig.isAutoFishingEnabled();
         this.clientAutoFishingRecast = ModConfig.isAutoFishingRecastEnabled();
 
+        this.serverGiveExperienceEveryDayBase = String.valueOf(ModConfig.getGiveExperienceEveryDayBase());
+        this.serverGiveExperienceEveryDayGrowth = String.valueOf(ModConfig.getGiveExperienceEveryDayGrowth());
         this.serverAnvilBypassTooExpensive = ModConfig.isAnvilBypassTooExpensive();
         this.serverAnvilUseItemCost = ModConfig.isAnvilUseItemCost();
         this.serverAnvilCostItem = ServerConfig.ANVIL_COST_ITEM.get();
@@ -168,84 +165,104 @@ public class ExperienceTweaksConfigScreen extends Screen {
             this.optionList.addEntry(new BooleanOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.keep_experience"),
                     this.clientKeepExperience,
-                    val -> this.clientKeepExperience = val));
+                    val -> this.clientKeepExperience = val
+            ));
             this.optionList.addEntry(new BooleanOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.direct_experience"),
                     this.clientDirectExperience,
-                    val -> this.clientDirectExperience = val));
+                    val -> this.clientDirectExperience = val
+            ));
             this.optionList.addEntry(new BooleanOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.give_experience_every_day"),
                     this.clientGiveExperienceEveryDay,
-                    val -> this.clientGiveExperienceEveryDay = val));
-            this.optionList.addEntry(new StringOptionEntry(
-                    Component.translatable("experiencetweaks.gui.config.give_experience_every_day_base"),
-                    this.clientGiveExperienceEveryDayBase,
-                    val -> this.clientGiveExperienceEveryDayBase = val));
-            this.optionList.addEntry(new StringOptionEntry(
-                    Component.translatable("experiencetweaks.gui.config.give_experience_every_day_growth"),
-                    this.clientGiveExperienceEveryDayGrowth,
-                    val -> this.clientGiveExperienceEveryDayGrowth = val));
+                    val -> this.clientGiveExperienceEveryDay = val
+            ));
             this.optionList.addEntry(new BooleanOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.auto_fishing"),
                     this.clientAutoFishing,
-                    val -> this.clientAutoFishing = val));
+                    val -> this.clientAutoFishing = val
+            ));
             this.optionList.addEntry(new BooleanOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.auto_fishing_recast"),
                     this.clientAutoFishingRecast,
-                    val -> this.clientAutoFishingRecast = val));
+                    val -> this.clientAutoFishingRecast = val
+            ));
         } else {
+            this.optionList.addEntry(new StringOptionEntry(
+                    Component.translatable("experiencetweaks.gui.config.give_experience_every_day_base"),
+                    this.serverGiveExperienceEveryDayBase,
+                    val -> this.serverGiveExperienceEveryDayBase = val
+            ));
+            this.optionList.addEntry(new StringOptionEntry(
+                    Component.translatable("experiencetweaks.gui.config.give_experience_every_day_growth"),
+                    this.serverGiveExperienceEveryDayGrowth,
+                    val -> this.serverGiveExperienceEveryDayGrowth = val
+            ));
             this.optionList.addEntry(new BooleanOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.anvil_bypass_too_expensive"),
                     this.serverAnvilBypassTooExpensive,
-                    val -> this.serverAnvilBypassTooExpensive = val));
+                    val -> this.serverAnvilBypassTooExpensive = val
+            ));
             this.optionList.addEntry(new BooleanOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.anvil_use_item_cost"),
                     this.serverAnvilUseItemCost,
-                    val -> this.serverAnvilUseItemCost = val));
+                    val -> this.serverAnvilUseItemCost = val
+            ));
             this.optionList.addEntry(new StringOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.anvil_cost_item"),
                     this.serverAnvilCostItem,
-                    val -> this.serverAnvilCostItem = val));
+                    val -> this.serverAnvilCostItem = val
+            ));
             this.optionList.addEntry(new StringOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.anvil_item_cost_multiplier"),
                     this.serverAnvilItemCostMultiplier,
-                    val -> this.serverAnvilItemCostMultiplier = val));
+                    val -> this.serverAnvilItemCostMultiplier = val
+            ));
             this.optionList.addEntry(new BooleanOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.allow_mending_with_infinity"),
                     this.serverAllowMendingWithInfinity,
-                    val -> this.serverAllowMendingWithInfinity = val));
+                    val -> this.serverAllowMendingWithInfinity = val
+            ));
             this.optionList.addEntry(new BooleanOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.anvil_enchantment_extraction"),
                     this.serverAnvilEnchantmentExtraction,
-                    val -> this.serverAnvilEnchantmentExtraction = val));
+                    val -> this.serverAnvilEnchantmentExtraction = val
+            ));
             this.optionList.addEntry(new BooleanOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.anvil_enchantment_extraction_destroy_source"),
                     this.serverAnvilEnchantmentExtractionDestroySource,
-                    val -> this.serverAnvilEnchantmentExtractionDestroySource = val));
+                    val -> this.serverAnvilEnchantmentExtractionDestroySource = val
+            ));
             this.optionList.addEntry(new StringOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.enchantment_cost_item"),
                     this.serverEnchantmentCostItem,
-                    val -> this.serverEnchantmentCostItem = val));
+                    val -> this.serverEnchantmentCostItem = val
+            ));
             this.optionList.addEntry(new StringOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.enchantment_cost_multiplier"),
                     this.serverEnchantmentCostMultiplier,
-                    val -> this.serverEnchantmentCostMultiplier = val));
+                    val -> this.serverEnchantmentCostMultiplier = val
+            ));
             this.optionList.addEntry(new StringOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.enchantment_cooldown_type"),
                     this.serverEnchantmentCooldownType,
-                    val -> this.serverEnchantmentCooldownType = val));
+                    val -> this.serverEnchantmentCooldownType = val
+            ));
             this.optionList.addEntry(new BooleanOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.water_below_hydrates_farmland"),
                     this.serverWaterBelowHydratesFarmland,
-                    val -> this.serverWaterBelowHydratesFarmland = val));
+                    val -> this.serverWaterBelowHydratesFarmland = val
+            ));
             this.optionList.addEntry(new StringOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.water_hydration_radius"),
                     this.serverWaterHydrationRadius,
-                    val -> this.serverWaterHydrationRadius = val));
+                    val -> this.serverWaterHydrationRadius = val
+            ));
             this.optionList.addEntry(new StringOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.milk_bucket_nutrition"),
                     this.serverMilkBucketNutrition,
-                    val -> this.serverMilkBucketNutrition = val));
+                    val -> this.serverMilkBucketNutrition = val
+            ));
         }
     }
 
@@ -256,34 +273,27 @@ public class ExperienceTweaksConfigScreen extends Screen {
         ClientConfig.KEEP_EXPERIENCE.set(this.clientKeepExperience);
         ClientConfig.DIRECT_EXPERIENCE.set(this.clientDirectExperience);
         ClientConfig.GIVE_EXPERIENCE_EVERY_DAY.set(this.clientGiveExperienceEveryDay);
-        try {
-            ClientConfig.GIVE_EXPERIENCE_EVERY_DAY_BASE
-                    .set(Integer.parseInt(this.clientGiveExperienceEveryDayBase.trim()));
-        } catch (NumberFormatException ignored) {
-        }
-        try {
-            ClientConfig.GIVE_EXPERIENCE_EVERY_DAY_GROWTH
-                    .set(Double.parseDouble(this.clientGiveExperienceEveryDayGrowth.trim()));
-        } catch (NumberFormatException ignored) {
-        }
         ClientConfig.AUTO_FISHING.set(this.clientAutoFishing);
         ClientConfig.AUTO_FISHING_RECAST.set(this.clientAutoFishingRecast);
         ClientConfig.SPEC.save();
 
         if (this.isPlayerOp) {
+            int dailyBase = parseIntOrDefault(this.serverGiveExperienceEveryDayBase, 5);
+            double dailyGrowth = parseDoubleOrDefault(this.serverGiveExperienceEveryDayGrowth, 0.1);
             double anvilMultiplier = parseDoubleOrDefault(this.serverAnvilItemCostMultiplier, 0.5);
             double enchMultiplier = parseDoubleOrDefault(this.serverEnchantmentCostMultiplier, 1.5);
             int waterRadius = parseIntOrDefault(this.serverWaterHydrationRadius, 4);
             int milkNutrition = parseIntOrDefault(this.serverMilkBucketNutrition, 2);
 
+            ServerConfig.GIVE_EXPERIENCE_EVERY_DAY_BASE.set(dailyBase);
+            ServerConfig.GIVE_EXPERIENCE_EVERY_DAY_GROWTH.set(dailyGrowth);
             ServerConfig.ANVIL_BYPASS_TOO_EXPENSIVE.set(this.serverAnvilBypassTooExpensive);
             ServerConfig.ANVIL_USE_ITEM_COST.set(this.serverAnvilUseItemCost);
             ServerConfig.ANVIL_COST_ITEM.set(this.serverAnvilCostItem.trim());
             ServerConfig.ANVIL_ITEM_COST_MULTIPLIER.set(anvilMultiplier);
             ServerConfig.ALLOW_MENDING_WITH_INFINITY.set(this.serverAllowMendingWithInfinity);
             ServerConfig.ANVIL_ENCHANTMENT_EXTRACTION.set(this.serverAnvilEnchantmentExtraction);
-            ServerConfig.ANVIL_ENCHANTMENT_EXTRACTION_DESTROY_SOURCE
-                    .set(this.serverAnvilEnchantmentExtractionDestroySource);
+            ServerConfig.ANVIL_ENCHANTMENT_EXTRACTION_DESTROY_SOURCE.set(this.serverAnvilEnchantmentExtractionDestroySource);
             ServerConfig.ENCHANTMENT_COST_ITEM.set(this.serverEnchantmentCostItem.trim());
             ServerConfig.ENCHANTMENT_COST_MULTIPLIER.set(enchMultiplier);
             ServerConfig.ENCHANTMENT_COOLDOWN_TYPE.set(this.serverEnchantmentCooldownType.trim());
@@ -293,22 +303,23 @@ public class ExperienceTweaksConfigScreen extends Screen {
             ServerConfig.SPEC.save();
 
             if (this.minecraft != null && this.minecraft.getConnection() != null && !this.minecraft.isSingleplayer()) {
-                this.minecraft.getConnection()
-                        .send(new net.minecraft.network.protocol.common.ServerboundCustomPayloadPacket(
-                                new UpdateServerConfigPacket(
-                                        this.serverAnvilBypassTooExpensive,
-                                        this.serverAnvilUseItemCost,
-                                        this.serverAnvilCostItem.trim(),
-                                        anvilMultiplier,
-                                        this.serverAllowMendingWithInfinity,
-                                        this.serverAnvilEnchantmentExtraction,
-                                        this.serverAnvilEnchantmentExtractionDestroySource,
-                                        this.serverEnchantmentCostItem.trim(),
-                                        enchMultiplier,
-                                        this.serverEnchantmentCooldownType.trim(),
-                                        this.serverWaterBelowHydratesFarmland,
-                                        waterRadius,
-                                        milkNutrition)));
+                this.minecraft.getConnection().send(new net.minecraft.network.protocol.common.ServerboundCustomPayloadPacket(new UpdateServerConfigPacket(
+                        dailyBase,
+                        dailyGrowth,
+                        this.serverAnvilBypassTooExpensive,
+                        this.serverAnvilUseItemCost,
+                        this.serverAnvilCostItem.trim(),
+                        anvilMultiplier,
+                        this.serverAllowMendingWithInfinity,
+                        this.serverAnvilEnchantmentExtraction,
+                        this.serverAnvilEnchantmentExtractionDestroySource,
+                        this.serverEnchantmentCostItem.trim(),
+                        enchMultiplier,
+                        this.serverEnchantmentCooldownType.trim(),
+                        this.serverWaterBelowHydratesFarmland,
+                        waterRadius,
+                        milkNutrition
+                )));
             }
         }
 
@@ -383,8 +394,7 @@ public class ExperienceTweaksConfigScreen extends Screen {
         private final java.util.function.Consumer<Boolean> consumer;
         private final Button button;
 
-        public BooleanOptionEntry(Component label, boolean initialValue,
-                java.util.function.Consumer<Boolean> consumer) {
+        public BooleanOptionEntry(Component label, boolean initialValue, java.util.function.Consumer<Boolean> consumer) {
             this.label = label;
             this.value = initialValue;
             this.consumer = consumer;
@@ -402,8 +412,7 @@ public class ExperienceTweaksConfigScreen extends Screen {
         }
 
         @Override
-        public void extractContent(@NonNull GuiGraphicsExtractor graphics, int mouseX, int mouseY, boolean isHovered,
-                float partialTick) {
+        public void extractContent(@NonNull GuiGraphicsExtractor graphics, int mouseX, int mouseY, boolean isHovered, float partialTick) {
             graphics.text(Minecraft.getInstance().font, this.label, this.getX() + 5, this.getY() + 6, 0xFFFFFFFF);
             this.button.setX(this.getX() + this.getWidth() - 85);
             this.button.setY(this.getY());
@@ -422,8 +431,7 @@ public class ExperienceTweaksConfigScreen extends Screen {
     }
 
     /**
-     * Option entry row displaying a label and a text edit box for string or numeric
-     * values.
+     * Option entry row displaying a label and a text edit box for string or numeric values.
      */
     private static class StringOptionEntry extends OptionEntry {
         private final Component label;
@@ -439,8 +447,7 @@ public class ExperienceTweaksConfigScreen extends Screen {
         }
 
         @Override
-        public void extractContent(@NonNull GuiGraphicsExtractor graphics, int mouseX, int mouseY, boolean isHovered,
-                float partialTick) {
+        public void extractContent(@NonNull GuiGraphicsExtractor graphics, int mouseX, int mouseY, boolean isHovered, float partialTick) {
             graphics.text(Minecraft.getInstance().font, this.label, this.getX() + 5, this.getY() + 6, 0xFFFFFFFF);
             this.editBox.setX(this.getX() + this.getWidth() - 105);
             this.editBox.setY(this.getY() + 1);

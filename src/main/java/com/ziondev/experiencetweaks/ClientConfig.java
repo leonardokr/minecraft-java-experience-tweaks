@@ -24,16 +24,6 @@ public class ClientConfig {
             .comment("\n If true, players will receive experience points every in-game day they survive without dying.")
             .define("giveExperienceEveryDay", true);
 
-    /** Base experience points awarded to players each day they survive. */
-    public static final ModConfigSpec.IntValue GIVE_EXPERIENCE_EVERY_DAY_BASE = BUILDER
-            .comment("\n Base experience points awarded to players each day they survive.")
-            .defineInRange("giveExperienceEveryDayBase", 5, 0, 100000);
-
-    /** Growth multiplier (percentage) for consecutive days survived. */
-    public static final ModConfigSpec.DoubleValue GIVE_EXPERIENCE_EVERY_DAY_GROWTH = BUILDER
-            .comment("\n Growth multiplier (percentage) for consecutive days survived. Example: 0.1 = 10% more experience per consecutive day survived.")
-            .defineInRange("giveExperienceEveryDayGrowth", 0.1, 0.0, 100.0);
-
     /** If true, players will automatically reel in their fishing rod when a fish bites. */
     public static final ModConfigSpec.BooleanValue AUTO_FISHING = BUILDER
             .comment("\n If true, players will automatically reel in their fishing rod when a fish bites.")

@@ -147,6 +147,8 @@ public class ExperienceTweaksMod {
                 com.ziondev.experiencetweaks.network.UpdateServerConfigPacket.STREAM_CODEC,
                 (packet, ctx) -> {
                     if (ctx.player() instanceof ServerPlayer player && player.level().getServer() != null && player.level().getServer().getPlayerList().isOp(new net.minecraft.server.players.NameAndId(player.getGameProfile()))) {
+                        ServerConfig.GIVE_EXPERIENCE_EVERY_DAY_BASE.set(packet.giveExperienceEveryDayBase());
+                        ServerConfig.GIVE_EXPERIENCE_EVERY_DAY_GROWTH.set(packet.giveExperienceEveryDayGrowth());
                         ServerConfig.ANVIL_BYPASS_TOO_EXPENSIVE.set(packet.anvilBypassTooExpensive());
                         ServerConfig.ANVIL_USE_ITEM_COST.set(packet.anvilUseItemCost());
                         ServerConfig.ANVIL_COST_ITEM.set(packet.anvilCostItem());

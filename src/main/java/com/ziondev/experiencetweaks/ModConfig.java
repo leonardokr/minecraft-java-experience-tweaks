@@ -202,7 +202,7 @@ public final class ModConfig {
     }
 
     /**
-     * Returns whether daily experience rewards are enabled.
+     * Returns whether daily experience rewards are enabled for the client.
      *
      * @return {@code true} if daily experience rewards are enabled
      */
@@ -216,13 +216,13 @@ public final class ModConfig {
     }
 
     /**
-     * Returns base experience points awarded per day survived.
+     * Returns base experience points awarded per day survived from server configuration.
      *
      * @return base daily experience points
      */
     public static int getGiveExperienceEveryDayBase() {
         try {
-            return ClientConfig.GIVE_EXPERIENCE_EVERY_DAY_BASE.get();
+            return ServerConfig.GIVE_EXPERIENCE_EVERY_DAY_BASE.get();
         } catch (Exception e) {
             broadcastConfigError(ConfigError.GIVE_EXPERIENCE_EVERY_DAY_BASE);
             return 5;
@@ -230,13 +230,13 @@ public final class ModConfig {
     }
 
     /**
-     * Returns growth percentage per consecutive day survived.
+     * Returns growth percentage per consecutive day survived from server configuration.
      *
      * @return daily experience growth multiplier
      */
     public static double getGiveExperienceEveryDayGrowth() {
         try {
-            return ClientConfig.GIVE_EXPERIENCE_EVERY_DAY_GROWTH.get();
+            return ServerConfig.GIVE_EXPERIENCE_EVERY_DAY_GROWTH.get();
         } catch (Exception e) {
             broadcastConfigError(ConfigError.GIVE_EXPERIENCE_EVERY_DAY_GROWTH);
             return 0.1;
