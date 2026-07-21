@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.8.1](https://github.com/leonardokr/minecraft-java-experience-tweaks/compare/v1.8.0...v1.8.1) (2026-07-21)
+
+
+### Bug Fixes
+
+* fix anvil item cost consumption and separate server sync handler ([c8a65e1](https://github.com/leonardokr/minecraft-java-experience-tweaks/commit/c8a65e1beea5dc974cf86295818f142191b57286))
+* fix multiplayer auto fishing detection and config GUI recast toggle ([844ac8d](https://github.com/leonardokr/minecraft-java-experience-tweaks/commit/844ac8de6e1871386e446cd72ec890b49c5d3d02))
+* support modded milk items in MilkBucketNutritionHandler ([3396a65](https://github.com/leonardokr/minecraft-java-experience-tweaks/commit/3396a656fd1c6e0f533e0eb7a22f7a30a78d81c3))
+
 ## [1.8.0](https://github.com/leonardokr/minecraft-java-experience-tweaks/compare/v1.7.0...v1.8.0) (2026-07-21)
 
 
