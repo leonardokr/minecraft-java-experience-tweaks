@@ -141,6 +141,29 @@ public class ExperienceTweaksMod {
                 SyncEnchantLevelsPacket.TYPE,
                 SyncEnchantLevelsPacket.STREAM_CODEC,
                 (packet, ctx) -> ClientEnchantLevelCache.update(packet.requiredLevels()));
+
+        registrar.playToServer(
+                com.ziondev.experiencetweaks.network.UpdateServerConfigPacket.TYPE,
+                com.ziondev.experiencetweaks.network.UpdateServerConfigPacket.STREAM_CODEC,
+                (packet, ctx) -> {
+                    if (ctx.player() instanceof ServerPlayer player && player.level().getServer() != null && player.level().getServer().getPlayerList().isOp(new net.minecraft.server.players.NameAndId(player.getGameProfile()))) {
+                        ServerConfig.ANVIL_BYPASS_TOO_EXPENSIVE.set(packet.anvilBypassTooExpensive());
+                        ServerConfig.ANVIL_USE_ITEM_COST.set(packet.anvilUseItemCost());
+                        ServerConfig.ANVIL_COST_ITEM.set(packet.anvilCostItem());
+                        ServerConfig.ANVIL_ITEM_COST_MULTIPLIER.set(packet.anvilItemCostMultiplier());
+                        ServerConfig.ALLOW_MENDING_WITH_INFINITY.set(packet.allowMendingWithInfinity());
+                        ServerConfig.ANVIL_ENCHANTMENT_EXTRACTION.set(packet.anvilEnchantmentExtraction());
+                        ServerConfig.ANVIL_ENCHANTMENT_EXTRACTION_DESTROY_SOURCE.set(packet.anvilEnchantmentExtractionDestroySource());
+                        ServerConfig.ENCHANTMENT_COST_ITEM.set(packet.enchantmentCostItem());
+                        ServerConfig.ENCHANTMENT_COST_MULTIPLIER.set(packet.enchantmentCostMultiplier());
+                        ServerConfig.ENCHANTMENT_COOLDOWN_TYPE.set(packet.enchantmentCooldownType());
+                        ServerConfig.WATER_BELOW_HYDRATES_FARMLAND.set(packet.waterBelowHydratesFarmland());
+                        ServerConfig.WATER_HYDRATION_RADIUS.set(packet.waterHydrationRadius());
+                        ServerConfig.MILK_BUCKET_NUTRITION.set(packet.milkBucketNutrition());
+                        ServerConfig.SPEC.save();
+                        LOGGER.info("Server configuration updated by OP player {}", player.getName().getString());
+                    }
+                });
     }
 
     /**
