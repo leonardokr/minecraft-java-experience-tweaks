@@ -148,11 +148,20 @@ public class ExperienceTweaksMod {
         }
 
         private void onRegisterPayloads(RegisterPayloadHandlersEvent event) {
-        PayloadRegistrar registrar = event.registrar(MODID).optional();
-        registrar.playToClient(
+                PayloadRegistrar registrar = event.registrar(MODID).optional();
+                registrar.playToClient(
                                 SyncEnchantLevelsPacket.TYPE,
                                 SyncEnchantLevelsPacket.STREAM_CODEC,
                                 (packet, ctx) -> ClientEnchantLevelCache.update(packet.requiredLevels()));
+
+                registrar.playToClient(
+                                com.ziondev.experiencetweaks.network.SyncServerConfigPacket.TYPE,
+                                com.ziondev.experiencetweaks.network.SyncServerConfigPacket.STREAM_CODEC,
+                                (packet, ctx) -> com.ziondev.experiencetweaks.network.ClientServerConfigCache.update(
+                                                packet.anvilUseItemCost(),
+                                                packet.anvilCostItem(),
+                                                packet.anvilItemCostMultiplier(),
+                                                packet.anvilBypassTooExpensive()));
 
                 registrar.playToServer(
                                 com.ziondev.experiencetweaks.network.UpdateServerConfigPacket.TYPE,
@@ -189,6 +198,13 @@ public class ExperienceTweaksMod {
                                                 ServerConfig.WATER_HYDRATION_RADIUS.set(packet.waterHydrationRadius());
                                                 ServerConfig.MILK_BUCKET_NUTRITION.set(packet.milkBucketNutrition());
                                                 ServerConfig.SPEC.save();
+
+                                                PacketDistributor.sendToAllPlayers(new com.ziondev.experiencetweaks.network.SyncServerConfigPacket(
+                                                                packet.anvilUseItemCost(),
+                                                                packet.anvilCostItem(),
+                                                                packet.anvilItemCostMultiplier(),
+                                                                packet.anvilBypassTooExpensive()));
+
                                                 LOGGER.info("Server configuration updated by OP player {}",
                                                                 player.getName().getString());
                                         }

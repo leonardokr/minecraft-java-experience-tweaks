@@ -165,8 +165,6 @@ public abstract class AnvilMenuMixin {
         int itemCost = experienceTweaks$getAnvilItemCost(levelCost);
         if (itemCost > 0) {
             experienceTweaks$consumeItems(player, ModConfig.getAnvilCostItem(), itemCost);
-            player.getInventory().setChanged();
-            player.containerMenu.broadcastChanges();
         }
     }
 
@@ -199,19 +197,12 @@ public abstract class AnvilMenuMixin {
      */
     @Unique
     private int experienceTweaks$countItems(Player player, Item item) {
-        int count = 0;
-        for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
-            ItemStack stack = player.getInventory().getItem(i);
-            if (stack.is(item)) {
-                count += stack.getCount();
-            }
-        }
-        return count;
+        return player.getInventory().clearOrCountMatchingItems(stack -> stack.is(item), 0, player.inventoryMenu.getCraftSlots());
     }
 
     /**
      * Removes the specified number of the given item from the player's
-     * inventory, consuming stacks in order from the first slot found.
+     * inventory using Minecraft's native container clearOrCountMatchingItems method.
      *
      * @param player the player whose inventory is modified
      * @param item   the item type to consume
@@ -219,23 +210,7 @@ public abstract class AnvilMenuMixin {
      */
     @Unique
     private void experienceTweaks$consumeItems(Player player, Item item, int amount) {
-        int remaining = amount;
-        for (int i = 0; i < player.getInventory().getContainerSize() && remaining > 0; i++) {
-            ItemStack stack = player.getInventory().getItem(i);
-            if (stack.is(item)) {
-                int count = stack.getCount();
-                if (count >= remaining) {
-                    stack.shrink(remaining);
-                    if (stack.isEmpty()) {
-                        player.getInventory().setItem(i, ItemStack.EMPTY);
-                    }
-                    remaining = 0;
-                } else {
-                    remaining -= count;
-                    player.getInventory().setItem(i, ItemStack.EMPTY);
-                }
-            }
-        }
+        player.getInventory().clearOrCountMatchingItems(stack -> stack.is(item), amount, player.inventoryMenu.getCraftSlots());
         player.getInventory().setChanged();
         player.containerMenu.broadcastChanges();
     }
@@ -252,8 +227,9 @@ public abstract class AnvilMenuMixin {
      * This hook runs before vanilla clears the input slots in {@code onTake},
      * allowing us to place the modified item back before vanilla would remove it.
      *
-     * @param event the anvil craft pre-event carrying both inputs and the output
-     * @param ci    callback info (unused)
+     * @param player  the player taking the result
+     * @param carried the item that was taken
+     * @param ci      callback info (unused)
      */
     @Inject(method = "onTake", at = @At("TAIL"))
     private void experienceTweaks$applyExtractionSideEffect(Player player, ItemStack carried, CallbackInfo ci) {

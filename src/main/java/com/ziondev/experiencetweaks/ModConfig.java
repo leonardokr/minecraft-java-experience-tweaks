@@ -1,5 +1,6 @@
 package com.ziondev.experiencetweaks;
 
+import com.ziondev.experiencetweaks.network.ClientServerConfigCache;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
@@ -9,6 +10,8 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.players.NameAndId;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.server.ServerLifecycleHooks;
 
 import java.util.Collections;
@@ -301,6 +304,12 @@ public final class ModConfig {
      * @return {@code true} if anvil cost limit is bypassed
      */
     public static boolean isAnvilBypassTooExpensive() {
+        if (FMLEnvironment.getDist() == Dist.CLIENT) {
+            Boolean cached = ClientServerConfigCache.getAnvilBypassTooExpensive();
+            if (cached != null) {
+                return cached;
+            }
+        }
         try {
             if (ServerConfig.SPEC.isLoaded()) {
                 return ServerConfig.ANVIL_BYPASS_TOO_EXPENSIVE.get();
@@ -317,6 +326,12 @@ public final class ModConfig {
      * @return {@code true} if anvil uses item cost
      */
     public static boolean isAnvilUseItemCost() {
+        if (FMLEnvironment.getDist() == Dist.CLIENT) {
+            Boolean cached = ClientServerConfigCache.getAnvilUseItemCost();
+            if (cached != null) {
+                return cached;
+            }
+        }
         try {
             if (ServerConfig.SPEC.isLoaded()) {
                 return ServerConfig.ANVIL_USE_ITEM_COST.get();
@@ -324,7 +339,7 @@ public final class ModConfig {
         } catch (Exception e) {
             broadcastConfigError(ConfigError.ANVIL_USE_ITEM_COST);
         }
-        return false;
+        return true;
     }
 
     /**
@@ -333,20 +348,31 @@ public final class ModConfig {
      * @return the configured anvil cost item
      */
     public static Item getAnvilCostItem() {
-        try {
-            if (ServerConfig.SPEC.isLoaded()) {
-                String configuredItem = ServerConfig.ANVIL_COST_ITEM.get();
-                if (configuredItem != null && !configuredItem.isBlank()) {
-                    return BuiltInRegistries.ITEM
-                            .getOptional(Identifier.parse(configuredItem))
-                            .orElseGet(() -> {
-                                broadcastConfigError(ConfigError.ANVIL_COST_ITEM_NOT_FOUND);
-                                return Items.EMERALD;
-                            });
+        String configuredItem = null;
+        if (FMLEnvironment.getDist() == Dist.CLIENT) {
+            configuredItem = ClientServerConfigCache.getAnvilCostItem();
+        }
+        if (configuredItem == null || configuredItem.isBlank()) {
+            try {
+                if (ServerConfig.SPEC.isLoaded()) {
+                    configuredItem = ServerConfig.ANVIL_COST_ITEM.get();
                 }
+            } catch (Exception e) {
+                broadcastConfigError(ConfigError.INVALID_ANVIL_COST_ITEM);
             }
-        } catch (Exception e) {
-            broadcastConfigError(ConfigError.INVALID_ANVIL_COST_ITEM);
+        }
+
+        if (configuredItem != null && !configuredItem.isBlank()) {
+            try {
+                return BuiltInRegistries.ITEM
+                        .getOptional(Identifier.parse(configuredItem))
+                        .orElseGet(() -> {
+                            broadcastConfigError(ConfigError.ANVIL_COST_ITEM_NOT_FOUND);
+                            return Items.EMERALD;
+                        });
+            } catch (Exception e) {
+                broadcastConfigError(ConfigError.INVALID_ANVIL_COST_ITEM);
+            }
         }
         return Items.EMERALD;
     }
@@ -357,6 +383,12 @@ public final class ModConfig {
      * @return the anvil item cost multiplier
      */
     public static double getAnvilItemCostMultiplier() {
+        if (FMLEnvironment.getDist() == Dist.CLIENT) {
+            Double cached = ClientServerConfigCache.getAnvilItemCostMultiplier();
+            if (cached != null) {
+                return cached;
+            }
+        }
         try {
             if (ServerConfig.SPEC.isLoaded()) {
                 return ServerConfig.ANVIL_ITEM_COST_MULTIPLIER.get();
