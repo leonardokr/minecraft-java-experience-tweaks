@@ -52,7 +52,9 @@ public final class ModConfig {
         ANVIL_ENCHANTMENT_EXTRACTION_DESTROY_SOURCE("ET-0x015"),
         WATER_BELOW_HYDRATES_FARMLAND("ET-0x016"),
         WATER_HYDRATION_RADIUS("ET-0x017"),
-        MILK_BUCKET_NUTRITION("ET-0x018");
+        MILK_BUCKET_NUTRITION("ET-0x018"),
+        WANDERING_TRADER_UNLIMITED_TRADES("ET-0x019"),
+        VILLAGER_UNLIMITED_TRADES("ET-0x01a");
 
         private final String code;
 
@@ -493,5 +495,37 @@ public final class ModConfig {
             broadcastConfigError(ConfigError.MILK_BUCKET_NUTRITION);
         }
         return 2;
+    }
+
+    /**
+     * Returns whether trade limits for Wandering Traders are disabled.
+     *
+     * @return {@code true} if Wandering Trader trade limits are disabled
+     */
+    public static boolean isWanderingTraderUnlimitedTrades() {
+        try {
+            if (ServerConfig.SPEC.isLoaded()) {
+                return ServerConfig.WANDERING_TRADER_UNLIMITED_TRADES.get();
+            }
+        } catch (Exception e) {
+            broadcastConfigError(ConfigError.WANDERING_TRADER_UNLIMITED_TRADES);
+        }
+        return true;
+    }
+
+    /**
+     * Returns whether daily trade limits for Villagers are disabled.
+     *
+     * @return {@code true} if Villager trade limits are disabled
+     */
+    public static boolean isVillagerUnlimitedTrades() {
+        try {
+            if (ServerConfig.SPEC.isLoaded()) {
+                return ServerConfig.VILLAGER_UNLIMITED_TRADES.get();
+            }
+        } catch (Exception e) {
+            broadcastConfigError(ConfigError.VILLAGER_UNLIMITED_TRADES);
+        }
+        return true;
     }
 }

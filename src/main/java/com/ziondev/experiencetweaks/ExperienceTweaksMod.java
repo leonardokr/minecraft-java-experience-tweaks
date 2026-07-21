@@ -197,6 +197,8 @@ public class ExperienceTweaksMod {
                                                                 .set(packet.waterBelowHydratesFarmland());
                                                 ServerConfig.WATER_HYDRATION_RADIUS.set(packet.waterHydrationRadius());
                                                 ServerConfig.MILK_BUCKET_NUTRITION.set(packet.milkBucketNutrition());
+                                                ServerConfig.WANDERING_TRADER_UNLIMITED_TRADES.set(packet.wanderingTraderUnlimitedTrades());
+                                                ServerConfig.VILLAGER_UNLIMITED_TRADES.set(packet.villagerUnlimitedTrades());
                                                 ServerConfig.SPEC.save();
 
                                                 PacketDistributor.sendToAllPlayers(new com.ziondev.experiencetweaks.network.SyncServerConfigPacket(

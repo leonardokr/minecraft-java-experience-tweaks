@@ -53,6 +53,8 @@ public class ExperienceTweaksConfigScreen extends Screen {
     private boolean serverWaterBelowHydratesFarmland;
     private String serverWaterHydrationRadius;
     private String serverMilkBucketNutrition;
+    private boolean serverWanderingTraderUnlimitedTrades;
+    private boolean serverVillagerUnlimitedTrades;
 
     /**
      * Constructs a new configuration GUI screen.
@@ -142,6 +144,8 @@ public class ExperienceTweaksConfigScreen extends Screen {
         this.serverWaterBelowHydratesFarmland = ModConfig.isWaterBelowHydratesFarmlandEnabled();
         this.serverWaterHydrationRadius = String.valueOf(ModConfig.getWaterHydrationRadius());
         this.serverMilkBucketNutrition = String.valueOf(ModConfig.getMilkBucketNutrition());
+        this.serverWanderingTraderUnlimitedTrades = ModConfig.isWanderingTraderUnlimitedTrades();
+        this.serverVillagerUnlimitedTrades = ModConfig.isVillagerUnlimitedTrades();
     }
 
     /**
@@ -269,6 +273,16 @@ public class ExperienceTweaksConfigScreen extends Screen {
                     this.serverMilkBucketNutrition,
                     val -> this.serverMilkBucketNutrition = val
             ));
+            this.optionList.addEntry(new BooleanOptionEntry(
+                    Component.translatable("experiencetweaks.gui.config.wandering_trader_unlimited_trades"),
+                    this.serverWanderingTraderUnlimitedTrades,
+                    val -> this.serverWanderingTraderUnlimitedTrades = val
+            ));
+            this.optionList.addEntry(new BooleanOptionEntry(
+                    Component.translatable("experiencetweaks.gui.config.villager_unlimited_trades"),
+                    this.serverVillagerUnlimitedTrades,
+                    val -> this.serverVillagerUnlimitedTrades = val
+            ));
         }
     }
 
@@ -306,6 +320,8 @@ public class ExperienceTweaksConfigScreen extends Screen {
             ServerConfig.WATER_BELOW_HYDRATES_FARMLAND.set(this.serverWaterBelowHydratesFarmland);
             ServerConfig.WATER_HYDRATION_RADIUS.set(waterRadius);
             ServerConfig.MILK_BUCKET_NUTRITION.set(milkNutrition);
+            ServerConfig.WANDERING_TRADER_UNLIMITED_TRADES.set(this.serverWanderingTraderUnlimitedTrades);
+            ServerConfig.VILLAGER_UNLIMITED_TRADES.set(this.serverVillagerUnlimitedTrades);
             ServerConfig.SPEC.save();
 
             if (this.minecraft != null && this.minecraft.getConnection() != null && !this.minecraft.isSingleplayer()) {
@@ -324,7 +340,9 @@ public class ExperienceTweaksConfigScreen extends Screen {
                         this.serverEnchantmentCooldownType.trim(),
                         this.serverWaterBelowHydratesFarmland,
                         waterRadius,
-                        milkNutrition
+                        milkNutrition,
+                        this.serverWanderingTraderUnlimitedTrades,
+                        this.serverVillagerUnlimitedTrades
                 )));
             }
         }

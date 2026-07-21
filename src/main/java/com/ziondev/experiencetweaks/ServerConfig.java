@@ -102,5 +102,15 @@ public class ServerConfig {
             .comment("\n Food points (hunger level) restored when drinking a milk bucket. Default is 2 (1 full hunger shank).")
             .defineInRange("milkBucketNutrition", 2, 0, 20);
 
+    /** If true, trade limits for Wandering Traders are disabled. */
+    public static final ModConfigSpec.BooleanValue WANDERING_TRADER_UNLIMITED_TRADES = BUILDER
+            .comment("\n If true, trade limits for Wandering Traders are disabled.")
+            .define("wanderingTraderUnlimitedTrades", true);
+
+    /** If true, daily trade limits for Villagers are disabled. */
+    public static final ModConfigSpec.BooleanValue VILLAGER_UNLIMITED_TRADES = BUILDER
+            .comment("\n If true, daily trade limits for Villagers are disabled.")
+            .define("villagerUnlimitedTrades", true);
+
     public static final ModConfigSpec SPEC = BUILDER.build();
 }

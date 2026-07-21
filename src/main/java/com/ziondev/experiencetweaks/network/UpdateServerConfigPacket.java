@@ -27,7 +27,9 @@ public record UpdateServerConfigPacket(
         String enchantmentCooldownType,
         boolean waterBelowHydratesFarmland,
         int waterHydrationRadius,
-        int milkBucketNutrition
+        int milkBucketNutrition,
+        boolean wanderingTraderUnlimitedTrades,
+        boolean villagerUnlimitedTrades
 ) implements CustomPacketPayload {
 
     public static final CustomPacketPayload.Type<UpdateServerConfigPacket> TYPE =
@@ -51,7 +53,9 @@ public record UpdateServerConfigPacket(
                     ByteBufCodecs.STRING_UTF8.decode(buf),
                     ByteBufCodecs.BOOL.decode(buf),
                     ByteBufCodecs.VAR_INT.decode(buf),
-                    ByteBufCodecs.VAR_INT.decode(buf)
+                    ByteBufCodecs.VAR_INT.decode(buf),
+                    ByteBufCodecs.BOOL.decode(buf),
+                    ByteBufCodecs.BOOL.decode(buf)
             );
         }
 
@@ -72,6 +76,8 @@ public record UpdateServerConfigPacket(
             ByteBufCodecs.BOOL.encode(buf, value.waterBelowHydratesFarmland());
             ByteBufCodecs.VAR_INT.encode(buf, value.waterHydrationRadius());
             ByteBufCodecs.VAR_INT.encode(buf, value.milkBucketNutrition());
+            ByteBufCodecs.BOOL.encode(buf, value.wanderingTraderUnlimitedTrades());
+            ByteBufCodecs.BOOL.encode(buf, value.villagerUnlimitedTrades());
         }
     };
 
