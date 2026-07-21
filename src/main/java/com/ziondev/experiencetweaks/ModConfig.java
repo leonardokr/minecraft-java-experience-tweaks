@@ -92,17 +92,19 @@ public final class ModConfig {
     }
 
     /**
-     * Returns whether keeping experience on death is enabled for the player.
+     * Returns whether keeping experience on death is enabled for the client.
      *
      * @return {@code true} if experience is kept on death
      */
     public static boolean isKeepExperienceEnabled() {
         try {
-            return ClientConfig.KEEP_EXPERIENCE.get();
+            if (ClientConfig.SPEC.isLoaded()) {
+                return ClientConfig.KEEP_EXPERIENCE.get();
+            }
         } catch (Exception e) {
             broadcastConfigError(ConfigError.KEEP_EXPERIENCE);
-            return true;
         }
+        return true;
     }
 
     /**
@@ -112,11 +114,13 @@ public final class ModConfig {
      */
     public static boolean isDirectExperience() {
         try {
-            return ClientConfig.DIRECT_EXPERIENCE.get();
+            if (ClientConfig.SPEC.isLoaded()) {
+                return ClientConfig.DIRECT_EXPERIENCE.get();
+            }
         } catch (Exception e) {
             broadcastConfigError(ConfigError.DIRECT_EXPERIENCE);
-            return true;
         }
+        return true;
     }
 
     /**
@@ -126,14 +130,16 @@ public final class ModConfig {
      */
     public static Item getEnchantmentCostItem() {
         try {
-            String configuredItem = ServerConfig.ENCHANTMENT_COST_ITEM.get();
-            if (!configuredItem.isBlank()) {
-                return BuiltInRegistries.ITEM
-                        .getOptional(Identifier.parse(configuredItem))
-                        .orElseGet(() -> {
-                            broadcastConfigError(ConfigError.COST_ITEM_NOT_FOUND);
-                            return Items.LAPIS_LAZULI;
-                        });
+            if (ServerConfig.SPEC.isLoaded()) {
+                String configuredItem = ServerConfig.ENCHANTMENT_COST_ITEM.get();
+                if (configuredItem != null && !configuredItem.isBlank()) {
+                    return BuiltInRegistries.ITEM
+                            .getOptional(Identifier.parse(configuredItem))
+                            .orElseGet(() -> {
+                                broadcastConfigError(ConfigError.COST_ITEM_NOT_FOUND);
+                                return Items.LAPIS_LAZULI;
+                            });
+                }
             }
         } catch (Exception e) {
             broadcastConfigError(ConfigError.INVALID_COST_ITEM);
@@ -148,11 +154,13 @@ public final class ModConfig {
      */
     public static double getEnchantmentCostMultiplier() {
         try {
-            return ServerConfig.ENCHANTMENT_COST_MULTIPLIER.get();
+            if (ServerConfig.SPEC.isLoaded()) {
+                return ServerConfig.ENCHANTMENT_COST_MULTIPLIER.get();
+            }
         } catch (Exception e) {
             broadcastConfigError(ConfigError.ENCHANTMENT_COST_MULTIPLIER);
-            return 1.5;
         }
+        return 1.5;
     }
 
     /**
@@ -162,11 +170,13 @@ public final class ModConfig {
      */
     public static String getEnchantmentCooldownType() {
         try {
-            return ServerConfig.ENCHANTMENT_COOLDOWN_TYPE.get();
+            if (ServerConfig.SPEC.isLoaded()) {
+                return ServerConfig.ENCHANTMENT_COOLDOWN_TYPE.get();
+            }
         } catch (Exception e) {
             broadcastConfigError(ConfigError.ENCHANTMENT_COOLDOWN_TYPE);
-            return "current_level";
         }
+        return "current_level";
     }
 
     /**
@@ -177,9 +187,11 @@ public final class ModConfig {
      */
     public static int getEnchantmentBaseRequiredLevel(int buttonId) {
         try {
-            List<? extends Integer> baseLevels = ServerConfig.ENCHANTMENT_BASE_REQUIRED_LEVELS.get();
-            if (buttonId < baseLevels.size()) {
-                return baseLevels.get(buttonId);
+            if (ServerConfig.SPEC.isLoaded()) {
+                List<? extends Integer> baseLevels = ServerConfig.ENCHANTMENT_BASE_REQUIRED_LEVELS.get();
+                if (buttonId >= 0 && buttonId < baseLevels.size()) {
+                    return baseLevels.get(buttonId);
+                }
             }
         } catch (Exception e) {
             broadcastConfigError(ConfigError.ENCHANTMENT_BASE_REQUIRED_LEVELS);
@@ -194,11 +206,13 @@ public final class ModConfig {
      */
     public static double getEnchantmentRequiredLevelBias() {
         try {
-            return ServerConfig.ENCHANTMENT_REQUIRED_LEVEL_BIAS.get();
+            if (ServerConfig.SPEC.isLoaded()) {
+                return ServerConfig.ENCHANTMENT_REQUIRED_LEVEL_BIAS.get();
+            }
         } catch (Exception e) {
             broadcastConfigError(ConfigError.ENCHANTMENT_REQUIRED_LEVEL_BIAS);
-            return 0.25;
         }
+        return 0.25;
     }
 
     /**
@@ -208,11 +222,13 @@ public final class ModConfig {
      */
     public static boolean isGiveExperienceEveryDayEnabled() {
         try {
-            return ClientConfig.GIVE_EXPERIENCE_EVERY_DAY.get();
+            if (ClientConfig.SPEC.isLoaded()) {
+                return ClientConfig.GIVE_EXPERIENCE_EVERY_DAY.get();
+            }
         } catch (Exception e) {
             broadcastConfigError(ConfigError.GIVE_EXPERIENCE_EVERY_DAY);
-            return false;
         }
+        return true;
     }
 
     /**
@@ -222,11 +238,13 @@ public final class ModConfig {
      */
     public static int getGiveExperienceEveryDayBase() {
         try {
-            return ServerConfig.GIVE_EXPERIENCE_EVERY_DAY_BASE.get();
+            if (ServerConfig.SPEC.isLoaded()) {
+                return ServerConfig.GIVE_EXPERIENCE_EVERY_DAY_BASE.get();
+            }
         } catch (Exception e) {
             broadcastConfigError(ConfigError.GIVE_EXPERIENCE_EVERY_DAY_BASE);
-            return 5;
         }
+        return 5;
     }
 
     /**
@@ -236,39 +254,45 @@ public final class ModConfig {
      */
     public static double getGiveExperienceEveryDayGrowth() {
         try {
-            return ServerConfig.GIVE_EXPERIENCE_EVERY_DAY_GROWTH.get();
+            if (ServerConfig.SPEC.isLoaded()) {
+                return ServerConfig.GIVE_EXPERIENCE_EVERY_DAY_GROWTH.get();
+            }
         } catch (Exception e) {
             broadcastConfigError(ConfigError.GIVE_EXPERIENCE_EVERY_DAY_GROWTH);
-            return 0.1;
         }
+        return 0.1;
     }
 
     /**
-     * Returns whether auto-fishing is enabled.
+     * Returns whether auto-fishing is enabled for the client.
      *
      * @return {@code true} if auto-fishing is enabled
      */
     public static boolean isAutoFishingEnabled() {
         try {
-            return ClientConfig.AUTO_FISHING.get();
+            if (ClientConfig.SPEC.isLoaded()) {
+                return ClientConfig.AUTO_FISHING.get();
+            }
         } catch (Exception e) {
             broadcastConfigError(ConfigError.AUTO_FISHING);
-            return false;
         }
+        return true;
     }
 
     /**
-     * Returns whether auto-recasting fishing rod is enabled.
+     * Returns whether auto-recasting fishing rod is enabled for the client.
      *
      * @return {@code true} if auto-recasting is enabled
      */
     public static boolean isAutoFishingRecastEnabled() {
         try {
-            return ClientConfig.AUTO_FISHING_RECAST.get();
+            if (ClientConfig.SPEC.isLoaded()) {
+                return ClientConfig.AUTO_FISHING_RECAST.get();
+            }
         } catch (Exception e) {
             broadcastConfigError(ConfigError.AUTO_FISHING_RECAST);
-            return true;
         }
+        return true;
     }
 
     /**
@@ -278,11 +302,13 @@ public final class ModConfig {
      */
     public static boolean isAnvilBypassTooExpensive() {
         try {
-            return ServerConfig.ANVIL_BYPASS_TOO_EXPENSIVE.get();
+            if (ServerConfig.SPEC.isLoaded()) {
+                return ServerConfig.ANVIL_BYPASS_TOO_EXPENSIVE.get();
+            }
         } catch (Exception e) {
             broadcastConfigError(ConfigError.ANVIL_BYPASS_TOO_EXPENSIVE);
-            return true;
         }
+        return true;
     }
 
     /**
@@ -292,11 +318,13 @@ public final class ModConfig {
      */
     public static boolean isAnvilUseItemCost() {
         try {
-            return ServerConfig.ANVIL_USE_ITEM_COST.get();
+            if (ServerConfig.SPEC.isLoaded()) {
+                return ServerConfig.ANVIL_USE_ITEM_COST.get();
+            }
         } catch (Exception e) {
             broadcastConfigError(ConfigError.ANVIL_USE_ITEM_COST);
-            return false;
         }
+        return false;
     }
 
     /**
@@ -306,14 +334,16 @@ public final class ModConfig {
      */
     public static Item getAnvilCostItem() {
         try {
-            String configuredItem = ServerConfig.ANVIL_COST_ITEM.get();
-            if (!configuredItem.isBlank()) {
-                return BuiltInRegistries.ITEM
-                        .getOptional(Identifier.parse(configuredItem))
-                        .orElseGet(() -> {
-                            broadcastConfigError(ConfigError.ANVIL_COST_ITEM_NOT_FOUND);
-                            return Items.EMERALD;
-                        });
+            if (ServerConfig.SPEC.isLoaded()) {
+                String configuredItem = ServerConfig.ANVIL_COST_ITEM.get();
+                if (configuredItem != null && !configuredItem.isBlank()) {
+                    return BuiltInRegistries.ITEM
+                            .getOptional(Identifier.parse(configuredItem))
+                            .orElseGet(() -> {
+                                broadcastConfigError(ConfigError.ANVIL_COST_ITEM_NOT_FOUND);
+                                return Items.EMERALD;
+                            });
+                }
             }
         } catch (Exception e) {
             broadcastConfigError(ConfigError.INVALID_ANVIL_COST_ITEM);
@@ -328,11 +358,13 @@ public final class ModConfig {
      */
     public static double getAnvilItemCostMultiplier() {
         try {
-            return ServerConfig.ANVIL_ITEM_COST_MULTIPLIER.get();
+            if (ServerConfig.SPEC.isLoaded()) {
+                return ServerConfig.ANVIL_ITEM_COST_MULTIPLIER.get();
+            }
         } catch (Exception e) {
             broadcastConfigError(ConfigError.ANVIL_ITEM_COST_MULTIPLIER);
-            return 0.5;
         }
+        return 0.5;
     }
 
     /**
@@ -342,11 +374,13 @@ public final class ModConfig {
      */
     public static boolean isAllowMendingWithInfinity() {
         try {
-            return ServerConfig.ALLOW_MENDING_WITH_INFINITY.get();
+            if (ServerConfig.SPEC.isLoaded()) {
+                return ServerConfig.ALLOW_MENDING_WITH_INFINITY.get();
+            }
         } catch (Exception e) {
             broadcastConfigError(ConfigError.ALLOW_MENDING_WITH_INFINITY);
-            return false;
         }
+        return false;
     }
 
     /**
@@ -356,11 +390,13 @@ public final class ModConfig {
      */
     public static boolean isAnvilEnchantmentExtractionEnabled() {
         try {
-            return ServerConfig.ANVIL_ENCHANTMENT_EXTRACTION.get();
+            if (ServerConfig.SPEC.isLoaded()) {
+                return ServerConfig.ANVIL_ENCHANTMENT_EXTRACTION.get();
+            }
         } catch (Exception e) {
             broadcastConfigError(ConfigError.ANVIL_ENCHANTMENT_EXTRACTION);
-            return true;
         }
+        return true;
     }
 
     /**
@@ -370,11 +406,13 @@ public final class ModConfig {
      */
     public static boolean isAnvilEnchantmentExtractionDestroySource() {
         try {
-            return ServerConfig.ANVIL_ENCHANTMENT_EXTRACTION_DESTROY_SOURCE.get();
+            if (ServerConfig.SPEC.isLoaded()) {
+                return ServerConfig.ANVIL_ENCHANTMENT_EXTRACTION_DESTROY_SOURCE.get();
+            }
         } catch (Exception e) {
             broadcastConfigError(ConfigError.ANVIL_ENCHANTMENT_EXTRACTION_DESTROY_SOURCE);
-            return true;
         }
+        return true;
     }
 
     /**
@@ -384,11 +422,13 @@ public final class ModConfig {
      */
     public static boolean isWaterBelowHydratesFarmlandEnabled() {
         try {
-            return ServerConfig.WATER_BELOW_HYDRATES_FARMLAND.get();
+            if (ServerConfig.SPEC.isLoaded()) {
+                return ServerConfig.WATER_BELOW_HYDRATES_FARMLAND.get();
+            }
         } catch (Exception e) {
             broadcastConfigError(ConfigError.WATER_BELOW_HYDRATES_FARMLAND);
-            return true;
         }
+        return true;
     }
 
     /**
@@ -398,11 +438,13 @@ public final class ModConfig {
      */
     public static int getWaterHydrationRadius() {
         try {
-            return ServerConfig.WATER_HYDRATION_RADIUS.get();
+            if (ServerConfig.SPEC.isLoaded()) {
+                return ServerConfig.WATER_HYDRATION_RADIUS.get();
+            }
         } catch (Exception e) {
             broadcastConfigError(ConfigError.WATER_HYDRATION_RADIUS);
-            return 4;
         }
+        return 4;
     }
 
     /**
@@ -412,10 +454,12 @@ public final class ModConfig {
      */
     public static int getMilkBucketNutrition() {
         try {
-            return ServerConfig.MILK_BUCKET_NUTRITION.get();
+            if (ServerConfig.SPEC.isLoaded()) {
+                return ServerConfig.MILK_BUCKET_NUTRITION.get();
+            }
         } catch (Exception e) {
             broadcastConfigError(ConfigError.MILK_BUCKET_NUTRITION);
-            return 2;
         }
+        return 2;
     }
 }

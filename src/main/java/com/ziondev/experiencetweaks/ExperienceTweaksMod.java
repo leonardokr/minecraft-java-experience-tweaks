@@ -148,8 +148,8 @@ public class ExperienceTweaksMod {
         }
 
         private void onRegisterPayloads(RegisterPayloadHandlersEvent event) {
-                PayloadRegistrar registrar = event.registrar(MODID);
-                registrar.playToClient(
+        PayloadRegistrar registrar = event.registrar(MODID).optional();
+        registrar.playToClient(
                                 SyncEnchantLevelsPacket.TYPE,
                                 SyncEnchantLevelsPacket.STREAM_CODEC,
                                 (packet, ctx) -> ClientEnchantLevelCache.update(packet.requiredLevels()));

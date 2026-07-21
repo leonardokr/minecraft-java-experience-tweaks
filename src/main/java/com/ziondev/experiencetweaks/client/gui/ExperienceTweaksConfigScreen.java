@@ -180,7 +180,13 @@ public class ExperienceTweaksConfigScreen extends Screen {
             this.optionList.addEntry(new BooleanOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.auto_fishing"),
                     this.clientAutoFishing,
-                    val -> this.clientAutoFishing = val
+                    val -> {
+                        this.clientAutoFishing = val;
+                        if (!val) {
+                            this.clientAutoFishingRecast = false;
+                            rebuildOptionList();
+                        }
+                    }
             ));
             this.optionList.addEntry(new BooleanOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.auto_fishing_recast"),
