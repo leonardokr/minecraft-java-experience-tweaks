@@ -8,6 +8,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.players.NameAndId;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.neoforged.api.distmarker.Dist;
@@ -97,7 +98,23 @@ public final class ModConfig {
     }
 
     /**
-     * Returns whether keeping experience on death is enabled for the client.
+     * Returns whether keeping experience on death is enabled for a player.
+     *
+     * @param player the player to check
+     * @return {@code true} if experience is kept on death
+     */
+    public static boolean isKeepExperienceEnabled(Player player) {
+        if (player != null && !player.level().isClientSide()) {
+            Boolean cached = com.ziondev.experiencetweaks.network.ServerClientSettingsCache.getKeepExperience(player.getUUID());
+            if (cached != null) {
+                return cached;
+            }
+        }
+        return isKeepExperienceEnabled();
+    }
+
+    /**
+     * Returns whether keeping experience on death is enabled.
      *
      * @return {@code true} if experience is kept on death
      */
@@ -114,6 +131,22 @@ public final class ModConfig {
 
     /**
      * Returns whether experience points are inserted directly into the player.
+     *
+     * @param player the player to check
+     * @return {@code true} if direct experience is enabled
+     */
+    public static boolean isDirectExperience(Player player) {
+        if (player != null && !player.level().isClientSide()) {
+            Boolean cached = com.ziondev.experiencetweaks.network.ServerClientSettingsCache.getDirectExperience(player.getUUID());
+            if (cached != null) {
+                return cached;
+            }
+        }
+        return isDirectExperience();
+    }
+
+    /**
+     * Returns whether experience points are inserted directly.
      *
      * @return {@code true} if direct experience is enabled
      */
@@ -221,7 +254,23 @@ public final class ModConfig {
     }
 
     /**
-     * Returns whether daily experience rewards are enabled for the client.
+     * Returns whether daily experience rewards are enabled for a player.
+     *
+     * @param player the player to check
+     * @return {@code true} if daily experience rewards are enabled
+     */
+    public static boolean isGiveExperienceEveryDayEnabled(Player player) {
+        if (player != null && !player.level().isClientSide()) {
+            Boolean cached = com.ziondev.experiencetweaks.network.ServerClientSettingsCache.getGiveExperienceEveryDay(player.getUUID());
+            if (cached != null) {
+                return cached;
+            }
+        }
+        return isGiveExperienceEveryDayEnabled();
+    }
+
+    /**
+     * Returns whether daily experience rewards are enabled.
      *
      * @return {@code true} if daily experience rewards are enabled
      */

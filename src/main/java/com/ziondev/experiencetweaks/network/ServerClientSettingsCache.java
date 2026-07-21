@@ -1,0 +1,72 @@
+package com.ziondev.experiencetweaks.network;
+
+import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+
+/**
+ * Server-side cache storing client settings received from individual players.
+ */
+public final class ServerClientSettingsCache {
+
+    private static final Map<UUID, Boolean> KEEP_EXPERIENCE = new ConcurrentHashMap<>();
+    private static final Map<UUID, Boolean> DIRECT_EXPERIENCE = new ConcurrentHashMap<>();
+    private static final Map<UUID, Boolean> GIVE_EXPERIENCE_EVERY_DAY = new ConcurrentHashMap<>();
+
+    private ServerClientSettingsCache() {}
+
+    /**
+     * Updates the cached settings for a player.
+     *
+     * @param playerUuid the UUID of the player
+     * @param keepExperience whether to keep experience on death
+     * @param directExperience whether experience is picked up directly
+     * @param giveExperienceEveryDay whether daily experience rewards are active
+     */
+    public static void update(UUID playerUuid, boolean keepExperience, boolean directExperience, boolean giveExperienceEveryDay) {
+        KEEP_EXPERIENCE.put(playerUuid, keepExperience);
+        DIRECT_EXPERIENCE.put(playerUuid, directExperience);
+        GIVE_EXPERIENCE_EVERY_DAY.put(playerUuid, giveExperienceEveryDay);
+    }
+
+    /**
+     * Removes settings for a player when they disconnect.
+     *
+     * @param playerUuid the UUID of the player
+     */
+    public static void remove(UUID playerUuid) {
+        KEEP_EXPERIENCE.remove(playerUuid);
+        DIRECT_EXPERIENCE.remove(playerUuid);
+        GIVE_EXPERIENCE_EVERY_DAY.remove(playerUuid);
+    }
+
+    /**
+     * Gets the keep experience setting for a player.
+     *
+     * @param playerUuid the UUID of the player
+     * @return the keep experience setting, or null if uncached
+     */
+    public static Boolean getKeepExperience(UUID playerUuid) {
+        return KEEP_EXPERIENCE.get(playerUuid);
+    }
+
+    /**
+     * Gets the direct experience setting for a player.
+     *
+     * @param playerUuid the UUID of the player
+     * @return the direct experience setting, or null if uncached
+     */
+    public static Boolean getDirectExperience(UUID playerUuid) {
+        return DIRECT_EXPERIENCE.get(playerUuid);
+    }
+
+    /**
+     * Gets the daily experience reward setting for a player.
+     *
+     * @param playerUuid the UUID of the player
+     * @return the daily experience reward setting, or null if uncached
+     */
+    public static Boolean getGiveExperienceEveryDay(UUID playerUuid) {
+        return GIVE_EXPERIENCE_EVERY_DAY.get(playerUuid);
+    }
+}

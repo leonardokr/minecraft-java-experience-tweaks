@@ -297,6 +297,14 @@ public class ExperienceTweaksConfigScreen extends Screen {
         ClientConfig.AUTO_FISHING_RECAST.set(this.clientAutoFishingRecast);
         ClientConfig.SPEC.save();
 
+        if (this.minecraft != null && this.minecraft.getConnection() != null) {
+            this.minecraft.getConnection().send(new net.minecraft.network.protocol.common.ServerboundCustomPayloadPacket(new com.ziondev.experiencetweaks.network.SyncClientSettingsPacket(
+                    this.clientKeepExperience,
+                    this.clientDirectExperience,
+                    this.clientGiveExperienceEveryDay
+            )));
+        }
+
         if (this.isPlayerOp) {
             int dailyBase = parseIntOrDefault(this.serverGiveExperienceEveryDayBase, 5);
             double dailyGrowth = parseDoubleOrDefault(this.serverGiveExperienceEveryDayGrowth, 0.1);

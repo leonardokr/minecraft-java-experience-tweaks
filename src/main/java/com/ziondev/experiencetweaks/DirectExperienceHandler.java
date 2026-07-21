@@ -21,15 +21,13 @@ public class DirectExperienceHandler {
 
     @SubscribeEvent
     public static void onExperienceDrop(LivingExperienceDropEvent event) {
-        if (!ModConfig.isDirectExperience()) {
-            return;
-        }
-
-        if (event.getEntity() instanceof Player) {
-            event.setCanceled(true);
+        if (event.getEntity() instanceof Player player) {
+            if (ModConfig.isDirectExperience(player)) {
+                event.setCanceled(true);
+            }
         } else {
             Player attacker = event.getAttackingPlayer();
-            if (attacker != null) {
+            if (attacker != null && ModConfig.isDirectExperience(attacker)) {
                 attacker.giveExperiencePoints(event.getDroppedExperience());
                 event.setCanceled(true);
             }

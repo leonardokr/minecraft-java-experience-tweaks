@@ -164,6 +164,19 @@ public class ExperienceTweaksMod {
                                                 packet.anvilBypassTooExpensive()));
 
                 registrar.playToServer(
+                                com.ziondev.experiencetweaks.network.SyncClientSettingsPacket.TYPE,
+                                com.ziondev.experiencetweaks.network.SyncClientSettingsPacket.STREAM_CODEC,
+                                (packet, ctx) -> {
+                                        if (ctx.player() instanceof ServerPlayer player) {
+                                                com.ziondev.experiencetweaks.network.ServerClientSettingsCache.update(
+                                                                player.getUUID(),
+                                                                packet.keepExperience(),
+                                                                packet.directExperience(),
+                                                                packet.giveExperienceEveryDay());
+                                        }
+                                });
+
+                registrar.playToServer(
                                 com.ziondev.experiencetweaks.network.UpdateServerConfigPacket.TYPE,
                                 com.ziondev.experiencetweaks.network.UpdateServerConfigPacket.STREAM_CODEC,
                                 (packet, ctx) -> {

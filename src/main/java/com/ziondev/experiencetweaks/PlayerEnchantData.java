@@ -186,7 +186,7 @@ public class PlayerEnchantData extends SavedData {
      * second.
      */
     public void tickDailyXp(net.minecraft.server.level.ServerPlayer player) {
-        if (!ModConfig.isGiveExperienceEveryDayEnabled()) {
+        if (!ModConfig.isGiveExperienceEveryDayEnabled(player)) {
             return;
         }
 

@@ -24,7 +24,7 @@ public class KeepExperienceHandler {
             return;
         }
 
-        if (!ModConfig.isKeepExperienceEnabled()) {
+        if (!ModConfig.isKeepExperienceEnabled(event.getEntity())) {
             return;
         }
 
@@ -32,5 +32,15 @@ public class KeepExperienceHandler {
         event.getEntity().experienceLevel = oldPlayer.experienceLevel;
         event.getEntity().totalExperience = oldPlayer.totalExperience;
         event.getEntity().experienceProgress = oldPlayer.experienceProgress;
+    }
+
+    /**
+     * Cleans up player cached settings from the server cache when they log out.
+     *
+     * @param event the player logged out event
+     */
+    @SubscribeEvent
+    public static void onPlayerLoggedOut(PlayerEvent.PlayerLoggedOutEvent event) {
+        com.ziondev.experiencetweaks.network.ServerClientSettingsCache.remove(event.getEntity().getUUID());
     }
 }
