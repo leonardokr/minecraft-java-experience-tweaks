@@ -13,18 +13,17 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 /**
- * Redirects sugar cane placement so that cane planted on a dirt or grass slab produces a
- * {@link DirtSlabSugarCaneBlock} with the correct visual offset instead of the vanilla block.
- * Only activates for vanilla {@link SugarCaneBlock}; the mod's own variant is excluded
- * to prevent infinite recursion.
+ * Redirects sugar cane placement so that cane planted on a dirt or grass slab or another
+ * slab-based sugar cane produces a {@link DirtSlabSugarCaneBlock} with the correct visual offset
+ * instead of the vanilla block.
  */
 @Mixin(value = Block.class, priority = 800)
 public abstract class SugarCanePlacementMixin {
 
     /**
      * Intercepts {@link Block#getStateForPlacement} for vanilla sugar cane.
-     * When the floor is a dirt or grass slab, returns the slab-aware variant with
-     * {@link DirtSlabSugarCaneBlock#BOTTOM_OFFSET} set appropriately.
+     * When the floor is a dirt or grass slab or a slab-offset sugar cane, returns the slab-aware
+     * variant with {@link DirtSlabSugarCaneBlock#BOTTOM_OFFSET} set appropriately.
      *
      * @param ctx the placement context
      * @param cir callback used to override the returned block state
@@ -42,14 +41,17 @@ public abstract class SugarCanePlacementMixin {
         BlockPos pos = ctx.getClickedPos();
         BlockState below = ctx.getLevel().getBlockState(pos.below());
 
-        if (!DirtSlabSugarCaneBlock.isDirtSlab(below)) {
-            return;
-        }
+        boolean isDirtSlab = DirtSlabSugarCaneBlock.isDirtSlab(below);
+        boolean isSlabCane = below.is(ExperienceTweaksMod.SUGAR_CANE_SLAB.get());
 
-        boolean isBottom = DirtSlabSugarCaneBlock.shouldOffset(below);
-        cir.setReturnValue(
-                ExperienceTweaksMod.SUGAR_CANE_SLAB.get().defaultBlockState()
-                        .setValue(DirtSlabSugarCaneBlock.BOTTOM_OFFSET, isBottom)
-        );
+        if (isDirtSlab || isSlabCane) {
+            boolean isBottom = isDirtSlab
+                    ? DirtSlabSugarCaneBlock.shouldOffset(below)
+                    : (below.hasProperty(DirtSlabSugarCaneBlock.BOTTOM_OFFSET) && below.getValue(DirtSlabSugarCaneBlock.BOTTOM_OFFSET));
+            cir.setReturnValue(
+                    ExperienceTweaksMod.SUGAR_CANE_SLAB.get().defaultBlockState()
+                            .setValue(DirtSlabSugarCaneBlock.BOTTOM_OFFSET, isBottom)
+            );
+        }
     }
 }

@@ -5,6 +5,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ScheduledTickAccess;
@@ -42,7 +43,11 @@ public class DirtSlabSugarCaneBlock extends Block {
     /** Max stack height before growth stops (matches vanilla sugar cane). */
     private static final int MAX_HEIGHT = 3;
 
-    /** @param properties block behaviour properties */
+    /**
+     * Constructs a new sugar cane slab block.
+     *
+     * @param properties block behaviour properties
+     */
     public DirtSlabSugarCaneBlock(BlockBehaviour.Properties properties) {
         super(properties);
         this.registerDefaultState(
@@ -55,6 +60,18 @@ public class DirtSlabSugarCaneBlock extends Block {
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(AGE, BOTTOM_OFFSET);
+    }
+
+    @Override
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
+        BlockState below = context.getLevel().getBlockState(context.getClickedPos().below());
+        boolean isBottom = false;
+        if (isDirtSlab(below)) {
+            isBottom = shouldOffset(below);
+        } else if (isSugarCane(below)) {
+            isBottom = below.hasProperty(BOTTOM_OFFSET) && below.getValue(BOTTOM_OFFSET);
+        }
+        return this.defaultBlockState().setValue(BOTTOM_OFFSET, isBottom);
     }
 
     @Override
@@ -88,6 +105,9 @@ public class DirtSlabSugarCaneBlock extends Block {
         if (!state.canSurvive(level, pos)) {
             return Blocks.AIR.defaultBlockState();
         }
+        if (direction == Direction.DOWN && neighborState.hasProperty(BOTTOM_OFFSET)) {
+            return state.setValue(BOTTOM_OFFSET, neighborState.getValue(BOTTOM_OFFSET));
+        }
         return super.updateShape(state, level, scheduledTick, pos, direction, neighborPos, neighborState, random);
     }
 
@@ -110,7 +130,8 @@ public class DirtSlabSugarCaneBlock extends Block {
         }
         int age = state.getValue(AGE);
         if (age == 15) {
-            level.setBlock(pos.above(), defaultBlockState(), 2);
+            boolean isBottom = state.getValue(BOTTOM_OFFSET);
+            level.setBlock(pos.above(), defaultBlockState().setValue(BOTTOM_OFFSET, isBottom), 2);
             level.setBlock(pos, state.setValue(AGE, 0), 2);
         } else {
             level.setBlock(pos, state.setValue(AGE, age + 1), 2);
