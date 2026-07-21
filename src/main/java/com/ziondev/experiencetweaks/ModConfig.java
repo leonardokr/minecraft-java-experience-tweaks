@@ -480,9 +480,9 @@ public final class ModConfig {
     }
 
     /**
-     * Returns the number of food points (hunger markers) restored when drinking a milk bucket.
+     * Returns the number of food points (hunger markers) restored when drinking milk.
      *
-     * @return food points restored by milk bucket
+     * @return food points restored by milk
      */
     public static int getMilkBucketNutrition() {
         try {

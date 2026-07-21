@@ -13,6 +13,7 @@
     "FarmlandBlockMixin",
     "FishingHookAccessor",
     "ItemCombinerMenuAccessor",
+    "LivingEntityMixin",
     "SpreadingSnowyBlockMixin",
     "SugarCanePlacementMixin"
   ],
