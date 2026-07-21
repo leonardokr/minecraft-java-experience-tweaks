@@ -117,5 +117,10 @@ public class ServerConfig {
             .comment("\n If true, all types of arrows (spectral, tipped, etc.) will be affected by the Infinity enchantment.")
             .define("allArrowsAffectedByInfinity", false);
 
+    /** If true, Sharpness, Smite, and Bane of Arthropods can be combined on the same weapon. */
+    public static final ModConfigSpec.BooleanValue ALLOW_MULTIPLE_DAMAGE_ENCHANTMENTS = BUILDER
+            .comment("\n If true, Sharpness, Smite, and Bane of Arthropods can be combined on the same weapon.")
+            .define("allowMultipleDamageEnchantments", false);
+
     public static final ModConfigSpec SPEC = BUILDER.build();
 }

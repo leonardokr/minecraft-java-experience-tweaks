@@ -56,6 +56,7 @@ public class ExperienceTweaksConfigScreen extends Screen {
     private boolean serverWanderingTraderUnlimitedTrades;
     private boolean serverVillagerUnlimitedTrades;
     private boolean serverAllArrowsAffectedByInfinity;
+    private boolean serverAllowMultipleDamageEnchantments;
 
     /**
      * Constructs a new configuration GUI screen.
@@ -148,6 +149,7 @@ public class ExperienceTweaksConfigScreen extends Screen {
         this.serverWanderingTraderUnlimitedTrades = ModConfig.isWanderingTraderUnlimitedTrades();
         this.serverVillagerUnlimitedTrades = ModConfig.isVillagerUnlimitedTrades();
         this.serverAllArrowsAffectedByInfinity = ModConfig.isAllArrowsAffectedByInfinity();
+        this.serverAllowMultipleDamageEnchantments = ModConfig.isAllowMultipleDamageEnchantments();
     }
 
     /**
@@ -290,6 +292,11 @@ public class ExperienceTweaksConfigScreen extends Screen {
                     this.serverAllArrowsAffectedByInfinity,
                     val -> this.serverAllArrowsAffectedByInfinity = val
             ));
+            this.optionList.addEntry(new BooleanOptionEntry(
+                    Component.translatable("experiencetweaks.gui.config.allow_multiple_damage_enchantments"),
+                    this.serverAllowMultipleDamageEnchantments,
+                    val -> this.serverAllowMultipleDamageEnchantments = val
+            ));
         }
     }
 
@@ -338,6 +345,7 @@ public class ExperienceTweaksConfigScreen extends Screen {
             ServerConfig.WANDERING_TRADER_UNLIMITED_TRADES.set(this.serverWanderingTraderUnlimitedTrades);
             ServerConfig.VILLAGER_UNLIMITED_TRADES.set(this.serverVillagerUnlimitedTrades);
             ServerConfig.ALL_ARROWS_AFFECTED_BY_INFINITY.set(this.serverAllArrowsAffectedByInfinity);
+            ServerConfig.ALLOW_MULTIPLE_DAMAGE_ENCHANTMENTS.set(this.serverAllowMultipleDamageEnchantments);
             ServerConfig.SPEC.save();
 
             if (this.minecraft != null && this.minecraft.getConnection() != null && !this.minecraft.isSingleplayer()) {
@@ -359,7 +367,8 @@ public class ExperienceTweaksConfigScreen extends Screen {
                         milkNutrition,
                         this.serverWanderingTraderUnlimitedTrades,
                         this.serverVillagerUnlimitedTrades,
-                        this.serverAllArrowsAffectedByInfinity
+                        this.serverAllArrowsAffectedByInfinity,
+                        this.serverAllowMultipleDamageEnchantments
                 )));
             }
         }

@@ -56,7 +56,8 @@ public final class ModConfig {
         MILK_BUCKET_NUTRITION("ET-0x018"),
         WANDERING_TRADER_UNLIMITED_TRADES("ET-0x019"),
         VILLAGER_UNLIMITED_TRADES("ET-0x01a"),
-        ALL_ARROWS_AFFECTED_BY_INFINITY("ET-0x01b");
+        ALL_ARROWS_AFFECTED_BY_INFINITY("ET-0x01b"),
+        ALLOW_MULTIPLE_DAMAGE_ENCHANTMENTS("ET-0x01c");
 
         private final String code;
 
@@ -591,6 +592,22 @@ public final class ModConfig {
             }
         } catch (Exception e) {
             broadcastConfigError(ConfigError.ALL_ARROWS_AFFECTED_BY_INFINITY);
+        }
+        return false;
+    }
+
+    /**
+     * Returns whether multiple damage enchantments (Sharpness, Smite, Bane of Arthropods) can coexist.
+     *
+     * @return {@code true} if multiple damage enchantments are allowed
+     */
+    public static boolean isAllowMultipleDamageEnchantments() {
+        try {
+            if (ServerConfig.SPEC.isLoaded()) {
+                return ServerConfig.ALLOW_MULTIPLE_DAMAGE_ENCHANTMENTS.get();
+            }
+        } catch (Exception e) {
+            broadcastConfigError(ConfigError.ALLOW_MULTIPLE_DAMAGE_ENCHANTMENTS);
         }
         return false;
     }

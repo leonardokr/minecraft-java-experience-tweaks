@@ -29,11 +29,18 @@ public abstract class EnchantmentCompatibilityMixin {
      * Has no effect when the config option is disabled.
      */
     @Inject(method = "areCompatible", at = @At("HEAD"), cancellable = true)
-    private static void experienceTweaks$allowMendingWithInfinity(
+    private static void experienceTweaks$areCompatible(
             Holder<Enchantment> enchantment,
             Holder<Enchantment> other,
             CallbackInfoReturnable<Boolean> cir
     ) {
+        if (ModConfig.isAllowMultipleDamageEnchantments()
+                && experienceTweaks$isDamageEnchantment(enchantment)
+                && experienceTweaks$isDamageEnchantment(other)) {
+            cir.setReturnValue(true);
+            return;
+        }
+
         if (!ModConfig.isAllowMendingWithInfinity()) {
             return;
         }
@@ -46,5 +53,11 @@ public abstract class EnchantmentCompatibilityMixin {
         if ((firstIsMending && secondIsInfinity) || (firstIsInfinity && secondIsMending)) {
             cir.setReturnValue(true);
         }
+    }
+
+    private static boolean experienceTweaks$isDamageEnchantment(Holder<Enchantment> enchantment) {
+        return enchantment.is(Enchantments.SHARPNESS)
+                || enchantment.is(Enchantments.SMITE)
+                || enchantment.is(Enchantments.BANE_OF_ARTHROPODS);
     }
 }
