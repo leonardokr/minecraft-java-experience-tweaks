@@ -29,7 +29,8 @@ public record UpdateServerConfigPacket(
         int waterHydrationRadius,
         int milkBucketNutrition,
         boolean wanderingTraderUnlimitedTrades,
-        boolean villagerUnlimitedTrades
+        boolean villagerUnlimitedTrades,
+        boolean allArrowsAffectedByInfinity
 ) implements CustomPacketPayload {
 
     public static final CustomPacketPayload.Type<UpdateServerConfigPacket> TYPE =
@@ -55,6 +56,7 @@ public record UpdateServerConfigPacket(
                     ByteBufCodecs.VAR_INT.decode(buf),
                     ByteBufCodecs.VAR_INT.decode(buf),
                     ByteBufCodecs.BOOL.decode(buf),
+                    ByteBufCodecs.BOOL.decode(buf),
                     ByteBufCodecs.BOOL.decode(buf)
             );
         }
@@ -78,6 +80,7 @@ public record UpdateServerConfigPacket(
             ByteBufCodecs.VAR_INT.encode(buf, value.milkBucketNutrition());
             ByteBufCodecs.BOOL.encode(buf, value.wanderingTraderUnlimitedTrades());
             ByteBufCodecs.BOOL.encode(buf, value.villagerUnlimitedTrades());
+            ByteBufCodecs.BOOL.encode(buf, value.allArrowsAffectedByInfinity());
         }
     };
 

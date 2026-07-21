@@ -6,6 +6,7 @@
   "refmap": "experiencetweaks.refmap.json",
   "mixins": [
     "AbstractVillagerMixin",
+    "ArrowItemMixin",
     "CropPlacementMixin",
     "EnchantmentCompatibilityMixin",
     "EnchantmentMenuCurrencySlotMixin",

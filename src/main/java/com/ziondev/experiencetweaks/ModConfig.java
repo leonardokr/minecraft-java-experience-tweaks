@@ -55,7 +55,8 @@ public final class ModConfig {
         WATER_HYDRATION_RADIUS("ET-0x017"),
         MILK_BUCKET_NUTRITION("ET-0x018"),
         WANDERING_TRADER_UNLIMITED_TRADES("ET-0x019"),
-        VILLAGER_UNLIMITED_TRADES("ET-0x01a");
+        VILLAGER_UNLIMITED_TRADES("ET-0x01a"),
+        ALL_ARROWS_AFFECTED_BY_INFINITY("ET-0x01b");
 
         private final String code;
 
@@ -576,5 +577,21 @@ public final class ModConfig {
             broadcastConfigError(ConfigError.VILLAGER_UNLIMITED_TRADES);
         }
         return true;
+    }
+
+    /**
+     * Returns whether all types of arrows are affected by the Infinity enchantment.
+     *
+     * @return {@code true} if all arrows are affected by Infinity
+     */
+    public static boolean isAllArrowsAffectedByInfinity() {
+        try {
+            if (ServerConfig.SPEC.isLoaded()) {
+                return ServerConfig.ALL_ARROWS_AFFECTED_BY_INFINITY.get();
+            }
+        } catch (Exception e) {
+            broadcastConfigError(ConfigError.ALL_ARROWS_AFFECTED_BY_INFINITY);
+        }
+        return false;
     }
 }

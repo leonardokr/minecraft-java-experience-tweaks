@@ -55,6 +55,7 @@ public class ExperienceTweaksConfigScreen extends Screen {
     private String serverMilkBucketNutrition;
     private boolean serverWanderingTraderUnlimitedTrades;
     private boolean serverVillagerUnlimitedTrades;
+    private boolean serverAllArrowsAffectedByInfinity;
 
     /**
      * Constructs a new configuration GUI screen.
@@ -146,6 +147,7 @@ public class ExperienceTweaksConfigScreen extends Screen {
         this.serverMilkBucketNutrition = String.valueOf(ModConfig.getMilkBucketNutrition());
         this.serverWanderingTraderUnlimitedTrades = ModConfig.isWanderingTraderUnlimitedTrades();
         this.serverVillagerUnlimitedTrades = ModConfig.isVillagerUnlimitedTrades();
+        this.serverAllArrowsAffectedByInfinity = ModConfig.isAllArrowsAffectedByInfinity();
     }
 
     /**
@@ -283,6 +285,11 @@ public class ExperienceTweaksConfigScreen extends Screen {
                     this.serverVillagerUnlimitedTrades,
                     val -> this.serverVillagerUnlimitedTrades = val
             ));
+            this.optionList.addEntry(new BooleanOptionEntry(
+                    Component.translatable("experiencetweaks.gui.config.all_arrows_affected_by_infinity"),
+                    this.serverAllArrowsAffectedByInfinity,
+                    val -> this.serverAllArrowsAffectedByInfinity = val
+            ));
         }
     }
 
@@ -330,6 +337,7 @@ public class ExperienceTweaksConfigScreen extends Screen {
             ServerConfig.MILK_BUCKET_NUTRITION.set(milkNutrition);
             ServerConfig.WANDERING_TRADER_UNLIMITED_TRADES.set(this.serverWanderingTraderUnlimitedTrades);
             ServerConfig.VILLAGER_UNLIMITED_TRADES.set(this.serverVillagerUnlimitedTrades);
+            ServerConfig.ALL_ARROWS_AFFECTED_BY_INFINITY.set(this.serverAllArrowsAffectedByInfinity);
             ServerConfig.SPEC.save();
 
             if (this.minecraft != null && this.minecraft.getConnection() != null && !this.minecraft.isSingleplayer()) {
@@ -350,7 +358,8 @@ public class ExperienceTweaksConfigScreen extends Screen {
                         waterRadius,
                         milkNutrition,
                         this.serverWanderingTraderUnlimitedTrades,
-                        this.serverVillagerUnlimitedTrades
+                        this.serverVillagerUnlimitedTrades,
+                        this.serverAllArrowsAffectedByInfinity
                 )));
             }
         }

@@ -112,5 +112,10 @@ public class ServerConfig {
             .comment("\n If true, daily trade limits for Villagers are disabled.")
             .define("villagerUnlimitedTrades", true);
 
+    /** If true, all types of arrows are affected by the Infinity enchantment. */
+    public static final ModConfigSpec.BooleanValue ALL_ARROWS_AFFECTED_BY_INFINITY = BUILDER
+            .comment("\n If true, all types of arrows (spectral, tipped, etc.) will be affected by the Infinity enchantment.")
+            .define("allArrowsAffectedByInfinity", false);
+
     public static final ModConfigSpec SPEC = BUILDER.build();
 }
