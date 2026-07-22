@@ -1,5 +1,25 @@
 # Changelog
 
+## [1.9.0](https://github.com/leonardokr/minecraft-java-experience-tweaks/compare/v1.8.1...v1.9.0) (2026-07-22)
+
+
+### Features
+
+* add client-side option to use Riptide anywhere ([de3d5a6](https://github.com/leonardokr/minecraft-java-experience-tweaks/commit/de3d5a6d3a14d1de9748d9302bcb8aab57b20167))
+* add option to affect all arrow types with Infinity enchantment ([e680252](https://github.com/leonardokr/minecraft-java-experience-tweaks/commit/e68025256ca1015b5f17ac9fd58ad81f561dfbd6))
+* add option to allow multiple damage enchantments on weapons ([bff5e7a](https://github.com/leonardokr/minecraft-java-experience-tweaks/commit/bff5e7a065aba37385e87eb9956260543f3393f0))
+* add option to allow multiple protection enchantments on armor ([0abf9ab](https://github.com/leonardokr/minecraft-java-experience-tweaks/commit/0abf9ab703fd2a32687f31bb585990f16923ff57))
+* add option to allow multiple trident enchantments ([28634f8](https://github.com/leonardokr/minecraft-java-experience-tweaks/commit/28634f86f49cb06189e38eea4226d5a79b446b5e))
+* add option to allow Piercing and Multishot together on crossbows ([11d2f3f](https://github.com/leonardokr/minecraft-java-experience-tweaks/commit/11d2f3fdccb8043d9bd48c85860d0bca98a7af1a))
+* add unlimited trade options for wandering traders and villagers ([f939919](https://github.com/leonardokr/minecraft-java-experience-tweaks/commit/f939919213978b8cc0b639e6d17b974ea158ec01))
+
+
+### Bug Fixes
+
+* fix dirt path slab side UV mapping ([96e205a](https://github.com/leonardokr/minecraft-java-experience-tweaks/commit/96e205a237478dc433aab37b529226f0f8caabc5))
+* restore food points on milk consumption universally via LivingEntityMixin ([0376f8d](https://github.com/leonardokr/minecraft-java-experience-tweaks/commit/0376f8d4acdbe2794e3907b23d84a74543810d0e))
+* sync client config settings to the logical server ([b4a89e7](https://github.com/leonardokr/minecraft-java-experience-tweaks/commit/b4a89e7df405c355693a7fc32db7d4d4033fd596))
+
 ## [1.8.1](https://github.com/leonardokr/minecraft-java-experience-tweaks/compare/v1.8.0...v1.8.1) (2026-07-21)
 
 
