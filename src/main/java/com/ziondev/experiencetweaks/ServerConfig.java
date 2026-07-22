@@ -142,5 +142,10 @@ public class ServerConfig {
             .comment("\n The durability of anvils as a percentage. 100 is normal, 50 is half, 200 is double. Range: 1 to 1000.")
             .defineInRange("anvilDurabilityMultiplier", 100, 1, 1000);
 
+    /** If true, enables server-side debug logging. */
+    public static final ModConfigSpec.BooleanValue ENABLE_DEBUG_MODE = BUILDER
+            .comment("\n If true, enables server-side debug logging.")
+            .define("enableDebugMode", false);
+
     public static final ModConfigSpec SPEC = BUILDER.build();
 }

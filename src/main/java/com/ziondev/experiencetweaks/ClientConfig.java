@@ -39,5 +39,10 @@ public class ClientConfig {
             .comment("\n If true, the Riptide enchantment can be used anywhere, regardless of weather or water.")
             .define("riptideAnywhere", false);
 
+    /** If true, enables debug logging of configuration changes and network packets. */
+    public static final ModConfigSpec.BooleanValue ENABLE_DEBUG_MODE = BUILDER
+            .comment("\n If true, enables debug logging of configuration changes and network packets.")
+            .define("enableDebugMode", false);
+
     public static final ModConfigSpec SPEC = BUILDER.build();
 }

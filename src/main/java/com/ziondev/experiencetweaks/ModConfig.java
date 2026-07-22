@@ -714,4 +714,36 @@ public final class ModConfig {
         }
         return 100;
     }
+
+    /**
+     * Returns whether client-side debug logging is enabled.
+     *
+     * @return {@code true} if client-side debug logging is enabled
+     */
+    public static boolean isDebugModeEnabled() {
+        try {
+            if (ClientConfig.SPEC.isLoaded()) {
+                return ClientConfig.ENABLE_DEBUG_MODE.get();
+            }
+        } catch (Exception e) {
+            ExperienceTweaksMod.LOGGER.error("Failed to read client debug mode config", e);
+        }
+        return false;
+    }
+
+    /**
+     * Returns whether server-side debug logging is enabled.
+     *
+     * @return {@code true} if server-side debug logging is enabled
+     */
+    public static boolean isServerDebugModeEnabled() {
+        try {
+            if (ServerConfig.SPEC.isLoaded()) {
+                return ServerConfig.ENABLE_DEBUG_MODE.get();
+            }
+        } catch (Exception e) {
+            ExperienceTweaksMod.LOGGER.error("Failed to read server debug mode config", e);
+        }
+        return false;
+    }
 }

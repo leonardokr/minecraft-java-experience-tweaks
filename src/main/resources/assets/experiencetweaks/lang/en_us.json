@@ -121,5 +121,7 @@
   "experiencetweaks.gui.config.allow_multiple_protection_enchantments.tooltip": "Allows combining different protection enchantments on armor items.",
   "experiencetweaks.gui.config.allow_piercing_with_multishot.tooltip": "Allows combining Piercing and Multishot on crossbows.",
   "experiencetweaks.gui.config.allow_multiple_trident_enchantments.tooltip": "Allows combining Channeling, Loyalty, and Riptide on trident items.",
-  "experiencetweaks.gui.config.unlock_all_recipes.tooltip": "Instantly unlocks all crafting and utility recipes for all players on the server."
+  "experiencetweaks.gui.config.unlock_all_recipes.tooltip": "Instantly unlocks all crafting and utility recipes for all players on the server.",
+  "experiencetweaks.gui.config.enable_debug_mode": "Enable Debug Mode",
+  "experiencetweaks.gui.config.enable_debug_mode.tooltip": "Enable logging configuration changes and events to the console."
 }

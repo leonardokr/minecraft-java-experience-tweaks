@@ -3,6 +3,7 @@ package com.ziondev.experiencetweaks.client.gui;
 import com.ziondev.experiencetweaks.ClientConfig;
 import com.ziondev.experiencetweaks.ModConfig;
 import com.ziondev.experiencetweaks.ServerConfig;
+import com.ziondev.experiencetweaks.ExperienceTweaksMod;
 import com.ziondev.experiencetweaks.network.UpdateServerConfigPacket;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
@@ -65,6 +66,8 @@ public class ExperienceTweaksConfigScreen extends Screen {
     private boolean serverAllowMultipleProtectionEnchantments;
     private boolean serverAllowPiercingWithMultishot;
     private boolean serverAllowMultipleTridentEnchantments;
+    private boolean clientEnableDebugMode;
+    private boolean serverEnableDebugMode;
 
     /**
      * Constructs a new configuration GUI screen.
@@ -164,6 +167,8 @@ public class ExperienceTweaksConfigScreen extends Screen {
         this.serverAllowMultipleProtectionEnchantments = ModConfig.isAllowMultipleProtectionEnchantments();
         this.serverAllowPiercingWithMultishot = ModConfig.isAllowPiercingWithMultishot();
         this.serverAllowMultipleTridentEnchantments = ModConfig.isAllowMultipleTridentEnchantments();
+        this.clientEnableDebugMode = ModConfig.isDebugModeEnabled();
+        this.serverEnableDebugMode = ModConfig.isServerDebugModeEnabled();
     }
 
     /**
@@ -222,6 +227,11 @@ public class ExperienceTweaksConfigScreen extends Screen {
                     this.clientRiptideAnywhere,
                     val -> this.clientRiptideAnywhere = val,
                     List.of(Component.translatable("experiencetweaks.gui.config.riptide_anywhere.tooltip"))));
+            this.optionList.addEntry(new BooleanOptionEntry(
+                    Component.translatable("experiencetweaks.gui.config.enable_debug_mode"),
+                    this.clientEnableDebugMode,
+                    val -> this.clientEnableDebugMode = val,
+                    List.of(Component.translatable("experiencetweaks.gui.config.enable_debug_mode.tooltip"))));
         } else {
             this.optionList.addEntry(new StringOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.give_experience_every_day_base"),
@@ -347,6 +357,11 @@ public class ExperienceTweaksConfigScreen extends Screen {
                     this.serverAllowMultipleTridentEnchantments,
                     val -> this.serverAllowMultipleTridentEnchantments = val,
                     List.of(Component.translatable("experiencetweaks.gui.config.allow_multiple_trident_enchantments.tooltip"))));
+            this.optionList.addEntry(new BooleanOptionEntry(
+                    Component.translatable("experiencetweaks.gui.config.enable_debug_mode"),
+                    this.serverEnableDebugMode,
+                    val -> this.serverEnableDebugMode = val,
+                    List.of(Component.translatable("experiencetweaks.gui.config.enable_debug_mode.tooltip"))));
             this.optionList.addEntry(new ButtonOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.unlock_all_recipes"),
                     Component.translatable("experiencetweaks.gui.config.unlock"),
@@ -381,7 +396,17 @@ public class ExperienceTweaksConfigScreen extends Screen {
         ClientConfig.AUTO_FISHING.set(this.clientAutoFishing);
         ClientConfig.AUTO_FISHING_RECAST.set(this.clientAutoFishingRecast);
         ClientConfig.RIPTIDE_ANYWHERE.set(this.clientRiptideAnywhere);
+        ClientConfig.ENABLE_DEBUG_MODE.set(this.clientEnableDebugMode);
         ClientConfig.SPEC.save();
+
+        if (this.clientEnableDebugMode) {
+            ExperienceTweaksMod.LOGGER.info("[ExperienceTweaks] [DEBUG] Client configuration saved: " +
+                            "keepExperience={}, directExperience={}, giveExperienceEveryDay={}, " +
+                            "autoFishing={}, autoFishingRecast={}, riptideAnywhere={}, enableDebugMode={}",
+                    this.clientKeepExperience, this.clientDirectExperience, this.clientGiveExperienceEveryDay,
+                    this.clientAutoFishing, this.clientAutoFishingRecast, this.clientRiptideAnywhere,
+                    this.clientEnableDebugMode);
+        }
 
         if (this.minecraft != null && this.minecraft.getConnection() != null) {
             this.minecraft.getConnection()
@@ -429,7 +454,25 @@ public class ExperienceTweaksConfigScreen extends Screen {
             ServerConfig.ALLOW_MULTIPLE_PROTECTION_ENCHANTMENTS.set(this.serverAllowMultipleProtectionEnchantments);
             ServerConfig.ALLOW_PIERCING_WITH_MULTISHOT.set(this.serverAllowPiercingWithMultishot);
             ServerConfig.ALLOW_MULTIPLE_TRIDENT_ENCHANTMENTS.set(this.serverAllowMultipleTridentEnchantments);
+            ServerConfig.ENABLE_DEBUG_MODE.set(this.serverEnableDebugMode);
             ServerConfig.SPEC.save();
+
+            if (this.serverEnableDebugMode) {
+                ExperienceTweaksMod.LOGGER.info("[ExperienceTweaks] [DEBUG] Saving server configuration: " +
+                                "giveExperienceEveryDayBase={}, giveExperienceEveryDayGrowth={}, anvilBypassTooExpensive={}, anvilUseItemCost={}, " +
+                                "anvilCostItem={}, anvilItemCostMultiplier={}, allowMendingWithInfinity={}, anvilEnchantmentExtraction={}, " +
+                                "anvilEnchantmentExtractionDestroySource={}, enchantmentCostItem={}, enchantmentCostMultiplier={}, " +
+                                "enchantmentCooldownType={}, waterBelowHydratesFarmland={}, waterHydrationRadius={}, milkBucketNutrition={}, " +
+                                "wanderingTraderUnlimitedTrades={}, villagerUnlimitedTrades={}, allArrowsAffectedByInfinity={}, " +
+                                "allowMultipleDamageEnchantments={}, allowMultipleProtectionEnchantments={}, allowPiercingWithMultishot={}, " +
+                                "allowMultipleTridentEnchantments={}, anvilDurabilityMultiplier={}, enableDebugMode={}",
+                        dailyBase, dailyGrowth, this.serverAnvilBypassTooExpensive, this.serverAnvilUseItemCost, this.serverAnvilCostItem.trim(),
+                        anvilMultiplier, this.serverAllowMendingWithInfinity, this.serverAnvilEnchantmentExtraction, this.serverAnvilEnchantmentExtractionDestroySource,
+                        this.serverEnchantmentCostItem.trim(), enchMultiplier, this.serverEnchantmentCooldownType.trim(), this.serverWaterBelowHydratesFarmland,
+                        waterRadius, milkNutrition, this.serverWanderingTraderUnlimitedTrades, this.serverVillagerUnlimitedTrades, this.serverAllArrowsAffectedByInfinity,
+                        this.serverAllowMultipleDamageEnchantments, this.serverAllowMultipleProtectionEnchantments, this.serverAllowPiercingWithMultishot,
+                        this.serverAllowMultipleTridentEnchantments, durability, this.serverEnableDebugMode);
+            }
 
             if (this.minecraft != null && this.minecraft.getConnection() != null && !this.minecraft.isSingleplayer()) {
                 this.minecraft.getConnection()
@@ -457,7 +500,8 @@ public class ExperienceTweaksConfigScreen extends Screen {
                                         this.serverAllowMultipleProtectionEnchantments,
                                         this.serverAllowPiercingWithMultishot,
                                         this.serverAllowMultipleTridentEnchantments,
-                                        durability)));
+                                        durability,
+                                        this.serverEnableDebugMode)));
             }
         }
 

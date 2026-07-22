@@ -219,6 +219,7 @@ public class ExperienceTweaksMod {
                                                 ServerConfig.ALLOW_PIERCING_WITH_MULTISHOT.set(packet.allowPiercingWithMultishot());
                                                 ServerConfig.ALLOW_MULTIPLE_TRIDENT_ENCHANTMENTS.set(packet.allowMultipleTridentEnchantments());
                                                 ServerConfig.ANVIL_DURABILITY_MULTIPLIER.set(packet.anvilDurabilityMultiplier());
+                                                ServerConfig.ENABLE_DEBUG_MODE.set(packet.enableDebugMode());
                                                 ServerConfig.SPEC.save();
 
                                                 PacketDistributor.sendToAllPlayers(new com.ziondev.experiencetweaks.network.SyncServerConfigPacket(
@@ -227,8 +228,28 @@ public class ExperienceTweaksMod {
                                                                 packet.anvilItemCostMultiplier(),
                                                                 packet.anvilBypassTooExpensive()));
 
-                                                LOGGER.info("Server configuration updated by OP player {}",
-                                                                player.getName().getString());
+                                                if (packet.enableDebugMode()) {
+                                                    LOGGER.info("[ExperienceTweaks] [DEBUG] Server configuration updated by OP player {}: " +
+                                                                    "giveExperienceEveryDayBase={}, giveExperienceEveryDayGrowth={}, anvilBypassTooExpensive={}, anvilUseItemCost={}, " +
+                                                                    "anvilCostItem={}, anvilItemCostMultiplier={}, allowMendingWithInfinity={}, anvilEnchantmentExtraction={}, " +
+                                                                    "anvilEnchantmentExtractionDestroySource={}, enchantmentCostItem={}, enchantmentCostMultiplier={}, " +
+                                                                    "enchantmentCooldownType={}, waterBelowHydratesFarmland={}, waterHydrationRadius={}, milkBucketNutrition={}, " +
+                                                                    "wanderingTraderUnlimitedTrades={}, villagerUnlimitedTrades={}, allArrowsAffectedByInfinity={}, " +
+                                                                    "allowMultipleDamageEnchantments={}, allowMultipleProtectionEnchantments={}, allowPiercingWithMultishot={}, " +
+                                                                    "allowMultipleTridentEnchantments={}, anvilDurabilityMultiplier={}, enableDebugMode={}",
+                                                            player.getName().getString(),
+                                                            packet.giveExperienceEveryDayBase(), packet.giveExperienceEveryDayGrowth(), packet.anvilBypassTooExpensive(),
+                                                            packet.anvilUseItemCost(), packet.anvilCostItem(), packet.anvilItemCostMultiplier(), packet.allowMendingWithInfinity(),
+                                                            packet.anvilEnchantmentExtraction(), packet.anvilEnchantmentExtractionDestroySource(), packet.enchantmentCostItem(),
+                                                            packet.enchantmentCostMultiplier(), packet.enchantmentCooldownType(), packet.waterBelowHydratesFarmland(),
+                                                            packet.waterHydrationRadius(), packet.milkBucketNutrition(), packet.wanderingTraderUnlimitedTrades(),
+                                                            packet.villagerUnlimitedTrades(), packet.allArrowsAffectedByInfinity(), packet.allowMultipleDamageEnchantments(),
+                                                            packet.allowMultipleProtectionEnchantments(), packet.allowPiercingWithMultishot(), packet.allowMultipleTridentEnchantments(),
+                                                            packet.anvilDurabilityMultiplier(), packet.enableDebugMode());
+                                                } else {
+                                                    LOGGER.info("Server configuration updated by OP player {}",
+                                                                    player.getName().getString());
+                                                }
                                         }
                                 });
 
