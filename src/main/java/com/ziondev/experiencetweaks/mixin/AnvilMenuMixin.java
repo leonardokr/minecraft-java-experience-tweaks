@@ -92,6 +92,21 @@ public abstract class AnvilMenuMixin {
     }
 
     /**
+     * Modifies the anvil damage chance based on the configured durability multiplier percentage.
+     *
+     * @param original the vanilla damage chance (0.12F)
+     * @return the adjusted damage chance based on durability percentage
+     */
+    @ModifyConstant(method = "onTake", constant = @Constant(floatValue = 0.12F))
+    private float experienceTweaks$modifyAnvilDamageChance(float original) {
+        int durabilityPct = ModConfig.getAnvilDurabilityMultiplier();
+        if (durabilityPct <= 0) {
+            return 1.0F;
+        }
+        return original * (100.0F / durabilityPct);
+    }
+
+    /**
      * Determines whether the player is allowed to take the result from the anvil
      * when {@code anvilUseItemCost} is enabled.
      * <p>

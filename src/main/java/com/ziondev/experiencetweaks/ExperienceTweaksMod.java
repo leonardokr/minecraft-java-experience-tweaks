@@ -218,6 +218,7 @@ public class ExperienceTweaksMod {
                                                 ServerConfig.ALLOW_MULTIPLE_PROTECTION_ENCHANTMENTS.set(packet.allowMultipleProtectionEnchantments());
                                                 ServerConfig.ALLOW_PIERCING_WITH_MULTISHOT.set(packet.allowPiercingWithMultishot());
                                                 ServerConfig.ALLOW_MULTIPLE_TRIDENT_ENCHANTMENTS.set(packet.allowMultipleTridentEnchantments());
+                                                ServerConfig.ANVIL_DURABILITY_MULTIPLIER.set(packet.anvilDurabilityMultiplier());
                                                 ServerConfig.SPEC.save();
 
                                                 PacketDistributor.sendToAllPlayers(new com.ziondev.experiencetweaks.network.SyncServerConfigPacket(

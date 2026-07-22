@@ -137,5 +137,10 @@ public class ServerConfig {
             .comment("\n If true, Channeling, Loyalty, and Riptide enchantments can be combined on the same trident.")
             .define("allowMultipleTridentEnchantments", false);
 
+    /** The durability of anvils as a percentage. 100 is normal, 50 is half, 200 is double. Range: 1 to 1000. */
+    public static final ModConfigSpec.IntValue ANVIL_DURABILITY_MULTIPLIER = BUILDER
+            .comment("\n The durability of anvils as a percentage. 100 is normal, 50 is half, 200 is double. Range: 1 to 1000.")
+            .defineInRange("anvilDurabilityMultiplier", 100, 1, 1000);
+
     public static final ModConfigSpec SPEC = BUILDER.build();
 }

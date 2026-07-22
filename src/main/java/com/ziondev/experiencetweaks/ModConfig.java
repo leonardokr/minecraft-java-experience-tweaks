@@ -61,7 +61,8 @@ public final class ModConfig {
         ALLOW_MULTIPLE_PROTECTION_ENCHANTMENTS("ET-0x01d"),
         ALLOW_PIERCING_WITH_MULTISHOT("ET-0x01e"),
         ALLOW_MULTIPLE_TRIDENT_ENCHANTMENTS("ET-0x01f"),
-        RIPTIDE_ANYWHERE("ET-0x020");
+        RIPTIDE_ANYWHERE("ET-0x020"),
+        ANVIL_DURABILITY_MULTIPLIER("ET-0x021");
 
         private final String code;
 
@@ -696,5 +697,21 @@ public final class ModConfig {
             broadcastConfigError(ConfigError.RIPTIDE_ANYWHERE);
         }
         return false;
+    }
+
+    /**
+     * Returns the anvil durability multiplier percentage.
+     *
+     * @return the anvil durability multiplier percentage
+     */
+    public static int getAnvilDurabilityMultiplier() {
+        try {
+            if (ServerConfig.SPEC.isLoaded()) {
+                return ServerConfig.ANVIL_DURABILITY_MULTIPLIER.get();
+            }
+        } catch (Exception e) {
+            broadcastConfigError(ConfigError.ANVIL_DURABILITY_MULTIPLIER);
+        }
+        return 100;
     }
 }

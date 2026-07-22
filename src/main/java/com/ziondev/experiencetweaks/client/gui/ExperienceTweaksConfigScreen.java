@@ -48,6 +48,7 @@ public class ExperienceTweaksConfigScreen extends Screen {
     private boolean serverAnvilUseItemCost;
     private String serverAnvilCostItem;
     private String serverAnvilItemCostMultiplier;
+    private String serverAnvilDurabilityMultiplier;
     private boolean serverAllowMendingWithInfinity;
     private boolean serverAnvilEnchantmentExtraction;
     private boolean serverAnvilEnchantmentExtractionDestroySource;
@@ -146,6 +147,7 @@ public class ExperienceTweaksConfigScreen extends Screen {
         this.serverAnvilUseItemCost = ModConfig.isAnvilUseItemCost();
         this.serverAnvilCostItem = ServerConfig.ANVIL_COST_ITEM.get();
         this.serverAnvilItemCostMultiplier = String.valueOf(ModConfig.getAnvilItemCostMultiplier());
+        this.serverAnvilDurabilityMultiplier = String.valueOf(ModConfig.getAnvilDurabilityMultiplier());
         this.serverAllowMendingWithInfinity = ModConfig.isAllowMendingWithInfinity();
         this.serverAnvilEnchantmentExtraction = ModConfig.isAnvilEnchantmentExtractionEnabled();
         this.serverAnvilEnchantmentExtractionDestroySource = ModConfig.isAnvilEnchantmentExtractionDestroySource();
@@ -237,6 +239,10 @@ public class ExperienceTweaksConfigScreen extends Screen {
                     Component.translatable("experiencetweaks.gui.config.anvil_item_cost_multiplier"),
                     this.serverAnvilItemCostMultiplier,
                     val -> this.serverAnvilItemCostMultiplier = val));
+            this.optionList.addEntry(new StringOptionEntry(
+                    Component.translatable("experiencetweaks.gui.config.anvil_durability_multiplier"),
+                    this.serverAnvilDurabilityMultiplier,
+                    val -> this.serverAnvilDurabilityMultiplier = val));
             this.optionList.addEntry(new BooleanOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.allow_mending_with_infinity"),
                     this.serverAllowMendingWithInfinity,
@@ -354,12 +360,17 @@ public class ExperienceTweaksConfigScreen extends Screen {
             int waterRadius = parseIntOrDefault(this.serverWaterHydrationRadius, 4);
             int milkNutrition = parseIntOrDefault(this.serverMilkBucketNutrition, 2);
 
+            int durability = parseIntOrDefault(this.serverAnvilDurabilityMultiplier, 100);
+            if (durability < 1) durability = 1;
+            if (durability > 1000) durability = 1000;
+
             ServerConfig.GIVE_EXPERIENCE_EVERY_DAY_BASE.set(dailyBase);
             ServerConfig.GIVE_EXPERIENCE_EVERY_DAY_GROWTH.set(dailyGrowth);
             ServerConfig.ANVIL_BYPASS_TOO_EXPENSIVE.set(this.serverAnvilBypassTooExpensive);
             ServerConfig.ANVIL_USE_ITEM_COST.set(this.serverAnvilUseItemCost);
             ServerConfig.ANVIL_COST_ITEM.set(this.serverAnvilCostItem.trim());
             ServerConfig.ANVIL_ITEM_COST_MULTIPLIER.set(anvilMultiplier);
+            ServerConfig.ANVIL_DURABILITY_MULTIPLIER.set(durability);
             ServerConfig.ALLOW_MENDING_WITH_INFINITY.set(this.serverAllowMendingWithInfinity);
             ServerConfig.ANVIL_ENCHANTMENT_EXTRACTION.set(this.serverAnvilEnchantmentExtraction);
             ServerConfig.ANVIL_ENCHANTMENT_EXTRACTION_DESTROY_SOURCE
@@ -404,7 +415,8 @@ public class ExperienceTweaksConfigScreen extends Screen {
                                         this.serverAllowMultipleDamageEnchantments,
                                         this.serverAllowMultipleProtectionEnchantments,
                                         this.serverAllowPiercingWithMultishot,
-                                        this.serverAllowMultipleTridentEnchantments)));
+                                        this.serverAllowMultipleTridentEnchantments,
+                                        durability)));
             }
         }
 
