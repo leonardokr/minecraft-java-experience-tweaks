@@ -14,7 +14,8 @@ import org.jspecify.annotations.NonNull;
 public record SyncClientSettingsPacket(
         boolean keepExperience,
         boolean directExperience,
-        boolean giveExperienceEveryDay
+        boolean giveExperienceEveryDay,
+        boolean riptideAnywhere
 ) implements CustomPacketPayload {
 
     public static final CustomPacketPayload.Type<SyncClientSettingsPacket> TYPE =
@@ -26,6 +27,7 @@ public record SyncClientSettingsPacket(
             return new SyncClientSettingsPacket(
                     ByteBufCodecs.BOOL.decode(buf),
                     ByteBufCodecs.BOOL.decode(buf),
+                    ByteBufCodecs.BOOL.decode(buf),
                     ByteBufCodecs.BOOL.decode(buf)
             );
         }
@@ -35,6 +37,7 @@ public record SyncClientSettingsPacket(
             ByteBufCodecs.BOOL.encode(buf, value.keepExperience());
             ByteBufCodecs.BOOL.encode(buf, value.directExperience());
             ByteBufCodecs.BOOL.encode(buf, value.giveExperienceEveryDay());
+            ByteBufCodecs.BOOL.encode(buf, value.riptideAnywhere());
         }
     };
 

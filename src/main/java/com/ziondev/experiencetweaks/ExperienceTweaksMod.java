@@ -172,7 +172,8 @@ public class ExperienceTweaksMod {
                                                                 player.getUUID(),
                                                                 packet.keepExperience(),
                                                                 packet.directExperience(),
-                                                                packet.giveExperienceEveryDay());
+                                                                packet.giveExperienceEveryDay(),
+                                                                packet.riptideAnywhere());
                                         }
                                 });
 

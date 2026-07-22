@@ -40,7 +40,8 @@ public class ClientSettingsSyncHandler {
                     new SyncClientSettingsPacket(
                             ClientConfig.KEEP_EXPERIENCE.get(),
                             ClientConfig.DIRECT_EXPERIENCE.get(),
-                            ClientConfig.GIVE_EXPERIENCE_EVERY_DAY.get()
+                            ClientConfig.GIVE_EXPERIENCE_EVERY_DAY.get(),
+                            ClientConfig.RIPTIDE_ANYWHERE.get()
                     )
             ));
         }

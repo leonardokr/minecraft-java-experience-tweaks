@@ -60,7 +60,8 @@ public final class ModConfig {
         ALLOW_MULTIPLE_DAMAGE_ENCHANTMENTS("ET-0x01c"),
         ALLOW_MULTIPLE_PROTECTION_ENCHANTMENTS("ET-0x01d"),
         ALLOW_PIERCING_WITH_MULTISHOT("ET-0x01e"),
-        ALLOW_MULTIPLE_TRIDENT_ENCHANTMENTS("ET-0x01f");
+        ALLOW_MULTIPLE_TRIDENT_ENCHANTMENTS("ET-0x01f"),
+        RIPTIDE_ANYWHERE("ET-0x020");
 
         private final String code;
 
@@ -659,6 +660,40 @@ public final class ModConfig {
             }
         } catch (Exception e) {
             broadcastConfigError(ConfigError.ALLOW_MULTIPLE_TRIDENT_ENCHANTMENTS);
+        }
+        return false;
+    }
+
+    /**
+     * Returns whether the Riptide enchantment can be used anywhere, regardless of weather or water.
+     * This overload is used on the logical server to read a player's synchronized client-side preferences.
+     *
+     * @param player the player to check
+     * @return {@code true} if Riptide can be used anywhere
+     */
+    public static boolean isRiptideAnywhere(Player player) {
+        if (player != null && !player.level().isClientSide()) {
+            Boolean cached = com.ziondev.experiencetweaks.network.ServerClientSettingsCache.getRiptideAnywhere(player.getUUID());
+            if (cached != null) {
+                return cached;
+            }
+        }
+        return isRiptideAnywhere();
+    }
+
+    /**
+     * Returns whether the Riptide enchantment can be used anywhere, regardless of weather or water.
+     * This overload is used on the logical client to check the local player's client configuration directly.
+     *
+     * @return {@code true} if Riptide can be used anywhere
+     */
+    public static boolean isRiptideAnywhere() {
+        try {
+            if (ClientConfig.SPEC.isLoaded()) {
+                return ClientConfig.RIPTIDE_ANYWHERE.get();
+            }
+        } catch (Exception e) {
+            broadcastConfigError(ConfigError.RIPTIDE_ANYWHERE);
         }
         return false;
     }

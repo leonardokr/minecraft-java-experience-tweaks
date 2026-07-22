@@ -37,6 +37,7 @@ public class ExperienceTweaksConfigScreen extends Screen {
     private boolean clientGiveExperienceEveryDay;
     private boolean clientAutoFishing;
     private boolean clientAutoFishingRecast;
+    private boolean clientRiptideAnywhere;
 
     private String serverGiveExperienceEveryDayBase;
     private String serverGiveExperienceEveryDayGrowth;
@@ -133,6 +134,7 @@ public class ExperienceTweaksConfigScreen extends Screen {
         this.clientGiveExperienceEveryDay = ModConfig.isGiveExperienceEveryDayEnabled();
         this.clientAutoFishing = ModConfig.isAutoFishingEnabled();
         this.clientAutoFishingRecast = ModConfig.isAutoFishingRecastEnabled();
+        this.clientRiptideAnywhere = ModConfig.isRiptideAnywhere();
 
         this.serverGiveExperienceEveryDayBase = String.valueOf(ModConfig.getGiveExperienceEveryDayBase());
         this.serverGiveExperienceEveryDayGrowth = String.valueOf(ModConfig.getGiveExperienceEveryDayGrowth());
@@ -206,6 +208,11 @@ public class ExperienceTweaksConfigScreen extends Screen {
                     Component.translatable("experiencetweaks.gui.config.auto_fishing_recast"),
                     this.clientAutoFishingRecast,
                     val -> this.clientAutoFishingRecast = val
+            ));
+            this.optionList.addEntry(new BooleanOptionEntry(
+                    Component.translatable("experiencetweaks.gui.config.riptide_anywhere"),
+                    this.clientRiptideAnywhere,
+                    val -> this.clientRiptideAnywhere = val
             ));
         } else {
             this.optionList.addEntry(new StringOptionEntry(
@@ -330,13 +337,15 @@ public class ExperienceTweaksConfigScreen extends Screen {
         ClientConfig.GIVE_EXPERIENCE_EVERY_DAY.set(this.clientGiveExperienceEveryDay);
         ClientConfig.AUTO_FISHING.set(this.clientAutoFishing);
         ClientConfig.AUTO_FISHING_RECAST.set(this.clientAutoFishingRecast);
+        ClientConfig.RIPTIDE_ANYWHERE.set(this.clientRiptideAnywhere);
         ClientConfig.SPEC.save();
 
         if (this.minecraft != null && this.minecraft.getConnection() != null) {
             this.minecraft.getConnection().send(new net.minecraft.network.protocol.common.ServerboundCustomPayloadPacket(new com.ziondev.experiencetweaks.network.SyncClientSettingsPacket(
                     this.clientKeepExperience,
                     this.clientDirectExperience,
-                    this.clientGiveExperienceEveryDay
+                    this.clientGiveExperienceEveryDay,
+                    this.clientRiptideAnywhere
             )));
         }
 

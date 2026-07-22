@@ -17,7 +17,8 @@
     "ItemCombinerMenuAccessor",
     "LivingEntityMixin",
     "SpreadingSnowyBlockMixin",
-    "SugarCanePlacementMixin"
+    "SugarCanePlacementMixin",
+    "TridentItemMixin"
   ],
   "client": [
     "EnchantmentScreenMixin",

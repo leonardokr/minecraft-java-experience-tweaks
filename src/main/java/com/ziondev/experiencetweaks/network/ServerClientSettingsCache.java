@@ -12,6 +12,7 @@ public final class ServerClientSettingsCache {
     private static final Map<UUID, Boolean> KEEP_EXPERIENCE = new ConcurrentHashMap<>();
     private static final Map<UUID, Boolean> DIRECT_EXPERIENCE = new ConcurrentHashMap<>();
     private static final Map<UUID, Boolean> GIVE_EXPERIENCE_EVERY_DAY = new ConcurrentHashMap<>();
+    private static final Map<UUID, Boolean> RIPTIDE_ANYWHERE = new ConcurrentHashMap<>();
 
     private ServerClientSettingsCache() {}
 
@@ -22,11 +23,13 @@ public final class ServerClientSettingsCache {
      * @param keepExperience whether to keep experience on death
      * @param directExperience whether experience is picked up directly
      * @param giveExperienceEveryDay whether daily experience rewards are active
+     * @param riptideAnywhere whether Riptide can be used anywhere
      */
-    public static void update(UUID playerUuid, boolean keepExperience, boolean directExperience, boolean giveExperienceEveryDay) {
+    public static void update(UUID playerUuid, boolean keepExperience, boolean directExperience, boolean giveExperienceEveryDay, boolean riptideAnywhere) {
         KEEP_EXPERIENCE.put(playerUuid, keepExperience);
         DIRECT_EXPERIENCE.put(playerUuid, directExperience);
         GIVE_EXPERIENCE_EVERY_DAY.put(playerUuid, giveExperienceEveryDay);
+        RIPTIDE_ANYWHERE.put(playerUuid, riptideAnywhere);
     }
 
     /**
@@ -38,6 +41,7 @@ public final class ServerClientSettingsCache {
         KEEP_EXPERIENCE.remove(playerUuid);
         DIRECT_EXPERIENCE.remove(playerUuid);
         GIVE_EXPERIENCE_EVERY_DAY.remove(playerUuid);
+        RIPTIDE_ANYWHERE.remove(playerUuid);
     }
 
     /**
@@ -68,5 +72,15 @@ public final class ServerClientSettingsCache {
      */
     public static Boolean getGiveExperienceEveryDay(UUID playerUuid) {
         return GIVE_EXPERIENCE_EVERY_DAY.get(playerUuid);
+    }
+
+    /**
+     * Gets the riptide anywhere setting for a player.
+     *
+     * @param playerUuid the UUID of the player
+     * @return the riptide anywhere setting, or null if uncached
+     */
+    public static Boolean getRiptideAnywhere(UUID playerUuid) {
+        return RIPTIDE_ANYWHERE.get(playerUuid);
     }
 }

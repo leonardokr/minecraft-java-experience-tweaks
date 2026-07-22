@@ -34,5 +34,10 @@ public class ClientConfig {
             .comment("\n If true, players will automatically recast their fishing rod after reeling in a fish (requires autoFishing to be enabled).")
             .define("autoFishingRecast", true);
 
+    /** If true, the Riptide enchantment can be used anywhere, regardless of weather or water. */
+    public static final ModConfigSpec.BooleanValue RIPTIDE_ANYWHERE = BUILDER
+            .comment("\n If true, the Riptide enchantment can be used anywhere, regardless of weather or water.")
+            .define("riptideAnywhere", false);
+
     public static final ModConfigSpec SPEC = BUILDER.build();
 }
