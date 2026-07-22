@@ -97,8 +97,8 @@ public abstract class AnvilMenuMixin {
      * @param original the vanilla damage chance (0.12F)
      * @return the adjusted damage chance based on durability percentage
      */
-    @ModifyConstant(method = "onTake", constant = @Constant(floatValue = 0.12F))
-    private float experienceTweaks$modifyAnvilDamageChance(float original) {
+    @ModifyConstant(method = "lambda$onTake$0", constant = @Constant(floatValue = 0.12F))
+    private static float experienceTweaks$modifyAnvilDamageChance(float original) {
         int durabilityPct = ModConfig.getAnvilDurabilityMultiplier();
         if (durabilityPct <= 0) {
             return 1.0F;
