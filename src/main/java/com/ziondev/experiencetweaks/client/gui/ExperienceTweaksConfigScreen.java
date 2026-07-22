@@ -15,11 +15,14 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import org.jspecify.annotations.NonNull;
 
+import net.minecraft.client.gui.screens.ConfirmScreen;
 import java.util.List;
 
 /**
- * In-game configuration GUI screen providing two tabs: "Client" (personal options for all players)
- * and "Server" (world mechanics and reward amounts accessible only to OP players or singleplayer hosts).
+ * In-game configuration GUI screen providing two tabs: "Client" (personal
+ * options for all players)
+ * and "Server" (world mechanics and reward amounts accessible only to OP
+ * players or singleplayer hosts).
  */
 public class ExperienceTweaksConfigScreen extends Screen {
 
@@ -65,7 +68,8 @@ public class ExperienceTweaksConfigScreen extends Screen {
     /**
      * Constructs a new configuration GUI screen.
      *
-     * @param lastScreen the previous screen to return to when closing, or {@code null}
+     * @param lastScreen the previous screen to return to when closing, or
+     *                   {@code null}
      */
     public ExperienceTweaksConfigScreen(Screen lastScreen) {
         super(Component.translatable("experiencetweaks.gui.config.title"));
@@ -181,18 +185,15 @@ public class ExperienceTweaksConfigScreen extends Screen {
             this.optionList.addEntry(new BooleanOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.keep_experience"),
                     this.clientKeepExperience,
-                    val -> this.clientKeepExperience = val
-            ));
+                    val -> this.clientKeepExperience = val));
             this.optionList.addEntry(new BooleanOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.direct_experience"),
                     this.clientDirectExperience,
-                    val -> this.clientDirectExperience = val
-            ));
+                    val -> this.clientDirectExperience = val));
             this.optionList.addEntry(new BooleanOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.give_experience_every_day"),
                     this.clientGiveExperienceEveryDay,
-                    val -> this.clientGiveExperienceEveryDay = val
-            ));
+                    val -> this.clientGiveExperienceEveryDay = val));
             this.optionList.addEntry(new BooleanOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.auto_fishing"),
                     this.clientAutoFishing,
@@ -202,129 +203,124 @@ public class ExperienceTweaksConfigScreen extends Screen {
                             this.clientAutoFishingRecast = false;
                             rebuildOptionList();
                         }
-                    }
-            ));
+                    }));
             this.optionList.addEntry(new BooleanOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.auto_fishing_recast"),
                     this.clientAutoFishingRecast,
-                    val -> this.clientAutoFishingRecast = val
-            ));
+                    val -> this.clientAutoFishingRecast = val));
             this.optionList.addEntry(new BooleanOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.riptide_anywhere"),
                     this.clientRiptideAnywhere,
-                    val -> this.clientRiptideAnywhere = val
-            ));
+                    val -> this.clientRiptideAnywhere = val));
         } else {
             this.optionList.addEntry(new StringOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.give_experience_every_day_base"),
                     this.serverGiveExperienceEveryDayBase,
-                    val -> this.serverGiveExperienceEveryDayBase = val
-            ));
+                    val -> this.serverGiveExperienceEveryDayBase = val));
             this.optionList.addEntry(new StringOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.give_experience_every_day_growth"),
                     this.serverGiveExperienceEveryDayGrowth,
-                    val -> this.serverGiveExperienceEveryDayGrowth = val
-            ));
+                    val -> this.serverGiveExperienceEveryDayGrowth = val));
             this.optionList.addEntry(new BooleanOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.anvil_bypass_too_expensive"),
                     this.serverAnvilBypassTooExpensive,
-                    val -> this.serverAnvilBypassTooExpensive = val
-            ));
+                    val -> this.serverAnvilBypassTooExpensive = val));
             this.optionList.addEntry(new BooleanOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.anvil_use_item_cost"),
                     this.serverAnvilUseItemCost,
-                    val -> this.serverAnvilUseItemCost = val
-            ));
+                    val -> this.serverAnvilUseItemCost = val));
             this.optionList.addEntry(new StringOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.anvil_cost_item"),
                     this.serverAnvilCostItem,
-                    val -> this.serverAnvilCostItem = val
-            ));
+                    val -> this.serverAnvilCostItem = val));
             this.optionList.addEntry(new StringOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.anvil_item_cost_multiplier"),
                     this.serverAnvilItemCostMultiplier,
-                    val -> this.serverAnvilItemCostMultiplier = val
-            ));
+                    val -> this.serverAnvilItemCostMultiplier = val));
             this.optionList.addEntry(new BooleanOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.allow_mending_with_infinity"),
                     this.serverAllowMendingWithInfinity,
-                    val -> this.serverAllowMendingWithInfinity = val
-            ));
+                    val -> this.serverAllowMendingWithInfinity = val));
             this.optionList.addEntry(new BooleanOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.anvil_enchantment_extraction"),
                     this.serverAnvilEnchantmentExtraction,
-                    val -> this.serverAnvilEnchantmentExtraction = val
-            ));
+                    val -> this.serverAnvilEnchantmentExtraction = val));
             this.optionList.addEntry(new BooleanOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.anvil_enchantment_extraction_destroy_source"),
                     this.serverAnvilEnchantmentExtractionDestroySource,
-                    val -> this.serverAnvilEnchantmentExtractionDestroySource = val
-            ));
+                    val -> this.serverAnvilEnchantmentExtractionDestroySource = val));
             this.optionList.addEntry(new StringOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.enchantment_cost_item"),
                     this.serverEnchantmentCostItem,
-                    val -> this.serverEnchantmentCostItem = val
-            ));
+                    val -> this.serverEnchantmentCostItem = val));
             this.optionList.addEntry(new StringOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.enchantment_cost_multiplier"),
                     this.serverEnchantmentCostMultiplier,
-                    val -> this.serverEnchantmentCostMultiplier = val
-            ));
+                    val -> this.serverEnchantmentCostMultiplier = val));
             this.optionList.addEntry(new StringOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.enchantment_cooldown_type"),
                     this.serverEnchantmentCooldownType,
-                    val -> this.serverEnchantmentCooldownType = val
-            ));
+                    val -> this.serverEnchantmentCooldownType = val));
             this.optionList.addEntry(new BooleanOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.water_below_hydrates_farmland"),
                     this.serverWaterBelowHydratesFarmland,
-                    val -> this.serverWaterBelowHydratesFarmland = val
-            ));
+                    val -> this.serverWaterBelowHydratesFarmland = val));
             this.optionList.addEntry(new StringOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.water_hydration_radius"),
                     this.serverWaterHydrationRadius,
-                    val -> this.serverWaterHydrationRadius = val
-            ));
+                    val -> this.serverWaterHydrationRadius = val));
             this.optionList.addEntry(new StringOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.milk_bucket_nutrition"),
                     this.serverMilkBucketNutrition,
-                    val -> this.serverMilkBucketNutrition = val
-            ));
+                    val -> this.serverMilkBucketNutrition = val));
             this.optionList.addEntry(new BooleanOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.wandering_trader_unlimited_trades"),
                     this.serverWanderingTraderUnlimitedTrades,
-                    val -> this.serverWanderingTraderUnlimitedTrades = val
-            ));
+                    val -> this.serverWanderingTraderUnlimitedTrades = val));
             this.optionList.addEntry(new BooleanOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.villager_unlimited_trades"),
                     this.serverVillagerUnlimitedTrades,
-                    val -> this.serverVillagerUnlimitedTrades = val
-            ));
+                    val -> this.serverVillagerUnlimitedTrades = val));
             this.optionList.addEntry(new BooleanOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.all_arrows_affected_by_infinity"),
                     this.serverAllArrowsAffectedByInfinity,
-                    val -> this.serverAllArrowsAffectedByInfinity = val
-            ));
+                    val -> this.serverAllArrowsAffectedByInfinity = val));
             this.optionList.addEntry(new BooleanOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.allow_multiple_damage_enchantments"),
                     this.serverAllowMultipleDamageEnchantments,
-                    val -> this.serverAllowMultipleDamageEnchantments = val
-            ));
+                    val -> this.serverAllowMultipleDamageEnchantments = val));
             this.optionList.addEntry(new BooleanOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.allow_multiple_protection_enchantments"),
                     this.serverAllowMultipleProtectionEnchantments,
-                    val -> this.serverAllowMultipleProtectionEnchantments = val
-            ));
+                    val -> this.serverAllowMultipleProtectionEnchantments = val));
             this.optionList.addEntry(new BooleanOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.allow_piercing_with_multishot"),
                     this.serverAllowPiercingWithMultishot,
-                    val -> this.serverAllowPiercingWithMultishot = val
-            ));
+                    val -> this.serverAllowPiercingWithMultishot = val));
             this.optionList.addEntry(new BooleanOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.allow_multiple_trident_enchantments"),
                     this.serverAllowMultipleTridentEnchantments,
-                    val -> this.serverAllowMultipleTridentEnchantments = val
-            ));
+                    val -> this.serverAllowMultipleTridentEnchantments = val));
+            this.optionList.addEntry(new ButtonOptionEntry(
+                    Component.translatable("experiencetweaks.gui.config.unlock_all_recipes"),
+                    Component.translatable("experiencetweaks.gui.config.unlock"),
+                    btn -> {
+                        if (this.minecraft != null) {
+                            this.minecraft.setScreen(new ConfirmScreen(
+                                    confirmed -> {
+                                        if (confirmed && this.minecraft.getConnection() != null) {
+                                            this.minecraft.getConnection().send(
+                                                    new net.minecraft.network.protocol.common.ServerboundCustomPayloadPacket(
+                                                            new com.ziondev.experiencetweaks.network.UnlockAllRecipesPacket()));
+                                        }
+                                        this.minecraft.setScreen(this);
+                                    },
+                                    Component.translatable(
+                                            "experiencetweaks.gui.config.unlock_all_recipes.confirm.title"),
+                                    Component.translatable(
+                                            "experiencetweaks.gui.config.unlock_all_recipes.confirm.message")));
+                        }
+                    }));
         }
     }
 
@@ -341,12 +337,13 @@ public class ExperienceTweaksConfigScreen extends Screen {
         ClientConfig.SPEC.save();
 
         if (this.minecraft != null && this.minecraft.getConnection() != null) {
-            this.minecraft.getConnection().send(new net.minecraft.network.protocol.common.ServerboundCustomPayloadPacket(new com.ziondev.experiencetweaks.network.SyncClientSettingsPacket(
-                    this.clientKeepExperience,
-                    this.clientDirectExperience,
-                    this.clientGiveExperienceEveryDay,
-                    this.clientRiptideAnywhere
-            )));
+            this.minecraft.getConnection()
+                    .send(new net.minecraft.network.protocol.common.ServerboundCustomPayloadPacket(
+                            new com.ziondev.experiencetweaks.network.SyncClientSettingsPacket(
+                                    this.clientKeepExperience,
+                                    this.clientDirectExperience,
+                                    this.clientGiveExperienceEveryDay,
+                                    this.clientRiptideAnywhere)));
         }
 
         if (this.isPlayerOp) {
@@ -365,7 +362,8 @@ public class ExperienceTweaksConfigScreen extends Screen {
             ServerConfig.ANVIL_ITEM_COST_MULTIPLIER.set(anvilMultiplier);
             ServerConfig.ALLOW_MENDING_WITH_INFINITY.set(this.serverAllowMendingWithInfinity);
             ServerConfig.ANVIL_ENCHANTMENT_EXTRACTION.set(this.serverAnvilEnchantmentExtraction);
-            ServerConfig.ANVIL_ENCHANTMENT_EXTRACTION_DESTROY_SOURCE.set(this.serverAnvilEnchantmentExtractionDestroySource);
+            ServerConfig.ANVIL_ENCHANTMENT_EXTRACTION_DESTROY_SOURCE
+                    .set(this.serverAnvilEnchantmentExtractionDestroySource);
             ServerConfig.ENCHANTMENT_COST_ITEM.set(this.serverEnchantmentCostItem.trim());
             ServerConfig.ENCHANTMENT_COST_MULTIPLIER.set(enchMultiplier);
             ServerConfig.ENCHANTMENT_COOLDOWN_TYPE.set(this.serverEnchantmentCooldownType.trim());
@@ -382,30 +380,31 @@ public class ExperienceTweaksConfigScreen extends Screen {
             ServerConfig.SPEC.save();
 
             if (this.minecraft != null && this.minecraft.getConnection() != null && !this.minecraft.isSingleplayer()) {
-                this.minecraft.getConnection().send(new net.minecraft.network.protocol.common.ServerboundCustomPayloadPacket(new UpdateServerConfigPacket(
-                        dailyBase,
-                        dailyGrowth,
-                        this.serverAnvilBypassTooExpensive,
-                        this.serverAnvilUseItemCost,
-                        this.serverAnvilCostItem.trim(),
-                        anvilMultiplier,
-                        this.serverAllowMendingWithInfinity,
-                        this.serverAnvilEnchantmentExtraction,
-                        this.serverAnvilEnchantmentExtractionDestroySource,
-                        this.serverEnchantmentCostItem.trim(),
-                        enchMultiplier,
-                        this.serverEnchantmentCooldownType.trim(),
-                        this.serverWaterBelowHydratesFarmland,
-                        waterRadius,
-                        milkNutrition,
-                        this.serverWanderingTraderUnlimitedTrades,
-                        this.serverVillagerUnlimitedTrades,
-                        this.serverAllArrowsAffectedByInfinity,
-                        this.serverAllowMultipleDamageEnchantments,
-                        this.serverAllowMultipleProtectionEnchantments,
-                        this.serverAllowPiercingWithMultishot,
-                        this.serverAllowMultipleTridentEnchantments
-                )));
+                this.minecraft.getConnection()
+                        .send(new net.minecraft.network.protocol.common.ServerboundCustomPayloadPacket(
+                                new UpdateServerConfigPacket(
+                                        dailyBase,
+                                        dailyGrowth,
+                                        this.serverAnvilBypassTooExpensive,
+                                        this.serverAnvilUseItemCost,
+                                        this.serverAnvilCostItem.trim(),
+                                        anvilMultiplier,
+                                        this.serverAllowMendingWithInfinity,
+                                        this.serverAnvilEnchantmentExtraction,
+                                        this.serverAnvilEnchantmentExtractionDestroySource,
+                                        this.serverEnchantmentCostItem.trim(),
+                                        enchMultiplier,
+                                        this.serverEnchantmentCooldownType.trim(),
+                                        this.serverWaterBelowHydratesFarmland,
+                                        waterRadius,
+                                        milkNutrition,
+                                        this.serverWanderingTraderUnlimitedTrades,
+                                        this.serverVillagerUnlimitedTrades,
+                                        this.serverAllArrowsAffectedByInfinity,
+                                        this.serverAllowMultipleDamageEnchantments,
+                                        this.serverAllowMultipleProtectionEnchantments,
+                                        this.serverAllowPiercingWithMultishot,
+                                        this.serverAllowMultipleTridentEnchantments)));
             }
         }
 
@@ -480,7 +479,8 @@ public class ExperienceTweaksConfigScreen extends Screen {
         private final java.util.function.Consumer<Boolean> consumer;
         private final Button button;
 
-        public BooleanOptionEntry(Component label, boolean initialValue, java.util.function.Consumer<Boolean> consumer) {
+        public BooleanOptionEntry(Component label, boolean initialValue,
+                java.util.function.Consumer<Boolean> consumer) {
             this.label = label;
             this.value = initialValue;
             this.consumer = consumer;
@@ -498,7 +498,8 @@ public class ExperienceTweaksConfigScreen extends Screen {
         }
 
         @Override
-        public void extractContent(@NonNull GuiGraphicsExtractor graphics, int mouseX, int mouseY, boolean isHovered, float partialTick) {
+        public void extractContent(@NonNull GuiGraphicsExtractor graphics, int mouseX, int mouseY, boolean isHovered,
+                float partialTick) {
             graphics.text(Minecraft.getInstance().font, this.label, this.getX() + 5, this.getY() + 6, 0xFFFFFFFF);
             this.button.setX(this.getX() + this.getWidth() - 85);
             this.button.setY(this.getY());
@@ -517,7 +518,8 @@ public class ExperienceTweaksConfigScreen extends Screen {
     }
 
     /**
-     * Option entry row displaying a label and a text edit box for string or numeric values.
+     * Option entry row displaying a label and a text edit box for string or numeric
+     * values.
      */
     private static class StringOptionEntry extends OptionEntry {
         private final Component label;
@@ -533,7 +535,8 @@ public class ExperienceTweaksConfigScreen extends Screen {
         }
 
         @Override
-        public void extractContent(@NonNull GuiGraphicsExtractor graphics, int mouseX, int mouseY, boolean isHovered, float partialTick) {
+        public void extractContent(@NonNull GuiGraphicsExtractor graphics, int mouseX, int mouseY, boolean isHovered,
+                float partialTick) {
             graphics.text(Minecraft.getInstance().font, this.label, this.getX() + 5, this.getY() + 6, 0xFFFFFFFF);
             this.editBox.setX(this.getX() + this.getWidth() - 105);
             this.editBox.setY(this.getY() + 1);
@@ -548,6 +551,39 @@ public class ExperienceTweaksConfigScreen extends Screen {
         @Override
         public @NonNull List<? extends NarratableEntry> narratables() {
             return List.of(this.editBox);
+        }
+    }
+
+    /**
+     * Option entry row displaying a label and a button that triggers a custom
+     * action.
+     */
+    private static class ButtonOptionEntry extends OptionEntry {
+        private final Component label;
+        private final Button button;
+
+        public ButtonOptionEntry(Component label, Component buttonLabel, Button.OnPress onPress) {
+            this.label = label;
+            this.button = Button.builder(buttonLabel, onPress).bounds(0, 0, 100, 20).build();
+        }
+
+        @Override
+        public void extractContent(@NonNull GuiGraphicsExtractor graphics, int mouseX, int mouseY, boolean isHovered,
+                float partialTick) {
+            graphics.text(Minecraft.getInstance().font, this.label, this.getX() + 5, this.getY() + 6, 0xFFFFFFFF);
+            this.button.setX(this.getX() + this.getWidth() - 105);
+            this.button.setY(this.getY());
+            this.button.extractRenderState(graphics, mouseX, mouseY, partialTick);
+        }
+
+        @Override
+        public @NonNull List<? extends GuiEventListener> children() {
+            return List.of(this.button);
+        }
+
+        @Override
+        public @NonNull List<? extends NarratableEntry> narratables() {
+            return List.of(this.button);
         }
     }
 }

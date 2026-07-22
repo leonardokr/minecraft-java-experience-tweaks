@@ -230,6 +230,26 @@ public class ExperienceTweaksMod {
                                                                 player.getName().getString());
                                         }
                                 });
+
+                registrar.playToServer(
+                                com.ziondev.experiencetweaks.network.UnlockAllRecipesPacket.TYPE,
+                                com.ziondev.experiencetweaks.network.UnlockAllRecipesPacket.STREAM_CODEC,
+                                (packet, ctx) -> {
+                                        if (ctx.player() instanceof ServerPlayer player
+                                                        && player.level().getServer() != null
+                                                        && player.level().getServer().getPlayerList().isOp(
+                                                                        new net.minecraft.server.players.NameAndId(
+                                                                                        player.getGameProfile()))) {
+                                                var server = player.level().getServer();
+                                                if (server != null) {
+                                                        var recipes = server.getRecipeManager().getRecipes();
+                                                        for (ServerPlayer serverPlayer : server.getPlayerList().getPlayers()) {
+                                                                serverPlayer.awardRecipes(recipes);
+                                                        }
+                                                        LOGGER.info("All recipes unlocked for all players by OP {}", player.getName().getString());
+                                                }
+                                        }
+                                });
         }
 
         /**
