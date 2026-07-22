@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.10.0](https://github.com/leonardokr/minecraft-java-experience-tweaks/compare/v1.9.0...v1.10.0) (2026-07-22)
+
+
+### Features
+
+* add configurable anvil durability multiplier option ([80ac282](https://github.com/leonardokr/minecraft-java-experience-tweaks/commit/80ac2825398e802132bcfaca2e37d4746aab2e20))
+* add server option to unlock all recipes for all players ([9274965](https://github.com/leonardokr/minecraft-java-experience-tweaks/commit/927496572f9a1ae932c08d45d23bdd006ede42a7))
+
+
+### Bug Fixes
+
+* adjust dirt path slab models UV to fix transparent gap ([57b1ce8](https://github.com/leonardokr/minecraft-java-experience-tweaks/commit/57b1ce8010011bb25ea4970a3ca5a278c814fb41))
+
 ## [1.9.0](https://github.com/leonardokr/minecraft-java-experience-tweaks/compare/v1.8.1...v1.9.0) (2026-07-22)
 
 
