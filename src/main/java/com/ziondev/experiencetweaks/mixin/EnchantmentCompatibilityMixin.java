@@ -41,6 +41,13 @@ public abstract class EnchantmentCompatibilityMixin {
             return;
         }
 
+        if (ModConfig.isAllowMultipleProtectionEnchantments()
+                && experienceTweaks$isProtectionEnchantment(enchantment)
+                && experienceTweaks$isProtectionEnchantment(other)) {
+            cir.setReturnValue(true);
+            return;
+        }
+
         if (!ModConfig.isAllowMendingWithInfinity()) {
             return;
         }
@@ -59,5 +66,12 @@ public abstract class EnchantmentCompatibilityMixin {
         return enchantment.is(Enchantments.SHARPNESS)
                 || enchantment.is(Enchantments.SMITE)
                 || enchantment.is(Enchantments.BANE_OF_ARTHROPODS);
+    }
+
+    private static boolean experienceTweaks$isProtectionEnchantment(Holder<Enchantment> enchantment) {
+        return enchantment.is(Enchantments.PROTECTION)
+                || enchantment.is(Enchantments.PROJECTILE_PROTECTION)
+                || enchantment.is(Enchantments.FIRE_PROTECTION)
+                || enchantment.is(Enchantments.BLAST_PROTECTION);
     }
 }

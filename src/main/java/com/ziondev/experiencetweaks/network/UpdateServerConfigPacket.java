@@ -31,7 +31,8 @@ public record UpdateServerConfigPacket(
         boolean wanderingTraderUnlimitedTrades,
         boolean villagerUnlimitedTrades,
         boolean allArrowsAffectedByInfinity,
-        boolean allowMultipleDamageEnchantments
+        boolean allowMultipleDamageEnchantments,
+        boolean allowMultipleProtectionEnchantments
 ) implements CustomPacketPayload {
 
     public static final CustomPacketPayload.Type<UpdateServerConfigPacket> TYPE =
@@ -56,6 +57,7 @@ public record UpdateServerConfigPacket(
                     ByteBufCodecs.BOOL.decode(buf),
                     ByteBufCodecs.VAR_INT.decode(buf),
                     ByteBufCodecs.VAR_INT.decode(buf),
+                    ByteBufCodecs.BOOL.decode(buf),
                     ByteBufCodecs.BOOL.decode(buf),
                     ByteBufCodecs.BOOL.decode(buf),
                     ByteBufCodecs.BOOL.decode(buf),
@@ -84,6 +86,7 @@ public record UpdateServerConfigPacket(
             ByteBufCodecs.BOOL.encode(buf, value.villagerUnlimitedTrades());
             ByteBufCodecs.BOOL.encode(buf, value.allArrowsAffectedByInfinity());
             ByteBufCodecs.BOOL.encode(buf, value.allowMultipleDamageEnchantments());
+            ByteBufCodecs.BOOL.encode(buf, value.allowMultipleProtectionEnchantments());
         }
     };
 

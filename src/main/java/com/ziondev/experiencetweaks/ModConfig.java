@@ -57,7 +57,8 @@ public final class ModConfig {
         WANDERING_TRADER_UNLIMITED_TRADES("ET-0x019"),
         VILLAGER_UNLIMITED_TRADES("ET-0x01a"),
         ALL_ARROWS_AFFECTED_BY_INFINITY("ET-0x01b"),
-        ALLOW_MULTIPLE_DAMAGE_ENCHANTMENTS("ET-0x01c");
+        ALLOW_MULTIPLE_DAMAGE_ENCHANTMENTS("ET-0x01c"),
+        ALLOW_MULTIPLE_PROTECTION_ENCHANTMENTS("ET-0x01d");
 
         private final String code;
 
@@ -608,6 +609,22 @@ public final class ModConfig {
             }
         } catch (Exception e) {
             broadcastConfigError(ConfigError.ALLOW_MULTIPLE_DAMAGE_ENCHANTMENTS);
+        }
+        return false;
+    }
+
+    /**
+     * Returns whether multiple protection enchantments can coexist.
+     *
+     * @return {@code true} if multiple protection enchantments are allowed
+     */
+    public static boolean isAllowMultipleProtectionEnchantments() {
+        try {
+            if (ServerConfig.SPEC.isLoaded()) {
+                return ServerConfig.ALLOW_MULTIPLE_PROTECTION_ENCHANTMENTS.get();
+            }
+        } catch (Exception e) {
+            broadcastConfigError(ConfigError.ALLOW_MULTIPLE_PROTECTION_ENCHANTMENTS);
         }
         return false;
     }

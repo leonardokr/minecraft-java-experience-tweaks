@@ -122,5 +122,10 @@ public class ServerConfig {
             .comment("\n If true, Sharpness, Smite, and Bane of Arthropods can be combined on the same weapon.")
             .define("allowMultipleDamageEnchantments", false);
 
+    /** If true, Protection, Projectile Protection, Fire Protection, and Blast Protection can be combined. */
+    public static final ModConfigSpec.BooleanValue ALLOW_MULTIPLE_PROTECTION_ENCHANTMENTS = BUILDER
+            .comment("\n If true, Protection, Projectile Protection, Fire Protection, and Blast Protection can be combined on the same armor item.")
+            .define("allowMultipleProtectionEnchantments", false);
+
     public static final ModConfigSpec SPEC = BUILDER.build();
 }

@@ -214,6 +214,7 @@ public class ExperienceTweaksMod {
                                                 ServerConfig.VILLAGER_UNLIMITED_TRADES.set(packet.villagerUnlimitedTrades());
                                                 ServerConfig.ALL_ARROWS_AFFECTED_BY_INFINITY.set(packet.allArrowsAffectedByInfinity());
                                                 ServerConfig.ALLOW_MULTIPLE_DAMAGE_ENCHANTMENTS.set(packet.allowMultipleDamageEnchantments());
+                                                ServerConfig.ALLOW_MULTIPLE_PROTECTION_ENCHANTMENTS.set(packet.allowMultipleProtectionEnchantments());
                                                 ServerConfig.SPEC.save();
 
                                                 PacketDistributor.sendToAllPlayers(new com.ziondev.experiencetweaks.network.SyncServerConfigPacket(
