@@ -59,7 +59,8 @@ public final class ModConfig {
         ALL_ARROWS_AFFECTED_BY_INFINITY("ET-0x01b"),
         ALLOW_MULTIPLE_DAMAGE_ENCHANTMENTS("ET-0x01c"),
         ALLOW_MULTIPLE_PROTECTION_ENCHANTMENTS("ET-0x01d"),
-        ALLOW_PIERCING_WITH_MULTISHOT("ET-0x01e");
+        ALLOW_PIERCING_WITH_MULTISHOT("ET-0x01e"),
+        ALLOW_MULTIPLE_TRIDENT_ENCHANTMENTS("ET-0x01f");
 
         private final String code;
 
@@ -642,6 +643,22 @@ public final class ModConfig {
             }
         } catch (Exception e) {
             broadcastConfigError(ConfigError.ALLOW_PIERCING_WITH_MULTISHOT);
+        }
+        return false;
+    }
+
+    /**
+     * Returns whether Channeling, Loyalty, and Riptide enchantments can coexist on the same trident.
+     *
+     * @return {@code true} if Channeling, Loyalty, and Riptide can be combined
+     */
+    public static boolean isAllowMultipleTridentEnchantments() {
+        try {
+            if (ServerConfig.SPEC.isLoaded()) {
+                return ServerConfig.ALLOW_MULTIPLE_TRIDENT_ENCHANTMENTS.get();
+            }
+        } catch (Exception e) {
+            broadcastConfigError(ConfigError.ALLOW_MULTIPLE_TRIDENT_ENCHANTMENTS);
         }
         return false;
     }

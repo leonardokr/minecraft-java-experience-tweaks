@@ -33,7 +33,8 @@ public record UpdateServerConfigPacket(
         boolean allArrowsAffectedByInfinity,
         boolean allowMultipleDamageEnchantments,
         boolean allowMultipleProtectionEnchantments,
-        boolean allowPiercingWithMultishot
+        boolean allowPiercingWithMultishot,
+        boolean allowMultipleTridentEnchantments
 ) implements CustomPacketPayload {
 
     public static final CustomPacketPayload.Type<UpdateServerConfigPacket> TYPE =
@@ -58,6 +59,7 @@ public record UpdateServerConfigPacket(
                     ByteBufCodecs.BOOL.decode(buf),
                     ByteBufCodecs.VAR_INT.decode(buf),
                     ByteBufCodecs.VAR_INT.decode(buf),
+                    ByteBufCodecs.BOOL.decode(buf),
                     ByteBufCodecs.BOOL.decode(buf),
                     ByteBufCodecs.BOOL.decode(buf),
                     ByteBufCodecs.BOOL.decode(buf),
@@ -90,6 +92,7 @@ public record UpdateServerConfigPacket(
             ByteBufCodecs.BOOL.encode(buf, value.allowMultipleDamageEnchantments());
             ByteBufCodecs.BOOL.encode(buf, value.allowMultipleProtectionEnchantments());
             ByteBufCodecs.BOOL.encode(buf, value.allowPiercingWithMultishot());
+            ByteBufCodecs.BOOL.encode(buf, value.allowMultipleTridentEnchantments());
         }
     };
 

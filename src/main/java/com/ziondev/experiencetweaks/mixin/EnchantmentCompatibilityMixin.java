@@ -60,6 +60,13 @@ public abstract class EnchantmentCompatibilityMixin {
             }
         }
 
+        if (ModConfig.isAllowMultipleTridentEnchantments()
+                && experienceTweaks$isTridentEnchantment(enchantment)
+                && experienceTweaks$isTridentEnchantment(other)) {
+            cir.setReturnValue(true);
+            return;
+        }
+
         if (!ModConfig.isAllowMendingWithInfinity()) {
             return;
         }
@@ -85,5 +92,11 @@ public abstract class EnchantmentCompatibilityMixin {
                 || enchantment.is(Enchantments.PROJECTILE_PROTECTION)
                 || enchantment.is(Enchantments.FIRE_PROTECTION)
                 || enchantment.is(Enchantments.BLAST_PROTECTION);
+    }
+
+    private static boolean experienceTweaks$isTridentEnchantment(Holder<Enchantment> enchantment) {
+        return enchantment.is(Enchantments.CHANNELING)
+                || enchantment.is(Enchantments.LOYALTY)
+                || enchantment.is(Enchantments.RIPTIDE);
     }
 }

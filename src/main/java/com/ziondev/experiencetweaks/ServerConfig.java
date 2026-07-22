@@ -132,5 +132,10 @@ public class ServerConfig {
             .comment("\n If true, Piercing and Multishot enchantments can be combined on the same crossbow.")
             .define("allowPiercingWithMultishot", false);
 
+    /** If true, Channeling, Loyalty, and Riptide enchantments can be combined on the same trident. */
+    public static final ModConfigSpec.BooleanValue ALLOW_MULTIPLE_TRIDENT_ENCHANTMENTS = BUILDER
+            .comment("\n If true, Channeling, Loyalty, and Riptide enchantments can be combined on the same trident.")
+            .define("allowMultipleTridentEnchantments", false);
+
     public static final ModConfigSpec SPEC = BUILDER.build();
 }
