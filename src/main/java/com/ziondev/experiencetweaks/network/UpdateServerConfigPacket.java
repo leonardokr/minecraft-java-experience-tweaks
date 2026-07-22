@@ -32,7 +32,8 @@ public record UpdateServerConfigPacket(
         boolean villagerUnlimitedTrades,
         boolean allArrowsAffectedByInfinity,
         boolean allowMultipleDamageEnchantments,
-        boolean allowMultipleProtectionEnchantments
+        boolean allowMultipleProtectionEnchantments,
+        boolean allowPiercingWithMultishot
 ) implements CustomPacketPayload {
 
     public static final CustomPacketPayload.Type<UpdateServerConfigPacket> TYPE =
@@ -57,6 +58,7 @@ public record UpdateServerConfigPacket(
                     ByteBufCodecs.BOOL.decode(buf),
                     ByteBufCodecs.VAR_INT.decode(buf),
                     ByteBufCodecs.VAR_INT.decode(buf),
+                    ByteBufCodecs.BOOL.decode(buf),
                     ByteBufCodecs.BOOL.decode(buf),
                     ByteBufCodecs.BOOL.decode(buf),
                     ByteBufCodecs.BOOL.decode(buf),
@@ -87,6 +89,7 @@ public record UpdateServerConfigPacket(
             ByteBufCodecs.BOOL.encode(buf, value.allArrowsAffectedByInfinity());
             ByteBufCodecs.BOOL.encode(buf, value.allowMultipleDamageEnchantments());
             ByteBufCodecs.BOOL.encode(buf, value.allowMultipleProtectionEnchantments());
+            ByteBufCodecs.BOOL.encode(buf, value.allowPiercingWithMultishot());
         }
     };
 

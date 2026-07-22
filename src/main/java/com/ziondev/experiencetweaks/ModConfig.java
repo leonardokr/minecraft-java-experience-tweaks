@@ -58,7 +58,8 @@ public final class ModConfig {
         VILLAGER_UNLIMITED_TRADES("ET-0x01a"),
         ALL_ARROWS_AFFECTED_BY_INFINITY("ET-0x01b"),
         ALLOW_MULTIPLE_DAMAGE_ENCHANTMENTS("ET-0x01c"),
-        ALLOW_MULTIPLE_PROTECTION_ENCHANTMENTS("ET-0x01d");
+        ALLOW_MULTIPLE_PROTECTION_ENCHANTMENTS("ET-0x01d"),
+        ALLOW_PIERCING_WITH_MULTISHOT("ET-0x01e");
 
         private final String code;
 
@@ -625,6 +626,22 @@ public final class ModConfig {
             }
         } catch (Exception e) {
             broadcastConfigError(ConfigError.ALLOW_MULTIPLE_PROTECTION_ENCHANTMENTS);
+        }
+        return false;
+    }
+
+    /**
+     * Returns whether Piercing and Multishot enchantments can coexist on the same crossbow.
+     *
+     * @return {@code true} if Piercing and Multishot can be combined
+     */
+    public static boolean isAllowPiercingWithMultishot() {
+        try {
+            if (ServerConfig.SPEC.isLoaded()) {
+                return ServerConfig.ALLOW_PIERCING_WITH_MULTISHOT.get();
+            }
+        } catch (Exception e) {
+            broadcastConfigError(ConfigError.ALLOW_PIERCING_WITH_MULTISHOT);
         }
         return false;
     }

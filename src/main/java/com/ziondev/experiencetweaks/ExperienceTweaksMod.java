@@ -215,6 +215,7 @@ public class ExperienceTweaksMod {
                                                 ServerConfig.ALL_ARROWS_AFFECTED_BY_INFINITY.set(packet.allArrowsAffectedByInfinity());
                                                 ServerConfig.ALLOW_MULTIPLE_DAMAGE_ENCHANTMENTS.set(packet.allowMultipleDamageEnchantments());
                                                 ServerConfig.ALLOW_MULTIPLE_PROTECTION_ENCHANTMENTS.set(packet.allowMultipleProtectionEnchantments());
+                                                ServerConfig.ALLOW_PIERCING_WITH_MULTISHOT.set(packet.allowPiercingWithMultishot());
                                                 ServerConfig.SPEC.save();
 
                                                 PacketDistributor.sendToAllPlayers(new com.ziondev.experiencetweaks.network.SyncServerConfigPacket(

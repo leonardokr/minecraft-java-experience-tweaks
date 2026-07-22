@@ -48,6 +48,18 @@ public abstract class EnchantmentCompatibilityMixin {
             return;
         }
 
+        if (ModConfig.isAllowPiercingWithMultishot()) {
+            boolean firstIsPiercing   = enchantment.is(Enchantments.PIERCING);
+            boolean firstIsMultishot  = enchantment.is(Enchantments.MULTISHOT);
+            boolean secondIsPiercing  = other.is(Enchantments.PIERCING);
+            boolean secondIsMultishot = other.is(Enchantments.MULTISHOT);
+
+            if ((firstIsPiercing && secondIsMultishot) || (firstIsMultishot && secondIsPiercing)) {
+                cir.setReturnValue(true);
+                return;
+            }
+        }
+
         if (!ModConfig.isAllowMendingWithInfinity()) {
             return;
         }

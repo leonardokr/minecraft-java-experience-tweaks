@@ -58,6 +58,7 @@ public class ExperienceTweaksConfigScreen extends Screen {
     private boolean serverAllArrowsAffectedByInfinity;
     private boolean serverAllowMultipleDamageEnchantments;
     private boolean serverAllowMultipleProtectionEnchantments;
+    private boolean serverAllowPiercingWithMultishot;
 
     /**
      * Constructs a new configuration GUI screen.
@@ -152,6 +153,7 @@ public class ExperienceTweaksConfigScreen extends Screen {
         this.serverAllArrowsAffectedByInfinity = ModConfig.isAllArrowsAffectedByInfinity();
         this.serverAllowMultipleDamageEnchantments = ModConfig.isAllowMultipleDamageEnchantments();
         this.serverAllowMultipleProtectionEnchantments = ModConfig.isAllowMultipleProtectionEnchantments();
+        this.serverAllowPiercingWithMultishot = ModConfig.isAllowPiercingWithMultishot();
     }
 
     /**
@@ -304,6 +306,11 @@ public class ExperienceTweaksConfigScreen extends Screen {
                     this.serverAllowMultipleProtectionEnchantments,
                     val -> this.serverAllowMultipleProtectionEnchantments = val
             ));
+            this.optionList.addEntry(new BooleanOptionEntry(
+                    Component.translatable("experiencetweaks.gui.config.allow_piercing_with_multishot"),
+                    this.serverAllowPiercingWithMultishot,
+                    val -> this.serverAllowPiercingWithMultishot = val
+            ));
         }
     }
 
@@ -354,6 +361,7 @@ public class ExperienceTweaksConfigScreen extends Screen {
             ServerConfig.ALL_ARROWS_AFFECTED_BY_INFINITY.set(this.serverAllArrowsAffectedByInfinity);
             ServerConfig.ALLOW_MULTIPLE_DAMAGE_ENCHANTMENTS.set(this.serverAllowMultipleDamageEnchantments);
             ServerConfig.ALLOW_MULTIPLE_PROTECTION_ENCHANTMENTS.set(this.serverAllowMultipleProtectionEnchantments);
+            ServerConfig.ALLOW_PIERCING_WITH_MULTISHOT.set(this.serverAllowPiercingWithMultishot);
             ServerConfig.SPEC.save();
 
             if (this.minecraft != null && this.minecraft.getConnection() != null && !this.minecraft.isSingleplayer()) {
@@ -377,7 +385,8 @@ public class ExperienceTweaksConfigScreen extends Screen {
                         this.serverVillagerUnlimitedTrades,
                         this.serverAllArrowsAffectedByInfinity,
                         this.serverAllowMultipleDamageEnchantments,
-                        this.serverAllowMultipleProtectionEnchantments
+                        this.serverAllowMultipleProtectionEnchantments,
+                        this.serverAllowPiercingWithMultishot
                 )));
             }
         }

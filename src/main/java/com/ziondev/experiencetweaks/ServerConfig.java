@@ -127,5 +127,10 @@ public class ServerConfig {
             .comment("\n If true, Protection, Projectile Protection, Fire Protection, and Blast Protection can be combined on the same armor item.")
             .define("allowMultipleProtectionEnchantments", false);
 
+    /** If true, Piercing and Multishot enchantments can be combined on the same crossbow. */
+    public static final ModConfigSpec.BooleanValue ALLOW_PIERCING_WITH_MULTISHOT = BUILDER
+            .comment("\n If true, Piercing and Multishot enchantments can be combined on the same crossbow.")
+            .define("allowPiercingWithMultishot", false);
+
     public static final ModConfigSpec SPEC = BUILDER.build();
 }
