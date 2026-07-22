@@ -187,15 +187,18 @@ public class ExperienceTweaksConfigScreen extends Screen {
             this.optionList.addEntry(new BooleanOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.keep_experience"),
                     this.clientKeepExperience,
-                    val -> this.clientKeepExperience = val));
+                    val -> this.clientKeepExperience = val,
+                    List.of(Component.translatable("experiencetweaks.gui.config.keep_experience.tooltip"))));
             this.optionList.addEntry(new BooleanOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.direct_experience"),
                     this.clientDirectExperience,
-                    val -> this.clientDirectExperience = val));
+                    val -> this.clientDirectExperience = val,
+                    List.of(Component.translatable("experiencetweaks.gui.config.direct_experience.tooltip"))));
             this.optionList.addEntry(new BooleanOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.give_experience_every_day"),
                     this.clientGiveExperienceEveryDay,
-                    val -> this.clientGiveExperienceEveryDay = val));
+                    val -> this.clientGiveExperienceEveryDay = val,
+                    List.of(Component.translatable("experiencetweaks.gui.config.give_experience_every_day.tooltip"))));
             this.optionList.addEntry(new BooleanOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.auto_fishing"),
                     this.clientAutoFishing,
@@ -203,110 +206,147 @@ public class ExperienceTweaksConfigScreen extends Screen {
                         this.clientAutoFishing = val;
                         if (!val) {
                             this.clientAutoFishingRecast = false;
-                            rebuildOptionList();
                         }
-                    }));
-            this.optionList.addEntry(new BooleanOptionEntry(
-                    Component.translatable("experiencetweaks.gui.config.auto_fishing_recast"),
-                    this.clientAutoFishingRecast,
-                    val -> this.clientAutoFishingRecast = val));
+                        rebuildOptionList();
+                    },
+                    List.of(Component.translatable("experiencetweaks.gui.config.auto_fishing.tooltip"))));
+            if (this.clientAutoFishing) {
+                this.optionList.addEntry(new BooleanOptionEntry(
+                        Component.translatable("experiencetweaks.gui.config.auto_fishing_recast"),
+                        this.clientAutoFishingRecast,
+                        val -> this.clientAutoFishingRecast = val,
+                        List.of(Component.translatable("experiencetweaks.gui.config.auto_fishing_recast.tooltip"))));
+            }
             this.optionList.addEntry(new BooleanOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.riptide_anywhere"),
                     this.clientRiptideAnywhere,
-                    val -> this.clientRiptideAnywhere = val));
+                    val -> this.clientRiptideAnywhere = val,
+                    List.of(Component.translatable("experiencetweaks.gui.config.riptide_anywhere.tooltip"))));
         } else {
             this.optionList.addEntry(new StringOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.give_experience_every_day_base"),
                     this.serverGiveExperienceEveryDayBase,
-                    val -> this.serverGiveExperienceEveryDayBase = val));
+                    val -> this.serverGiveExperienceEveryDayBase = val,
+                    List.of(Component.translatable("experiencetweaks.gui.config.give_experience_every_day_base.tooltip"))));
             this.optionList.addEntry(new StringOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.give_experience_every_day_growth"),
                     this.serverGiveExperienceEveryDayGrowth,
-                    val -> this.serverGiveExperienceEveryDayGrowth = val));
+                    val -> this.serverGiveExperienceEveryDayGrowth = val,
+                    List.of(Component.translatable("experiencetweaks.gui.config.give_experience_every_day_growth.tooltip"))));
             this.optionList.addEntry(new BooleanOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.anvil_bypass_too_expensive"),
                     this.serverAnvilBypassTooExpensive,
-                    val -> this.serverAnvilBypassTooExpensive = val));
+                    val -> this.serverAnvilBypassTooExpensive = val,
+                    List.of(Component.translatable("experiencetweaks.gui.config.anvil_bypass_too_expensive.tooltip"))));
             this.optionList.addEntry(new BooleanOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.anvil_use_item_cost"),
                     this.serverAnvilUseItemCost,
-                    val -> this.serverAnvilUseItemCost = val));
+                    val -> this.serverAnvilUseItemCost = val,
+                    List.of(Component.translatable("experiencetweaks.gui.config.anvil_use_item_cost.tooltip"))));
             this.optionList.addEntry(new StringOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.anvil_cost_item"),
                     this.serverAnvilCostItem,
-                    val -> this.serverAnvilCostItem = val));
+                    val -> this.serverAnvilCostItem = val,
+                    List.of(Component.translatable("experiencetweaks.gui.config.anvil_cost_item.tooltip"))));
             this.optionList.addEntry(new StringOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.anvil_item_cost_multiplier"),
                     this.serverAnvilItemCostMultiplier,
-                    val -> this.serverAnvilItemCostMultiplier = val));
+                    val -> this.serverAnvilItemCostMultiplier = val,
+                    List.of(Component.translatable("experiencetweaks.gui.config.anvil_item_cost_multiplier.tooltip"))));
             this.optionList.addEntry(new StringOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.anvil_durability_multiplier"),
                     this.serverAnvilDurabilityMultiplier,
-                    val -> this.serverAnvilDurabilityMultiplier = val));
+                    val -> this.serverAnvilDurabilityMultiplier = val,
+                    List.of(Component.translatable("experiencetweaks.gui.config.anvil_durability_multiplier.tooltip"))));
             this.optionList.addEntry(new BooleanOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.allow_mending_with_infinity"),
                     this.serverAllowMendingWithInfinity,
-                    val -> this.serverAllowMendingWithInfinity = val));
+                    val -> this.serverAllowMendingWithInfinity = val,
+                    List.of(Component.translatable("experiencetweaks.gui.config.allow_mending_with_infinity.tooltip"))));
             this.optionList.addEntry(new BooleanOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.anvil_enchantment_extraction"),
                     this.serverAnvilEnchantmentExtraction,
-                    val -> this.serverAnvilEnchantmentExtraction = val));
+                    val -> this.serverAnvilEnchantmentExtraction = val,
+                    List.of(Component.translatable("experiencetweaks.gui.config.anvil_enchantment_extraction.tooltip"))));
             this.optionList.addEntry(new BooleanOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.anvil_enchantment_extraction_destroy_source"),
                     this.serverAnvilEnchantmentExtractionDestroySource,
-                    val -> this.serverAnvilEnchantmentExtractionDestroySource = val));
+                    val -> this.serverAnvilEnchantmentExtractionDestroySource = val,
+                    List.of(Component.translatable("experiencetweaks.gui.config.anvil_enchantment_extraction_destroy_source.tooltip"))));
             this.optionList.addEntry(new StringOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.enchantment_cost_item"),
                     this.serverEnchantmentCostItem,
-                    val -> this.serverEnchantmentCostItem = val));
+                    val -> this.serverEnchantmentCostItem = val,
+                    List.of(Component.translatable("experiencetweaks.gui.config.enchantment_cost_item.tooltip"))));
             this.optionList.addEntry(new StringOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.enchantment_cost_multiplier"),
                     this.serverEnchantmentCostMultiplier,
-                    val -> this.serverEnchantmentCostMultiplier = val));
-            this.optionList.addEntry(new StringOptionEntry(
+                    val -> this.serverEnchantmentCostMultiplier = val,
+                    List.of(Component.translatable("experiencetweaks.gui.config.enchantment_cost_multiplier.tooltip"))));
+
+            List<String> coolKeys = List.of("current_level", "last_level");
+            List<Component> coolNames = List.of(
+                    Component.translatable("experiencetweaks.gui.config.enchantment_cooldown_type.current_level"),
+                    Component.translatable("experiencetweaks.gui.config.enchantment_cooldown_type.last_level")
+            );
+            this.optionList.addEntry(new SelectionOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.enchantment_cooldown_type"),
+                    coolKeys,
+                    coolNames,
                     this.serverEnchantmentCooldownType,
-                    val -> this.serverEnchantmentCooldownType = val));
+                    val -> this.serverEnchantmentCooldownType = val,
+                    List.of(Component.translatable("experiencetweaks.gui.config.enchantment_cooldown_type.tooltip"))));
+
             this.optionList.addEntry(new BooleanOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.water_below_hydrates_farmland"),
                     this.serverWaterBelowHydratesFarmland,
-                    val -> this.serverWaterBelowHydratesFarmland = val));
+                    val -> this.serverWaterBelowHydratesFarmland = val,
+                    List.of(Component.translatable("experiencetweaks.gui.config.water_below_hydrates_farmland.tooltip"))));
             this.optionList.addEntry(new StringOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.water_hydration_radius"),
                     this.serverWaterHydrationRadius,
-                    val -> this.serverWaterHydrationRadius = val));
+                    val -> this.serverWaterHydrationRadius = val,
+                    List.of(Component.translatable("experiencetweaks.gui.config.water_hydration_radius.tooltip"))));
             this.optionList.addEntry(new StringOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.milk_bucket_nutrition"),
                     this.serverMilkBucketNutrition,
-                    val -> this.serverMilkBucketNutrition = val));
+                    val -> this.serverMilkBucketNutrition = val,
+                    List.of(Component.translatable("experiencetweaks.gui.config.milk_bucket_nutrition.tooltip"))));
             this.optionList.addEntry(new BooleanOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.wandering_trader_unlimited_trades"),
                     this.serverWanderingTraderUnlimitedTrades,
-                    val -> this.serverWanderingTraderUnlimitedTrades = val));
+                    val -> this.serverWanderingTraderUnlimitedTrades = val,
+                    List.of(Component.translatable("experiencetweaks.gui.config.wandering_trader_unlimited_trades.tooltip"))));
             this.optionList.addEntry(new BooleanOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.villager_unlimited_trades"),
                     this.serverVillagerUnlimitedTrades,
-                    val -> this.serverVillagerUnlimitedTrades = val));
+                    val -> this.serverVillagerUnlimitedTrades = val,
+                    List.of(Component.translatable("experiencetweaks.gui.config.villager_unlimited_trades.tooltip"))));
             this.optionList.addEntry(new BooleanOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.all_arrows_affected_by_infinity"),
                     this.serverAllArrowsAffectedByInfinity,
-                    val -> this.serverAllArrowsAffectedByInfinity = val));
+                    val -> this.serverAllArrowsAffectedByInfinity = val,
+                    List.of(Component.translatable("experiencetweaks.gui.config.all_arrows_affected_by_infinity.tooltip"))));
             this.optionList.addEntry(new BooleanOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.allow_multiple_damage_enchantments"),
                     this.serverAllowMultipleDamageEnchantments,
-                    val -> this.serverAllowMultipleDamageEnchantments = val));
+                    val -> this.serverAllowMultipleDamageEnchantments = val,
+                    List.of(Component.translatable("experiencetweaks.gui.config.allow_multiple_damage_enchantments.tooltip"))));
             this.optionList.addEntry(new BooleanOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.allow_multiple_protection_enchantments"),
                     this.serverAllowMultipleProtectionEnchantments,
-                    val -> this.serverAllowMultipleProtectionEnchantments = val));
+                    val -> this.serverAllowMultipleProtectionEnchantments = val,
+                    List.of(Component.translatable("experiencetweaks.gui.config.allow_multiple_protection_enchantments.tooltip"))));
             this.optionList.addEntry(new BooleanOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.allow_piercing_with_multishot"),
                     this.serverAllowPiercingWithMultishot,
-                    val -> this.serverAllowPiercingWithMultishot = val));
+                    val -> this.serverAllowPiercingWithMultishot = val,
+                    List.of(Component.translatable("experiencetweaks.gui.config.allow_piercing_with_multishot.tooltip"))));
             this.optionList.addEntry(new BooleanOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.allow_multiple_trident_enchantments"),
                     this.serverAllowMultipleTridentEnchantments,
-                    val -> this.serverAllowMultipleTridentEnchantments = val));
+                    val -> this.serverAllowMultipleTridentEnchantments = val,
+                    List.of(Component.translatable("experiencetweaks.gui.config.allow_multiple_trident_enchantments.tooltip"))));
             this.optionList.addEntry(new ButtonOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.unlock_all_recipes"),
                     Component.translatable("experiencetweaks.gui.config.unlock"),
@@ -326,7 +366,8 @@ public class ExperienceTweaksConfigScreen extends Screen {
                                     Component.translatable(
                                             "experiencetweaks.gui.config.unlock_all_recipes.confirm.message")));
                         }
-                    }));
+                    },
+                    List.of(Component.translatable("experiencetweaks.gui.config.unlock_all_recipes.tooltip"))));
         }
     }
 
@@ -490,12 +531,14 @@ public class ExperienceTweaksConfigScreen extends Screen {
         private boolean value;
         private final java.util.function.Consumer<Boolean> consumer;
         private final Button button;
+        private final List<Component> tooltip;
 
         public BooleanOptionEntry(Component label, boolean initialValue,
-                java.util.function.Consumer<Boolean> consumer) {
+                java.util.function.Consumer<Boolean> consumer, List<Component> tooltip) {
             this.label = label;
             this.value = initialValue;
             this.consumer = consumer;
+            this.tooltip = tooltip;
             this.button = Button.builder(getButtonText(initialValue), btn -> {
                 this.value = !this.value;
                 btn.setMessage(getButtonText(this.value));
@@ -512,10 +555,20 @@ public class ExperienceTweaksConfigScreen extends Screen {
         @Override
         public void extractContent(@NonNull GuiGraphicsExtractor graphics, int mouseX, int mouseY, boolean isHovered,
                 float partialTick) {
-            graphics.text(Minecraft.getInstance().font, this.label, this.getX() + 5, this.getY() + 6, 0xFFFFFFFF);
+            int maxWidth = this.getWidth() - 90;
+            List<net.minecraft.util.FormattedCharSequence> lines = Minecraft.getInstance().font.split(this.label, maxWidth);
+            int yOffset = lines.size() > 1 ? 2 : 6;
+            for (int i = 0; i < lines.size() && i < 2; i++) {
+                graphics.text(Minecraft.getInstance().font, lines.get(i), this.getX() + 5, this.getY() + yOffset + (i * 9), 0xFFFFFFFF);
+            }
+
             this.button.setX(this.getX() + this.getWidth() - 85);
             this.button.setY(this.getY());
             this.button.extractRenderState(graphics, mouseX, mouseY, partialTick);
+
+            if (isHovered && this.tooltip != null) {
+                graphics.setComponentTooltipForNextFrame(Minecraft.getInstance().font, this.tooltip, mouseX, mouseY);
+            }
         }
 
         @Override
@@ -537,10 +590,12 @@ public class ExperienceTweaksConfigScreen extends Screen {
         private final Component label;
         private final EditBox editBox;
         private final java.util.function.Consumer<String> consumer;
+        private final List<Component> tooltip;
 
-        public StringOptionEntry(Component label, String initialValue, java.util.function.Consumer<String> consumer) {
+        public StringOptionEntry(Component label, String initialValue, java.util.function.Consumer<String> consumer, List<Component> tooltip) {
             this.label = label;
             this.consumer = consumer;
+            this.tooltip = tooltip;
             this.editBox = new EditBox(Minecraft.getInstance().font, 0, 0, 100, 18, label);
             this.editBox.setValue(initialValue);
             this.editBox.setResponder(this.consumer::accept);
@@ -549,10 +604,20 @@ public class ExperienceTweaksConfigScreen extends Screen {
         @Override
         public void extractContent(@NonNull GuiGraphicsExtractor graphics, int mouseX, int mouseY, boolean isHovered,
                 float partialTick) {
-            graphics.text(Minecraft.getInstance().font, this.label, this.getX() + 5, this.getY() + 6, 0xFFFFFFFF);
+            int maxWidth = this.getWidth() - 110;
+            List<net.minecraft.util.FormattedCharSequence> lines = Minecraft.getInstance().font.split(this.label, maxWidth);
+            int yOffset = lines.size() > 1 ? 2 : 6;
+            for (int i = 0; i < lines.size() && i < 2; i++) {
+                graphics.text(Minecraft.getInstance().font, lines.get(i), this.getX() + 5, this.getY() + yOffset + (i * 9), 0xFFFFFFFF);
+            }
+
             this.editBox.setX(this.getX() + this.getWidth() - 105);
             this.editBox.setY(this.getY() + 1);
             this.editBox.extractRenderState(graphics, mouseX, mouseY, partialTick);
+
+            if (isHovered && this.tooltip != null) {
+                graphics.setComponentTooltipForNextFrame(Minecraft.getInstance().font, this.tooltip, mouseX, mouseY);
+            }
         }
 
         @Override
@@ -573,19 +638,91 @@ public class ExperienceTweaksConfigScreen extends Screen {
     private static class ButtonOptionEntry extends OptionEntry {
         private final Component label;
         private final Button button;
+        private final List<Component> tooltip;
 
-        public ButtonOptionEntry(Component label, Component buttonLabel, Button.OnPress onPress) {
+        public ButtonOptionEntry(Component label, Component buttonLabel, Button.OnPress onPress, List<Component> tooltip) {
             this.label = label;
             this.button = Button.builder(buttonLabel, onPress).bounds(0, 0, 100, 20).build();
+            this.tooltip = tooltip;
         }
 
         @Override
         public void extractContent(@NonNull GuiGraphicsExtractor graphics, int mouseX, int mouseY, boolean isHovered,
                 float partialTick) {
-            graphics.text(Minecraft.getInstance().font, this.label, this.getX() + 5, this.getY() + 6, 0xFFFFFFFF);
+            int maxWidth = this.getWidth() - 110;
+            List<net.minecraft.util.FormattedCharSequence> lines = Minecraft.getInstance().font.split(this.label, maxWidth);
+            int yOffset = lines.size() > 1 ? 2 : 6;
+            for (int i = 0; i < lines.size() && i < 2; i++) {
+                graphics.text(Minecraft.getInstance().font, lines.get(i), this.getX() + 5, this.getY() + yOffset + (i * 9), 0xFFFFFFFF);
+            }
+
             this.button.setX(this.getX() + this.getWidth() - 105);
             this.button.setY(this.getY());
             this.button.extractRenderState(graphics, mouseX, mouseY, partialTick);
+
+            if (isHovered && this.tooltip != null) {
+                graphics.setComponentTooltipForNextFrame(Minecraft.getInstance().font, this.tooltip, mouseX, mouseY);
+            }
+        }
+
+        @Override
+        public @NonNull List<? extends GuiEventListener> children() {
+            return List.of(this.button);
+        }
+
+        @Override
+        public @NonNull List<? extends NarratableEntry> narratables() {
+            return List.of(this.button);
+        }
+    }
+
+    /**
+     * Option entry row displaying a label and a selection cycle button.
+     */
+    private static class SelectionOptionEntry extends OptionEntry {
+        private final Component label;
+        private final List<String> values;
+        private final List<Component> friendlyNames;
+        private int currentIndex;
+        private final java.util.function.Consumer<String> consumer;
+        private final Button button;
+        private final List<Component> tooltip;
+
+        public SelectionOptionEntry(Component label, List<String> values, List<Component> friendlyNames,
+                String initialValue, java.util.function.Consumer<String> consumer, List<Component> tooltip) {
+            this.label = label;
+            this.values = values;
+            this.friendlyNames = friendlyNames;
+            this.consumer = consumer;
+            this.tooltip = tooltip;
+
+            int index = values.indexOf(initialValue);
+            this.currentIndex = index != -1 ? index : 0;
+
+            this.button = Button.builder(friendlyNames.get(this.currentIndex), btn -> {
+                this.currentIndex = (this.currentIndex + 1) % this.values.size();
+                btn.setMessage(this.friendlyNames.get(this.currentIndex));
+                this.consumer.accept(this.values.get(this.currentIndex));
+            }).bounds(0, 0, 100, 20).build();
+        }
+
+        @Override
+        public void extractContent(@NonNull GuiGraphicsExtractor graphics, int mouseX, int mouseY, boolean isHovered,
+                float partialTick) {
+            int maxWidth = this.getWidth() - 110;
+            List<net.minecraft.util.FormattedCharSequence> lines = Minecraft.getInstance().font.split(this.label, maxWidth);
+            int yOffset = lines.size() > 1 ? 2 : 6;
+            for (int i = 0; i < lines.size() && i < 2; i++) {
+                graphics.text(Minecraft.getInstance().font, lines.get(i), this.getX() + 5, this.getY() + yOffset + (i * 9), 0xFFFFFFFF);
+            }
+
+            this.button.setX(this.getX() + this.getWidth() - 105);
+            this.button.setY(this.getY());
+            this.button.extractRenderState(graphics, mouseX, mouseY, partialTick);
+
+            if (isHovered && this.tooltip != null) {
+                graphics.setComponentTooltipForNextFrame(Minecraft.getInstance().font, this.tooltip, mouseX, mouseY);
+            }
         }
 
         @Override
