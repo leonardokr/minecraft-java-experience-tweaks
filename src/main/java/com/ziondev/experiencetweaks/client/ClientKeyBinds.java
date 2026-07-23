@@ -9,18 +9,11 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 
 /**
- * Registers client-side key mappings for the mod, such as opening the in-game configuration screen.
+ * Registers client-side key mappings for the mod, such as opening the in-game
+ * configuration screen.
  */
 @EventBusSubscriber(modid = ExperienceTweaksMod.MODID, value = Dist.CLIENT)
 public class ClientKeyBinds {
-
-    /** Key mapping to open the Experience Tweaks in-game configuration screen. Default is key 'K'. */
-    public static final KeyMapping OPEN_CONFIG_KEY = new KeyMapping(
-            "key.experiencetweaks.open_config",
-            InputConstants.Type.KEYSYM,
-            InputConstants.KEY_K,
-            KeyMapping.Category.MISC
-    );
 
     /**
      * Registers key mappings on the client mod event bus.
@@ -29,6 +22,17 @@ public class ClientKeyBinds {
      */
     @SubscribeEvent
     public static void registerKeyMappings(RegisterKeyMappingsEvent event) {
-        event.register(OPEN_CONFIG_KEY);
+        com.ziondev.experiencetweaks.sharedconfig.ModConfigRegistry.register("Experience Tweaks",
+                parent -> new com.ziondev.experiencetweaks.client.gui.ExperienceTweaksConfigScreen(parent));
+
+        KeyMapping key = com.ziondev.experiencetweaks.sharedconfig.ModConfigRegistry.getOpenConfigKey();
+        if (key == null) {
+            key = new KeyMapping("key.metalions.open_config",
+                    InputConstants.Type.KEYSYM,
+                    InputConstants.KEY_K,
+                    KeyMapping.Category.MISC);
+            com.ziondev.experiencetweaks.sharedconfig.ModConfigRegistry.setOpenConfigKey(key);
+            event.register(key);
+        }
     }
 }

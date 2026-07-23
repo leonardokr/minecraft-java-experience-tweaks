@@ -3,6 +3,7 @@
   "experiencetweaks.description": "Keep your experience after death.",
   "key.categories.experiencetweaks": "Experience Tweaks",
   "key.experiencetweaks.open_config": "Open Configuration GUI",
+  "key.metalions.open_config": "Mods Configuration",
   "experiencetweaks.gui.config.title": "Experience Tweaks Config",
   "experiencetweaks.gui.config.tab.client": "Client",
   "experiencetweaks.gui.config.tab.server": "Server",
