@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.11.0](https://github.com/leonardokr/minecraft-java-experience-tweaks/compare/v1.10.0...v1.11.0) (2026-07-23)
+
+
+### Features
+
+* add collectible mob arrows configuration ([bf45a11](https://github.com/leonardokr/minecraft-java-experience-tweaks/commit/bf45a117db197104b871b797c748966f15d45f00))
+* implement shared mod config registry and unified selection screen ([1097b4a](https://github.com/leonardokr/minecraft-java-experience-tweaks/commit/1097b4a2afe5b05ee99cdd88c77cefb5140ad5b4))
+
 ## [1.10.0](https://github.com/leonardokr/minecraft-java-experience-tweaks/compare/v1.9.0...v1.10.0) (2026-07-22)
 
 
