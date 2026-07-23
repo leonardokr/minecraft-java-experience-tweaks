@@ -5,6 +5,7 @@
   "compatibilityLevel": "JAVA_21",
   "refmap": "experiencetweaks.refmap.json",
   "mixins": [
+    "AbstractArrowMixin",
     "AbstractVillagerMixin",
     "ArrowItemMixin",
     "CropPlacementMixin",

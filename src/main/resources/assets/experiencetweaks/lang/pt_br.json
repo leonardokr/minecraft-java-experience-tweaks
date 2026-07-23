@@ -84,6 +84,7 @@
   "experiencetweaks.config.error.et_0x01f": "Não foi possível ler a configuração 'allowMultipleTridentEnchantments'. Por padrão, Condutividade, Lealdade e Correnteza serão mutuamente exclusivos no Tridente. Verifique e recarregue a configuração.",
   "experiencetweaks.config.error.et_0x020": "Não foi possível ler a configuração 'riptideAnywhere'. Por padrão, Correnteza continuará restrita a chuva/água. Verifique e recarregue a configuração.",
   "experiencetweaks.config.error.et_0x021": "Não foi possível ler a configuração 'anvilDurabilityMultiplier'. O multiplicador de durabilidade da bigorna será 100% por padrão. Verifique e recarregue a configuração.",
+  "experiencetweaks.config.error.et_0x022": "Não foi possível ler a configuração 'mobArrowsCollectible'. As flechas de mobs continuarão não coletáveis por padrão. Verifique e recarregue a configuração.",
   "block.experiencetweaks.dirt_slab": "Laje de Terra",
   "block.experiencetweaks.grass_slab": "Laje de Grama",
   "block.experiencetweaks.dirt_path_slab": "Laje de Caminho de Terra",
@@ -123,5 +124,7 @@
   "experiencetweaks.gui.config.allow_multiple_trident_enchantments.tooltip": "Permite combinar Condutividade, Lealdade e Correnteza juntos no Tridente.",
   "experiencetweaks.gui.config.unlock_all_recipes.tooltip": "Destrava instantaneamente todas as receitas de fabricação e utilidades para todos os jogadores do servidor.",
   "experiencetweaks.gui.config.enable_debug_mode": "Habilitar Modo Depuração",
-  "experiencetweaks.gui.config.enable_debug_mode.tooltip": "Ativa o registro de alterações de configurações e eventos detalhados no console."
+  "experiencetweaks.gui.config.enable_debug_mode.tooltip": "Ativa o registro de alterações de configurações e eventos detalhados no console.",
+  "experiencetweaks.gui.config.mob_arrows_collectible": "Flechas de Mobs Coletáveis",
+  "experiencetweaks.gui.config.mob_arrows_collectible.tooltip": "Permite coletar flechas disparadas por esqueletos, saqueadores e outros monstros."
 }

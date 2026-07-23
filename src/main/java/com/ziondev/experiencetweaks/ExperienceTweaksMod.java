@@ -173,7 +173,8 @@ public class ExperienceTweaksMod {
                                                                 packet.keepExperience(),
                                                                 packet.directExperience(),
                                                                 packet.giveExperienceEveryDay(),
-                                                                packet.riptideAnywhere());
+                                                                packet.riptideAnywhere(),
+                                                                packet.mobArrowsCollectible());
                                         }
                                 });
 

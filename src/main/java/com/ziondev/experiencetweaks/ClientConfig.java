@@ -39,6 +39,11 @@ public class ClientConfig {
             .comment("\n If true, the Riptide enchantment can be used anywhere, regardless of weather or water.")
             .define("riptideAnywhere", false);
 
+    /** If true, arrows shot by mobs can be collected by players. */
+    public static final ModConfigSpec.BooleanValue MOB_ARROWS_COLLECTIBLE = BUILDER
+            .comment("\n If true, arrows shot by mobs can be collected by players.")
+            .define("mobArrowsCollectible", false);
+
     /** If true, enables debug logging of configuration changes and network packets. */
     public static final ModConfigSpec.BooleanValue ENABLE_DEBUG_MODE = BUILDER
             .comment("\n If true, enables debug logging of configuration changes and network packets.")

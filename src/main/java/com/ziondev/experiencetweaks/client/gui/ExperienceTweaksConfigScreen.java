@@ -42,6 +42,7 @@ public class ExperienceTweaksConfigScreen extends Screen {
     private boolean clientAutoFishing;
     private boolean clientAutoFishingRecast;
     private boolean clientRiptideAnywhere;
+    private boolean clientMobArrowsCollectible;
 
     private String serverGiveExperienceEveryDayBase;
     private String serverGiveExperienceEveryDayGrowth;
@@ -143,6 +144,7 @@ public class ExperienceTweaksConfigScreen extends Screen {
         this.clientAutoFishing = ModConfig.isAutoFishingEnabled();
         this.clientAutoFishingRecast = ModConfig.isAutoFishingRecastEnabled();
         this.clientRiptideAnywhere = ModConfig.isRiptideAnywhere();
+        this.clientMobArrowsCollectible = ModConfig.isMobArrowsCollectible();
 
         this.serverGiveExperienceEveryDayBase = String.valueOf(ModConfig.getGiveExperienceEveryDayBase());
         this.serverGiveExperienceEveryDayGrowth = String.valueOf(ModConfig.getGiveExperienceEveryDayGrowth());
@@ -227,6 +229,11 @@ public class ExperienceTweaksConfigScreen extends Screen {
                     this.clientRiptideAnywhere,
                     val -> this.clientRiptideAnywhere = val,
                     List.of(Component.translatable("experiencetweaks.gui.config.riptide_anywhere.tooltip"))));
+            this.optionList.addEntry(new BooleanOptionEntry(
+                    Component.translatable("experiencetweaks.gui.config.mob_arrows_collectible"),
+                    this.clientMobArrowsCollectible,
+                    val -> this.clientMobArrowsCollectible = val,
+                    List.of(Component.translatable("experiencetweaks.gui.config.mob_arrows_collectible.tooltip"))));
             this.optionList.addEntry(new BooleanOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.enable_debug_mode"),
                     this.clientEnableDebugMode,
@@ -396,16 +403,17 @@ public class ExperienceTweaksConfigScreen extends Screen {
         ClientConfig.AUTO_FISHING.set(this.clientAutoFishing);
         ClientConfig.AUTO_FISHING_RECAST.set(this.clientAutoFishingRecast);
         ClientConfig.RIPTIDE_ANYWHERE.set(this.clientRiptideAnywhere);
+        ClientConfig.MOB_ARROWS_COLLECTIBLE.set(this.clientMobArrowsCollectible);
         ClientConfig.ENABLE_DEBUG_MODE.set(this.clientEnableDebugMode);
         ClientConfig.SPEC.save();
 
         if (this.clientEnableDebugMode) {
             ExperienceTweaksMod.LOGGER.info("[ExperienceTweaks] [DEBUG] Client configuration saved: " +
                             "keepExperience={}, directExperience={}, giveExperienceEveryDay={}, " +
-                            "autoFishing={}, autoFishingRecast={}, riptideAnywhere={}, enableDebugMode={}",
+                            "autoFishing={}, autoFishingRecast={}, riptideAnywhere={}, mobArrowsCollectible={}, enableDebugMode={}",
                     this.clientKeepExperience, this.clientDirectExperience, this.clientGiveExperienceEveryDay,
                     this.clientAutoFishing, this.clientAutoFishingRecast, this.clientRiptideAnywhere,
-                    this.clientEnableDebugMode);
+                    this.clientMobArrowsCollectible, this.clientEnableDebugMode);
         }
 
         if (this.minecraft != null && this.minecraft.getConnection() != null) {
@@ -415,7 +423,8 @@ public class ExperienceTweaksConfigScreen extends Screen {
                                     this.clientKeepExperience,
                                     this.clientDirectExperience,
                                     this.clientGiveExperienceEveryDay,
-                                    this.clientRiptideAnywhere)));
+                                    this.clientRiptideAnywhere,
+                                    this.clientMobArrowsCollectible)));
         }
 
         if (this.isPlayerOp) {

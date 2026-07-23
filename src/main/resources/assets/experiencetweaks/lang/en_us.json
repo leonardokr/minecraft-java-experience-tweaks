@@ -84,6 +84,7 @@
   "experiencetweaks.config.error.et_0x01f": "Could not read the 'allowMultipleTridentEnchantments' setting. Channeling, Loyalty, and Riptide will remain mutually exclusive by default. Check and reload the config.",
   "experiencetweaks.config.error.et_0x020": "Could not read the 'riptideAnywhere' setting. Riptide will remain restricted by default. Check and reload the config.",
   "experiencetweaks.config.error.et_0x021": "Could not read the 'anvilDurabilityMultiplier' setting. Anvil durability multiplier will be 100% by default. Check and reload the config.",
+  "experiencetweaks.config.error.et_0x022": "Could not read the 'mobArrowsCollectible' setting. Mob arrows will remain uncollectible by default. Check and reload the config.",
   "block.experiencetweaks.dirt_slab": "Dirt Slab",
   "block.experiencetweaks.grass_slab": "Grass Slab",
   "block.experiencetweaks.dirt_path_slab": "Dirt Path Slab",
@@ -123,5 +124,7 @@
   "experiencetweaks.gui.config.allow_multiple_trident_enchantments.tooltip": "Allows combining Channeling, Loyalty, and Riptide on trident items.",
   "experiencetweaks.gui.config.unlock_all_recipes.tooltip": "Instantly unlocks all crafting and utility recipes for all players on the server.",
   "experiencetweaks.gui.config.enable_debug_mode": "Enable Debug Mode",
-  "experiencetweaks.gui.config.enable_debug_mode.tooltip": "Enable logging configuration changes and events to the console."
+  "experiencetweaks.gui.config.enable_debug_mode.tooltip": "Enable logging configuration changes and events to the console.",
+  "experiencetweaks.gui.config.mob_arrows_collectible": "Collectible Mob Arrows",
+  "experiencetweaks.gui.config.mob_arrows_collectible.tooltip": "Allows players to pick up arrows shot by Skeletons, Pillagers, and other mobs."
 }

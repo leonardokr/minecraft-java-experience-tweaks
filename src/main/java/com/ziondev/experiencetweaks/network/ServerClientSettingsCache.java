@@ -13,6 +13,7 @@ public final class ServerClientSettingsCache {
     private static final Map<UUID, Boolean> DIRECT_EXPERIENCE = new ConcurrentHashMap<>();
     private static final Map<UUID, Boolean> GIVE_EXPERIENCE_EVERY_DAY = new ConcurrentHashMap<>();
     private static final Map<UUID, Boolean> RIPTIDE_ANYWHERE = new ConcurrentHashMap<>();
+    private static final Map<UUID, Boolean> MOB_ARROWS_COLLECTIBLE = new ConcurrentHashMap<>();
 
     private ServerClientSettingsCache() {}
 
@@ -24,12 +25,14 @@ public final class ServerClientSettingsCache {
      * @param directExperience whether experience is picked up directly
      * @param giveExperienceEveryDay whether daily experience rewards are active
      * @param riptideAnywhere whether Riptide can be used anywhere
+     * @param mobArrowsCollectible whether arrows shot by mobs are collectible
      */
-    public static void update(UUID playerUuid, boolean keepExperience, boolean directExperience, boolean giveExperienceEveryDay, boolean riptideAnywhere) {
+    public static void update(UUID playerUuid, boolean keepExperience, boolean directExperience, boolean giveExperienceEveryDay, boolean riptideAnywhere, boolean mobArrowsCollectible) {
         KEEP_EXPERIENCE.put(playerUuid, keepExperience);
         DIRECT_EXPERIENCE.put(playerUuid, directExperience);
         GIVE_EXPERIENCE_EVERY_DAY.put(playerUuid, giveExperienceEveryDay);
         RIPTIDE_ANYWHERE.put(playerUuid, riptideAnywhere);
+        MOB_ARROWS_COLLECTIBLE.put(playerUuid, mobArrowsCollectible);
     }
 
     /**
@@ -42,6 +45,7 @@ public final class ServerClientSettingsCache {
         DIRECT_EXPERIENCE.remove(playerUuid);
         GIVE_EXPERIENCE_EVERY_DAY.remove(playerUuid);
         RIPTIDE_ANYWHERE.remove(playerUuid);
+        MOB_ARROWS_COLLECTIBLE.remove(playerUuid);
     }
 
     /**
@@ -82,5 +86,15 @@ public final class ServerClientSettingsCache {
      */
     public static Boolean getRiptideAnywhere(UUID playerUuid) {
         return RIPTIDE_ANYWHERE.get(playerUuid);
+    }
+
+    /**
+     * Gets the mob arrows collectible setting for a player.
+     *
+     * @param playerUuid the UUID of the player
+     * @return the mob arrows collectible setting, or null if uncached
+     */
+    public static Boolean getMobArrowsCollectible(UUID playerUuid) {
+        return MOB_ARROWS_COLLECTIBLE.get(playerUuid);
     }
 }

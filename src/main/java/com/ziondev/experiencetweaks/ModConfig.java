@@ -62,7 +62,8 @@ public final class ModConfig {
         ALLOW_PIERCING_WITH_MULTISHOT("ET-0x01e"),
         ALLOW_MULTIPLE_TRIDENT_ENCHANTMENTS("ET-0x01f"),
         RIPTIDE_ANYWHERE("ET-0x020"),
-        ANVIL_DURABILITY_MULTIPLIER("ET-0x021");
+        ANVIL_DURABILITY_MULTIPLIER("ET-0x021"),
+        MOB_ARROWS_COLLECTIBLE("ET-0x022");
 
         private final String code;
 
@@ -695,6 +696,38 @@ public final class ModConfig {
             }
         } catch (Exception e) {
             broadcastConfigError(ConfigError.RIPTIDE_ANYWHERE);
+        }
+        return false;
+    }
+
+    /**
+     * Returns whether arrows shot by mobs are collectible by a player.
+     *
+     * @param player the player to check
+     * @return {@code true} if mob arrows are collectible
+     */
+    public static boolean isMobArrowsCollectible(Player player) {
+        if (player != null && !player.level().isClientSide()) {
+            Boolean cached = com.ziondev.experiencetweaks.network.ServerClientSettingsCache.getMobArrowsCollectible(player.getUUID());
+            if (cached != null) {
+                return cached;
+            }
+        }
+        return isMobArrowsCollectible();
+    }
+
+    /**
+     * Returns whether arrows shot by mobs are collectible.
+     *
+     * @return {@code true} if mob arrows are collectible
+     */
+    public static boolean isMobArrowsCollectible() {
+        try {
+            if (ClientConfig.SPEC.isLoaded()) {
+                return ClientConfig.MOB_ARROWS_COLLECTIBLE.get();
+            }
+        } catch (Exception e) {
+            broadcastConfigError(ConfigError.MOB_ARROWS_COLLECTIBLE);
         }
         return false;
     }

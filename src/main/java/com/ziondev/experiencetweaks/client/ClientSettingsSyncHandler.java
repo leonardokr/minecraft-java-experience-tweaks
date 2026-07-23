@@ -41,7 +41,8 @@ public class ClientSettingsSyncHandler {
                             ClientConfig.KEEP_EXPERIENCE.get(),
                             ClientConfig.DIRECT_EXPERIENCE.get(),
                             ClientConfig.GIVE_EXPERIENCE_EVERY_DAY.get(),
-                            ClientConfig.RIPTIDE_ANYWHERE.get()
+                            ClientConfig.RIPTIDE_ANYWHERE.get(),
+                            ClientConfig.MOB_ARROWS_COLLECTIBLE.get()
                     )
             ));
         }
