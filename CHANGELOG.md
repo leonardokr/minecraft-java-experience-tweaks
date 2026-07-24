@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.12.0](https://github.com/leonardokr/minecraft-java-experience-tweaks/compare/v1.11.0...v1.12.0) (2026-07-24)
+
+
+### Features
+
+* add option to prevent duplicate treasure maps ([351585b](https://github.com/leonardokr/minecraft-java-experience-tweaks/commit/351585b6c8a346c425254ed7ca9ca33c9920eae8))
+
 ## [1.11.0](https://github.com/leonardokr/minecraft-java-experience-tweaks/compare/v1.10.0...v1.11.0) (2026-07-23)
 
 
