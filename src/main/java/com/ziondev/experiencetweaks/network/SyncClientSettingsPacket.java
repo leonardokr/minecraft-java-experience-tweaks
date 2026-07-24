@@ -16,7 +16,8 @@ public record SyncClientSettingsPacket(
         boolean directExperience,
         boolean giveExperienceEveryDay,
         boolean riptideAnywhere,
-        boolean mobArrowsCollectible
+        boolean mobArrowsCollectible,
+        boolean neverRepeatTreasureMaps
 ) implements CustomPacketPayload {
 
     public static final CustomPacketPayload.Type<SyncClientSettingsPacket> TYPE =
@@ -26,6 +27,7 @@ public record SyncClientSettingsPacket(
         @Override
         public @NonNull SyncClientSettingsPacket decode(@NonNull ByteBuf buf) {
             return new SyncClientSettingsPacket(
+                    ByteBufCodecs.BOOL.decode(buf),
                     ByteBufCodecs.BOOL.decode(buf),
                     ByteBufCodecs.BOOL.decode(buf),
                     ByteBufCodecs.BOOL.decode(buf),
@@ -41,6 +43,7 @@ public record SyncClientSettingsPacket(
             ByteBufCodecs.BOOL.encode(buf, value.giveExperienceEveryDay());
             ByteBufCodecs.BOOL.encode(buf, value.riptideAnywhere());
             ByteBufCodecs.BOOL.encode(buf, value.mobArrowsCollectible());
+            ByteBufCodecs.BOOL.encode(buf, value.neverRepeatTreasureMaps());
         }
     };
 

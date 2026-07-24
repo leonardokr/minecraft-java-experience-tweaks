@@ -86,6 +86,7 @@
   "experiencetweaks.config.error.et_0x020": "Não foi possível ler a configuração 'riptideAnywhere'. Por padrão, Correnteza continuará restrita a chuva/água. Verifique e recarregue a configuração.",
   "experiencetweaks.config.error.et_0x021": "Não foi possível ler a configuração 'anvilDurabilityMultiplier'. O multiplicador de durabilidade da bigorna será 100% por padrão. Verifique e recarregue a configuração.",
   "experiencetweaks.config.error.et_0x022": "Não foi possível ler a configuração 'mobArrowsCollectible'. As flechas de mobs continuarão não coletáveis por padrão. Verifique e recarregue a configuração.",
+  "experiencetweaks.config.error.et_0x023": "Não foi possível ler a configuração 'neverRepeatTreasureMaps'. Os mapas de tesouro poderão repetir estruturas por padrão. Verifique e recarregue a configuração.",
   "block.experiencetweaks.dirt_slab": "Laje de Terra",
   "block.experiencetweaks.grass_slab": "Laje de Grama",
   "block.experiencetweaks.dirt_path_slab": "Laje de Caminho de Terra",
@@ -127,5 +128,7 @@
   "experiencetweaks.gui.config.enable_debug_mode": "Habilitar Modo Depuração",
   "experiencetweaks.gui.config.enable_debug_mode.tooltip": "Ativa o registro de alterações de configurações e eventos detalhados no console.",
   "experiencetweaks.gui.config.mob_arrows_collectible": "Flechas de Mobs Coletáveis",
-  "experiencetweaks.gui.config.mob_arrows_collectible.tooltip": "Permite coletar flechas disparadas por esqueletos, saqueadores e outros monstros."
+  "experiencetweaks.gui.config.mob_arrows_collectible.tooltip": "Permite coletar flechas disparadas por esqueletos, saqueadores e outros monstros.",
+  "experiencetweaks.gui.config.never_repeat_treasure_maps": "Nunca Repetir Mapas de Tesouro",
+  "experiencetweaks.gui.config.never_repeat_treasure_maps.tooltip": "Se ativado, mapas de tesouro/exploração gerados nunca apontarão para estruturas já mapeadas."
 }

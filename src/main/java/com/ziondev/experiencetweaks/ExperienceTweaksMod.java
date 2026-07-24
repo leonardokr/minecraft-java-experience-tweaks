@@ -174,7 +174,8 @@ public class ExperienceTweaksMod {
                                                                 packet.directExperience(),
                                                                 packet.giveExperienceEveryDay(),
                                                                 packet.riptideAnywhere(),
-                                                                packet.mobArrowsCollectible());
+                                                                packet.mobArrowsCollectible(),
+                                                                packet.neverRepeatTreasureMaps());
                                         }
                                 });
 

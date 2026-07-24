@@ -12,6 +12,7 @@
     "EnchantmentCompatibilityMixin",
     "EnchantmentMenuCurrencySlotMixin",
     "EnchantmentMenuMixin",
+    "ExplorationMapFunctionMixin",
     "AnvilMenuMixin",
     "FarmlandBlockMixin",
     "FishingHookAccessor",

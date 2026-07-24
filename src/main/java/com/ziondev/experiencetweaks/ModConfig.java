@@ -63,7 +63,8 @@ public final class ModConfig {
         ALLOW_MULTIPLE_TRIDENT_ENCHANTMENTS("ET-0x01f"),
         RIPTIDE_ANYWHERE("ET-0x020"),
         ANVIL_DURABILITY_MULTIPLIER("ET-0x021"),
-        MOB_ARROWS_COLLECTIBLE("ET-0x022");
+        MOB_ARROWS_COLLECTIBLE("ET-0x022"),
+        NEVER_REPEAT_TREASURE_MAPS("ET-0x023");
 
         private final String code;
 
@@ -728,6 +729,38 @@ public final class ModConfig {
             }
         } catch (Exception e) {
             broadcastConfigError(ConfigError.MOB_ARROWS_COLLECTIBLE);
+        }
+        return false;
+    }
+
+    /**
+     * Returns whether treasure maps and exploration maps will never point to already mapped structures.
+     *
+     * @param player the player to check
+     * @return {@code true} if maps should not repeat structures
+     */
+    public static boolean isNeverRepeatTreasureMaps(Player player) {
+        if (player != null && !player.level().isClientSide()) {
+            Boolean cached = com.ziondev.experiencetweaks.network.ServerClientSettingsCache.getNeverRepeatTreasureMaps(player.getUUID());
+            if (cached != null) {
+                return cached;
+            }
+        }
+        return isNeverRepeatTreasureMaps();
+    }
+
+    /**
+     * Returns whether treasure maps and exploration maps will never point to already mapped structures.
+     *
+     * @return {@code true} if maps should not repeat structures
+     */
+    public static boolean isNeverRepeatTreasureMaps() {
+        try {
+            if (ClientConfig.SPEC.isLoaded()) {
+                return ClientConfig.NEVER_REPEAT_TREASURE_MAPS.get();
+            }
+        } catch (Exception e) {
+            broadcastConfigError(ConfigError.NEVER_REPEAT_TREASURE_MAPS);
         }
         return false;
     }

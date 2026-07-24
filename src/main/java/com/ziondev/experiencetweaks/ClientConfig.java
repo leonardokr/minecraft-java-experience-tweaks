@@ -44,6 +44,11 @@ public class ClientConfig {
             .comment("\n If true, arrows shot by mobs can be collected by players.")
             .define("mobArrowsCollectible", false);
 
+    /** If true, treasure maps and exploration maps will never point to already mapped structures. */
+    public static final ModConfigSpec.BooleanValue NEVER_REPEAT_TREASURE_MAPS = BUILDER
+            .comment("\n If true, treasure maps and exploration maps will never point to already mapped structures.")
+            .define("neverRepeatTreasureMaps", false);
+
     /** If true, enables debug logging of configuration changes and network packets. */
     public static final ModConfigSpec.BooleanValue ENABLE_DEBUG_MODE = BUILDER
             .comment("\n If true, enables debug logging of configuration changes and network packets.")
