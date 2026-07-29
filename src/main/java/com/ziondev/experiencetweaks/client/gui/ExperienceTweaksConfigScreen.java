@@ -43,7 +43,7 @@ public class ExperienceTweaksConfigScreen extends Screen {
     private boolean clientAutoFishingRecast;
     private boolean clientRiptideAnywhere;
     private boolean clientMobArrowsCollectible;
-    private boolean clientNeverRepeatTreasureMaps;
+
 
     private String serverGiveExperienceEveryDayBase;
     private String serverGiveExperienceEveryDayGrowth;
@@ -69,6 +69,7 @@ public class ExperienceTweaksConfigScreen extends Screen {
     private boolean serverAllowPiercingWithMultishot;
     private boolean serverAllowMultipleTridentEnchantments;
     private boolean clientEnableDebugMode;
+    private boolean serverNeverRepeatTreasureMaps;
     private boolean serverEnableDebugMode;
 
     /**
@@ -146,7 +147,7 @@ public class ExperienceTweaksConfigScreen extends Screen {
         this.clientAutoFishingRecast = ModConfig.isAutoFishingRecastEnabled();
         this.clientRiptideAnywhere = ModConfig.isRiptideAnywhere();
         this.clientMobArrowsCollectible = ModConfig.isMobArrowsCollectible();
-        this.clientNeverRepeatTreasureMaps = ModConfig.isNeverRepeatTreasureMaps();
+        this.serverNeverRepeatTreasureMaps = ModConfig.isNeverRepeatTreasureMaps();
 
         this.serverGiveExperienceEveryDayBase = String.valueOf(ModConfig.getGiveExperienceEveryDayBase());
         this.serverGiveExperienceEveryDayGrowth = String.valueOf(ModConfig.getGiveExperienceEveryDayGrowth());
@@ -236,11 +237,7 @@ public class ExperienceTweaksConfigScreen extends Screen {
                     this.clientMobArrowsCollectible,
                     val -> this.clientMobArrowsCollectible = val,
                     List.of(Component.translatable("experiencetweaks.gui.config.mob_arrows_collectible.tooltip"))));
-            this.optionList.addEntry(new BooleanOptionEntry(
-                    Component.translatable("experiencetweaks.gui.config.never_repeat_treasure_maps"),
-                    this.clientNeverRepeatTreasureMaps,
-                    val -> this.clientNeverRepeatTreasureMaps = val,
-                    List.of(Component.translatable("experiencetweaks.gui.config.never_repeat_treasure_maps.tooltip"))));
+
             this.optionList.addEntry(new BooleanOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.enable_debug_mode"),
                     this.clientEnableDebugMode,
@@ -372,6 +369,11 @@ public class ExperienceTweaksConfigScreen extends Screen {
                     val -> this.serverAllowMultipleTridentEnchantments = val,
                     List.of(Component.translatable("experiencetweaks.gui.config.allow_multiple_trident_enchantments.tooltip"))));
             this.optionList.addEntry(new BooleanOptionEntry(
+                    Component.translatable("experiencetweaks.gui.config.never_repeat_treasure_maps"),
+                    this.serverNeverRepeatTreasureMaps,
+                    val -> this.serverNeverRepeatTreasureMaps = val,
+                    List.of(Component.translatable("experiencetweaks.gui.config.never_repeat_treasure_maps.tooltip"))));
+            this.optionList.addEntry(new BooleanOptionEntry(
                     Component.translatable("experiencetweaks.gui.config.enable_debug_mode"),
                     this.serverEnableDebugMode,
                     val -> this.serverEnableDebugMode = val,
@@ -411,17 +413,16 @@ public class ExperienceTweaksConfigScreen extends Screen {
         ClientConfig.AUTO_FISHING_RECAST.set(this.clientAutoFishingRecast);
         ClientConfig.RIPTIDE_ANYWHERE.set(this.clientRiptideAnywhere);
         ClientConfig.MOB_ARROWS_COLLECTIBLE.set(this.clientMobArrowsCollectible);
-        ClientConfig.NEVER_REPEAT_TREASURE_MAPS.set(this.clientNeverRepeatTreasureMaps);
         ClientConfig.ENABLE_DEBUG_MODE.set(this.clientEnableDebugMode);
         ClientConfig.SPEC.save();
 
         if (this.clientEnableDebugMode) {
             ExperienceTweaksMod.LOGGER.info("[ExperienceTweaks] [DEBUG] Client configuration saved: " +
                             "keepExperience={}, directExperience={}, giveExperienceEveryDay={}, " +
-                            "autoFishing={}, autoFishingRecast={}, riptideAnywhere={}, mobArrowsCollectible={}, neverRepeatTreasureMaps={}, enableDebugMode={}",
+                            "autoFishing={}, autoFishingRecast={}, riptideAnywhere={}, mobArrowsCollectible={}, enableDebugMode={}",
                     this.clientKeepExperience, this.clientDirectExperience, this.clientGiveExperienceEveryDay,
                     this.clientAutoFishing, this.clientAutoFishingRecast, this.clientRiptideAnywhere,
-                    this.clientMobArrowsCollectible, this.clientNeverRepeatTreasureMaps, this.clientEnableDebugMode);
+                    this.clientMobArrowsCollectible, this.clientEnableDebugMode);
         }
 
         if (this.minecraft != null && this.minecraft.getConnection() != null) {
@@ -432,8 +433,7 @@ public class ExperienceTweaksConfigScreen extends Screen {
                                     this.clientDirectExperience,
                                     this.clientGiveExperienceEveryDay,
                                     this.clientRiptideAnywhere,
-                                    this.clientMobArrowsCollectible,
-                                    this.clientNeverRepeatTreasureMaps)));
+                                    this.clientMobArrowsCollectible)));
         }
 
         if (this.isPlayerOp) {
@@ -472,6 +472,7 @@ public class ExperienceTweaksConfigScreen extends Screen {
             ServerConfig.ALLOW_MULTIPLE_PROTECTION_ENCHANTMENTS.set(this.serverAllowMultipleProtectionEnchantments);
             ServerConfig.ALLOW_PIERCING_WITH_MULTISHOT.set(this.serverAllowPiercingWithMultishot);
             ServerConfig.ALLOW_MULTIPLE_TRIDENT_ENCHANTMENTS.set(this.serverAllowMultipleTridentEnchantments);
+            ServerConfig.NEVER_REPEAT_TREASURE_MAPS.set(this.serverNeverRepeatTreasureMaps);
             ServerConfig.ENABLE_DEBUG_MODE.set(this.serverEnableDebugMode);
             ServerConfig.SPEC.save();
 
@@ -483,13 +484,13 @@ public class ExperienceTweaksConfigScreen extends Screen {
                                 "enchantmentCooldownType={}, waterBelowHydratesFarmland={}, waterHydrationRadius={}, milkBucketNutrition={}, " +
                                 "wanderingTraderUnlimitedTrades={}, villagerUnlimitedTrades={}, allArrowsAffectedByInfinity={}, " +
                                 "allowMultipleDamageEnchantments={}, allowMultipleProtectionEnchantments={}, allowPiercingWithMultishot={}, " +
-                                "allowMultipleTridentEnchantments={}, anvilDurabilityMultiplier={}, enableDebugMode={}",
+                                "allowMultipleTridentEnchantments={}, anvilDurabilityMultiplier={}, neverRepeatTreasureMaps={}, enableDebugMode={}",
                         dailyBase, dailyGrowth, this.serverAnvilBypassTooExpensive, this.serverAnvilUseItemCost, this.serverAnvilCostItem.trim(),
                         anvilMultiplier, this.serverAllowMendingWithInfinity, this.serverAnvilEnchantmentExtraction, this.serverAnvilEnchantmentExtractionDestroySource,
                         this.serverEnchantmentCostItem.trim(), enchMultiplier, this.serverEnchantmentCooldownType.trim(), this.serverWaterBelowHydratesFarmland,
                         waterRadius, milkNutrition, this.serverWanderingTraderUnlimitedTrades, this.serverVillagerUnlimitedTrades, this.serverAllArrowsAffectedByInfinity,
                         this.serverAllowMultipleDamageEnchantments, this.serverAllowMultipleProtectionEnchantments, this.serverAllowPiercingWithMultishot,
-                        this.serverAllowMultipleTridentEnchantments, durability, this.serverEnableDebugMode);
+                        this.serverAllowMultipleTridentEnchantments, durability, this.serverNeverRepeatTreasureMaps, this.serverEnableDebugMode);
             }
 
             if (this.minecraft != null && this.minecraft.getConnection() != null && !this.minecraft.isSingleplayer()) {
@@ -519,6 +520,7 @@ public class ExperienceTweaksConfigScreen extends Screen {
                                         this.serverAllowPiercingWithMultishot,
                                         this.serverAllowMultipleTridentEnchantments,
                                         durability,
+                                        this.serverNeverRepeatTreasureMaps,
                                         this.serverEnableDebugMode)));
             }
         }

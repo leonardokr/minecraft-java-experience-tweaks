@@ -42,8 +42,7 @@ public class ClientSettingsSyncHandler {
                             ClientConfig.DIRECT_EXPERIENCE.get(),
                             ClientConfig.GIVE_EXPERIENCE_EVERY_DAY.get(),
                             ClientConfig.RIPTIDE_ANYWHERE.get(),
-                            ClientConfig.MOB_ARROWS_COLLECTIBLE.get(),
-                            ClientConfig.NEVER_REPEAT_TREASURE_MAPS.get()
+                            ClientConfig.MOB_ARROWS_COLLECTIBLE.get()
                     )
             ));
         }

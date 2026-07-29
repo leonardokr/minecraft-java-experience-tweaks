@@ -142,6 +142,11 @@ public class ServerConfig {
             .comment("\n The durability of anvils as a percentage. 100 is normal, 50 is half, 200 is double. Range: 1 to 1000.")
             .defineInRange("anvilDurabilityMultiplier", 100, 1, 1000);
 
+    /** If true, treasure maps and exploration maps will never point to already mapped structures. */
+    public static final ModConfigSpec.BooleanValue NEVER_REPEAT_TREASURE_MAPS = BUILDER
+            .comment("\n If true, treasure maps and exploration maps will never point to already mapped structures.")
+            .define("neverRepeatTreasureMaps", false);
+
     /** If true, enables server-side debug logging. */
     public static final ModConfigSpec.BooleanValue ENABLE_DEBUG_MODE = BUILDER
             .comment("\n If true, enables server-side debug logging.")

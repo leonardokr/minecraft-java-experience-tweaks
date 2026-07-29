@@ -174,8 +174,7 @@ public class ExperienceTweaksMod {
                                                                 packet.directExperience(),
                                                                 packet.giveExperienceEveryDay(),
                                                                 packet.riptideAnywhere(),
-                                                                packet.mobArrowsCollectible(),
-                                                                packet.neverRepeatTreasureMaps());
+                                                                packet.mobArrowsCollectible());
                                         }
                                 });
 
@@ -221,7 +220,8 @@ public class ExperienceTweaksMod {
                                                 ServerConfig.ALLOW_PIERCING_WITH_MULTISHOT.set(packet.allowPiercingWithMultishot());
                                                 ServerConfig.ALLOW_MULTIPLE_TRIDENT_ENCHANTMENTS.set(packet.allowMultipleTridentEnchantments());
                                                 ServerConfig.ANVIL_DURABILITY_MULTIPLIER.set(packet.anvilDurabilityMultiplier());
-                                                ServerConfig.ENABLE_DEBUG_MODE.set(packet.enableDebugMode());
+                                                ServerConfig.NEVER_REPEAT_TREASURE_MAPS.set(packet.neverRepeatTreasureMaps());
+                                                 ServerConfig.ENABLE_DEBUG_MODE.set(packet.enableDebugMode());
                                                 ServerConfig.SPEC.save();
 
                                                 PacketDistributor.sendToAllPlayers(new com.ziondev.experiencetweaks.network.SyncServerConfigPacket(
@@ -238,7 +238,7 @@ public class ExperienceTweaksMod {
                                                                     "enchantmentCooldownType={}, waterBelowHydratesFarmland={}, waterHydrationRadius={}, milkBucketNutrition={}, " +
                                                                     "wanderingTraderUnlimitedTrades={}, villagerUnlimitedTrades={}, allArrowsAffectedByInfinity={}, " +
                                                                     "allowMultipleDamageEnchantments={}, allowMultipleProtectionEnchantments={}, allowPiercingWithMultishot={}, " +
-                                                                    "allowMultipleTridentEnchantments={}, anvilDurabilityMultiplier={}, enableDebugMode={}",
+                                                                    "allowMultipleTridentEnchantments={}, anvilDurabilityMultiplier={}, neverRepeatTreasureMaps={}, enableDebugMode={}",
                                                             player.getName().getString(),
                                                             packet.giveExperienceEveryDayBase(), packet.giveExperienceEveryDayGrowth(), packet.anvilBypassTooExpensive(),
                                                             packet.anvilUseItemCost(), packet.anvilCostItem(), packet.anvilItemCostMultiplier(), packet.allowMendingWithInfinity(),
@@ -247,7 +247,7 @@ public class ExperienceTweaksMod {
                                                             packet.waterHydrationRadius(), packet.milkBucketNutrition(), packet.wanderingTraderUnlimitedTrades(),
                                                             packet.villagerUnlimitedTrades(), packet.allArrowsAffectedByInfinity(), packet.allowMultipleDamageEnchantments(),
                                                             packet.allowMultipleProtectionEnchantments(), packet.allowPiercingWithMultishot(), packet.allowMultipleTridentEnchantments(),
-                                                            packet.anvilDurabilityMultiplier(), packet.enableDebugMode());
+                                                            packet.anvilDurabilityMultiplier(), packet.neverRepeatTreasureMaps(), packet.enableDebugMode());
                                                 } else {
                                                     LOGGER.info("Server configuration updated by OP player {}",
                                                                     player.getName().getString());
