@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.13.0](https://github.com/leonardokr/minecraft-java-experience-tweaks/compare/v1.12.0...v1.13.0) (2026-07-29)
+
+
+### Features
+
+* add custom creative mode tab with switch rail icon ([49291f4](https://github.com/leonardokr/minecraft-java-experience-tweaks/commit/49291f4e9ac482d6851bd232ad73dd22a7d0b961))
+
+
+### Bug Fixes
+
+* add 'minecraft:block/block' parent to grass slab block models to inherit standard 3D isometric transforms in the inventory GUI ([1f294bc](https://github.com/leonardokr/minecraft-java-experience-tweaks/commit/1f294bcd48ae10c6d71869f24971d2ae08a85c3a))
+* add 'minecraft:grass' item tint configuration to grass_slab item model to fix the gray icon color in the inventory ([d93b45c](https://github.com/leonardokr/minecraft-java-experience-tweaks/commit/d93b45cbe6189e0eba6b104822b95b0da000987e))
+
 ## [1.12.0](https://github.com/leonardokr/minecraft-java-experience-tweaks/compare/v1.11.0...v1.12.0) (2026-07-24)
 
 
