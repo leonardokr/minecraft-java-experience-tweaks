@@ -87,6 +87,7 @@
   "experiencetweaks.config.error.et_0x021": "Could not read the 'anvilDurabilityMultiplier' setting. Anvil durability multiplier will be 100% by default. Check and reload the config.",
   "experiencetweaks.config.error.et_0x022": "Could not read the 'mobArrowsCollectible' setting. Mob arrows will remain uncollectible by default. Check and reload the config.",
   "experiencetweaks.config.error.et_0x023": "Could not read the 'neverRepeatTreasureMaps' setting. Maps may repeat default coordinates. Check and reload the config.",
+  "itemGroup.experiencetweaks": "Experience Tweaks",
   "block.experiencetweaks.dirt_slab": "Dirt Slab",
   "block.experiencetweaks.grass_slab": "Grass Slab",
   "block.experiencetweaks.dirt_path_slab": "Dirt Path Slab",

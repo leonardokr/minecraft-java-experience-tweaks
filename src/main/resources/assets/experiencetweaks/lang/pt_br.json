@@ -87,6 +87,7 @@
   "experiencetweaks.config.error.et_0x021": "Não foi possível ler a configuração 'anvilDurabilityMultiplier'. O multiplicador de durabilidade da bigorna será 100% por padrão. Verifique e recarregue a configuração.",
   "experiencetweaks.config.error.et_0x022": "Não foi possível ler a configuração 'mobArrowsCollectible'. As flechas de mobs continuarão não coletáveis por padrão. Verifique e recarregue a configuração.",
   "experiencetweaks.config.error.et_0x023": "Não foi possível ler a configuração 'neverRepeatTreasureMaps'. Os mapas de tesouro poderão repetir estruturas por padrão. Verifique e recarregue a configuração.",
+  "itemGroup.experiencetweaks": "Experience Tweaks",
   "block.experiencetweaks.dirt_slab": "Laje de Terra",
   "block.experiencetweaks.grass_slab": "Laje de Grama",
   "block.experiencetweaks.dirt_path_slab": "Laje de Caminho de Terra",

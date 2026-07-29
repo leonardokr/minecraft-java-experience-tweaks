@@ -16,6 +16,10 @@ import org.slf4j.Logger;
 import com.mojang.logging.LogUtils;
 
 import net.minecraft.world.item.CreativeModeTabs;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -120,9 +124,25 @@ public class ExperienceTweaksMod {
         public static final DeferredItem<BlockItem> SWITCH_RAIL_ITEM = ITEMS.registerSimpleBlockItem("switch_rail",
                         SWITCH_RAIL);
 
+        public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
+
+        public static final java.util.function.Supplier<CreativeModeTab> CREATIVE_TAB = CREATIVE_MODE_TABS.register("experiencetweaks_tab",
+                        () -> CreativeModeTab.builder()
+                                        .title(Component.translatable("itemGroup.experiencetweaks"))
+                                        .icon(() -> new ItemStack(SWITCH_RAIL_ITEM.get()))
+                                        .displayItems((parameters, output) -> {
+                                                output.accept(DIRT_SLAB_ITEM.get());
+                                                output.accept(GRASS_SLAB_ITEM.get());
+                                                output.accept(DIRT_PATH_SLAB_ITEM.get());
+                                                output.accept(FARMLAND_SLAB_ITEM.get());
+                                                output.accept(SWITCH_RAIL_ITEM.get());
+                                        })
+                                        .build());
+
         public ExperienceTweaksMod(IEventBus modEventBus, ModContainer modContainer) {
                 BLOCKS.register(modEventBus);
                 ITEMS.register(modEventBus);
+                CREATIVE_MODE_TABS.register(modEventBus);
                 modContainer.registerConfig(ModConfig.Type.COMMON, ServerConfig.SPEC);
                 modContainer.registerConfig(ModConfig.Type.CLIENT, ClientConfig.SPEC);
                 modEventBus.addListener(this::onConfigReload);
